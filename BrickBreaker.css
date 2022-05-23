@@ -276,22 +276,23 @@ img {
   display: none;
 }
 #menu1{
-  background-image: url("game1.jpg");
-  background-repeat : no-repeat;
-  background-size : cover;
-  float: left;
+ background-color: #67f3da;
   
 }
 #menu2{
-  background-image: url("game2.jpg");
-  background-repeat : no-repeat;
-  background-size : cover;
-  float: left;
+background-color: #e11880;
 }
 
 #menu3{
-  background-image: url("game3.jpg");
-  background-repeat : no-repeat;
-  background-size : cover;
-  float: left;
+background-color: #fff;
+}
+
+#game1{
+  display: none;
+}
+#game2{
+  display: none;
+}
+#game3{
+  display: none;
 }
