@@ -21,11 +21,20 @@ a {
 img {
   border: 0px;
 }
+/*메인메뉴*/
+#main-menu{
+  display: block;
+  height: auto;
+  background-color: black;
+  text-align: center;
+}
+/* main-menu 오징어게임 로고 */
 #logo{
   display: block;
-  margin: 150px auto 50px auto;
+  margin: 150px auto 30px auto;
 }
 
+/* main-menu 의 Brick Out 글씨 */
 #main-menu p {
   text-align: center;
   color: #fff;
@@ -33,12 +42,8 @@ img {
   letter-spacing: 8px;
   font-family: 'Press Start 2P';
   font-size: 40px;
-  /*Create overlap*/
-  
   margin: 0;
   line-height: 0;
-  /*Animation*/
-  
   animation: glitch1 2.5s infinite;
 }
 
@@ -51,7 +56,6 @@ img {
   color: #f16f6f;
   animation: glitch3 2.5s infinite;
 }
-/*Keyframes*/
 
 @keyframes glitch1 {
   0% {
@@ -217,13 +221,6 @@ img {
     opacity: 0.25;
   }
 }
-#main-menu{
-  display: block;
-  width: 960px;
-  height: auto;
-  background-color: black;
-  text-align: center;
-}
 
 #startButton{
   margin: 100px auto auto auto;
@@ -277,19 +274,78 @@ img {
   font-family: 'Gowun Batang', serif;
   color: #e11880 ;
 }
+
 #game-menu{
+  padding-top: 15px;
   display: none;
-}
-#menu1{
- background-color: #67f3da;
-  
-}
-#menu2{
-background-color: #e11880;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
 }
 
+#menu1{
+  -webkit-filter: grayscale(100%);
+  filter: gray;
+  width:33%;
+  height: 100%;
+  cursor: pointer;
+  color: white;
+  float: left;
+}
+#menu1 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu1 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+#menu1:hover{
+  -webkit-filter: grayscale(0%);
+  filter: none;
+}
+
+
+#menu2{
+  cursor: pointer;
+  -webkit-filter: grayscale(100%);
+  filter: gray;
+  color: white;
+  height: 100%;
+  width:33%;
+  float: left;
+}
+#menu2 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu2 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+#menu2:hover{
+  -webkit-filter: grayscale(0%);
+  filter: none;
+}
 #menu3{
-background-color: #fff;
+  cursor: pointer;
+  -webkit-filter: grayscale(100%);
+  filter: gray;
+  color: white;
+  height: 100%;
+  width:33%;
+  float: left;
+}
+#menu3 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu3 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+#menu3:hover{
+  -webkit-filter: grayscale(0%);
+  filter: none;
 }
 
 #game1{
