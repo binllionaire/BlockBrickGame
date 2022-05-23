@@ -25,6 +25,7 @@ img {
 /*메인메뉴*/
 #main-menu{
   padding-top: 200px;
+  background-position: center;
   background-repeat : no-repeat;
   background-size: cover;
   display: block;
