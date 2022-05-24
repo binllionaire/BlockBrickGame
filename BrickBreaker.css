@@ -1,7 +1,96 @@
+<<<<<<< HEAD
   * {
     margin: 0px;
     padding: 0px;
     background-color: black;
+=======
+* {
+  margin: 0px;
+  padding: 0px;
+  background-color: black;
+}
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px auto;
+  
+}
+html{
+  width: 100%;
+  height: 100%;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+img {
+  border: 0px;
+}
+/*메인메뉴*/
+#main-menu{
+  padding-top: 200px;
+  background-position: center;
+  background-repeat : no-repeat;
+  background-size: cover;
+  display: block;
+  height: 100%;
+  text-align: center;
+}
+/* main-menu 오징어게임 로고 */
+#logo{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  background-color: transparent;
+}
+
+/* main-menu 의 Brick Out 글씨 */
+#main-menu p {
+  text-align: center;
+  color: #fff;
+  font-size: 5em;
+  letter-spacing: 8px;
+  font-family: 'Press Start 2P';
+  font-size: 40px;
+  margin: 0;
+  line-height: 0;
+  animation: glitch1 2.5s infinite;
+}
+
+#main-menu p:nth-child(2) {
+  color: #67f3da;
+  animation: glitch2 2.5s infinite;
+}
+
+#main-menu p:nth-child(3) {
+  color: #f16f6f;
+  animation: glitch3 2.5s infinite;
+}
+
+@keyframes glitch1 {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  7% {
+    transform: skew(-0.5deg, -0.9deg);
+    opacity: 0.75;
+  }
+  10% {
+    transform: none;
+    opacity: 1;
+  }
+  27% {
+    transform: none;
+    opacity: 1;
+  }
+  30% {
+    transform: skew(0.8deg, -0.1deg);
+    opacity: 0.75;
+>>>>>>> ecaead197afef185a0c64c502d56705e3292ba2e
   }
   body {
     width: 960px;
@@ -296,7 +385,177 @@
   #game3{
     display: none;
   }
+<<<<<<< HEAD
   #game_1 {
     width: 960px;
     height: 960px;
   }
+=======
+}
+
+#startButton{
+  margin: 100px auto auto auto;
+  display: block;
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #e11880;
+  border-radius: 0.6em;
+  color: #e11880;
+  cursor: pointer;
+ 
+  font-size: 1rem;
+  line-height: 1;
+  
+  padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700; 
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+}
+#startButton:hover{
+  color: #fff;
+  outline: 0;
+  box-shadow: 0 0 40px 40px #e11880 inset;
+}
+#intro{
+  display: none;
+  text-align: center;
+}
+#intro p:nth-child(1){
+  transform: skew(-10deg);
+  margin-top: 100px;
+  font-size: 50px;
+  font-family: 'Gowun Batang', serif;
+  color: white;
+}
+
+#intro p:nth-child(2){
+  margin-top: 50px;
+  font-size: 40px;
+  font-family: 'Gowun Batang', serif;
+  color: white ;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+#intro p:nth-child(2):hover{
+  margin-top: 50px;
+  font-size: 40px;
+  font-family: 'Gowun Batang', serif;
+  color: #e11880 ;
+}
+
+#game-menu{
+  padding-top: 15px;
+  display: none;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
+}
+
+#menu1{
+  -webkit-filter: grayscale(100%);
+   -moz-filter: grayscale(100%);
+   filter: grayscale(100%);
+   transition: all 0.5s ease;
+  width:33%;
+  height: 100%;
+  cursor: pointer;
+  color: white;
+  float: left;
+}
+#menu1:hover{
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+#menu1 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu1 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+
+
+#menu2{
+  cursor: pointer;
+  -webkit-filter: grayscale(100%);
+   -moz-filter: grayscale(100%);
+   filter: grayscale(100%);
+   transition: all 0.5s ease;
+  color: white;
+  height: 100%;
+  width:33%;
+  float: left;
+}
+#menu2:hover{
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+#menu2 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu2 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+#menu3{
+  cursor: pointer;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  filter: grayscale(100%);
+  transition: all 0.5s ease;
+  color: white;
+  height: 100%;
+  width:33%;
+  float: left;
+}
+#menu3:hover{
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+#menu3 p:nth-child(1){
+  font-size: 20px;
+  color: #e11880 ;
+}
+#menu3 p:nth-child(2){
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+#game1{
+  display: none;
+}
+#game2{
+  display: none;
+}
+#game3{
+  display: none;
+}
+/* =========================고현규=========================== */
+
+#game2>#canvas_for_game2{
+  margin: auto;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================고현규=========================== */
+>>>>>>> ecaead197afef185a0c64c502d56705e3292ba2e
