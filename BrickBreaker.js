@@ -1,10 +1,26 @@
 $(document).ready(function(){
   $("#startButton").on("click", intro);
+
+  $('#startButton').hover(function(){
+  $("#main-menu").fadeTo('slow', 0.3, function()
+{
+  $("#main-menu").css('background-image','url("background.jpg")');
+}).fadeTo('slow', 1);
+    }, 
+    function() {
+      $("#main-menu").css('background-image','none');}, 
+  )
+
+
+
   $("#intro p:nth-child(2)").on("click",gameMenu);
   $("#game1Button").on("click", game1);
   $("#game2Button").on("click", game2);
   $("#game3Button").on("click", game3);
 
+  $("#menu1").on("click", game1);
+  $("#menu2").on("click", game2);
+  $("#menu3").on("click", game3);
 
 });
 
