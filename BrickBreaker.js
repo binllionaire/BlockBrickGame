@@ -2,7 +2,7 @@ $(document).ready(function(){
   $("#startButton").on("click", intro);
 
   $('#startButton').hover(function(){
-  $("#main-menu").fadeTo('slow', 0.3, function()
+  $("#main-menu").fadeTo('slow', 0.1, function()
 {
   $("#main-menu").css('background-image','url("background.jpg")');
 }).fadeTo('slow', 1);
