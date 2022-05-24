@@ -6,6 +6,12 @@ $(document).ready(function(){
   $("#game3Button").on("click", game3);
 });
 
+//이재호
+var leftcanvas;
+var rightcanvas;
+var leftcanvas2d;
+var rightcanvas2d;
+
 function intro(){
   $("#main-menu").css("display","none"); 
   $("#intro").fadeIn( 2000 );
@@ -22,10 +28,14 @@ function game2(){
   $("#game-menu").css("display","none"); 
   $("#game2").css("display","block"); 
 }
-function game3(){
-  $("#game-menu").css("display","none"); 
+function game3(){ 
+  $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
+  leftcanvas = $("#leftcanvas");
+  rightcanvas = $("#leftcanvas");
+  leftcanvas2d = leftcanvas[0].getContext('2d');
+  rightcanvas2d = rightcanvas[0].getContext('2d');
   
 
 }
