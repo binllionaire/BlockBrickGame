@@ -53,7 +53,7 @@
   </div>
  </div>
 
-<!-- 각각메뉴 -->
+<!--각각메뉴 --> 
 <div id="game1">
 <div id="brickout1">
   <canvas id="canvas_for_game1" width="700px" height="500px"></canvas>
@@ -67,6 +67,33 @@
 </div>
 <div id="game3">
 
+  <div id="game3_notice">       <!--게임시작할때 뜨는 알림창-->
+    <div id="game3_notice_title">
+      <h1>징검다리 게임</h1>
+    </div>
+    <div id="game3_notice_description">
+      <h3>징검다리 게임은 오른쪽 화면의 블럭을 한칸씩.....</h3>
+    </div>
+    <button>확인</button>        
+  </div>
+
+  <div id="left_screen">
+    <canvas id="game3canvas" width="1000" height="1000"></canvas>
+  </div>
+
+  <div id="right_screen">
+    <div id="game3_startBlock"></div>
+    <div id="game3_block1" class="game3_block"></div>
+    <div id="game3_block2" class="game3_block"></div>
+    <div id="game3_block3" class="game3_block"></div>
+    <div id="game3_block4" class="game3_block"></div>
+    <div id="game3_block5" class="game3_block"></div>
+    <div id="game3_block6" class="game3_block"></div>
+    <div id="game3_block7" class="game3_block"></div>
+    <div id="game3_block8" class="game3_block"></div>
+    <div id="game3_endBlock"></div>
+  </div>
+
 </div>
 <!-- 오디오재생 -->
 <audio autoplay controls> 
@@ -74,4 +101,3 @@
 </audio>
 </body>
 </html>
-

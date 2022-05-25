@@ -24,6 +24,7 @@ $(document).ready(function(){
 
 });
 
+
 function intro(){
   $("#main-menu").css("display","none"); 
   $("#intro").fadeIn( 2000 );
@@ -42,9 +43,249 @@ function game2(){
   $("#game2").css("display","block");
   for_game2();// <<<=====================고현규=============
 }
-function game3(){
-  $("#game-menu").css("display","none"); 
+function game3(){ 
+  $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
+
+  var canvas;
+  var ctx;
+  var game3notice;
+  var game3noticeButton;
+
+  canvas = document.getElementById("game3canvas");
+  ctx = canvas.getContext('2d');
+  game3notice = $("#game3_notice");
+  game3notice.fadeIn(2000);
+
+  game3noticeButton = $("#game3_notice button");
+  game3noticeButton.click(function(){
+    game3notice.css("display","none");
+    startGame(0);
+  })
+
+  function startGame(no) {
+    game = new Game(no);
+    canvas.focus();
+    canvas.style.cursor = "none";
+  }
+
+  var WIDTH = canvas.width;
+  var HEIGHT = canvas.height;
+  var BALL_RADIUS = 10;
+  var PADDLE_WIDTH = 150;
+  var PADDLE_HEIGHT = 15;
+  var PADDLE_X = (WIDTH - PADDLE_WIDTH) / 2;
+  var PADDLE_Y = HEIGHT - PADDLE_HEIGHT - 10;
+  var PADDLE_SPEED = 7;
+  var COLOR = "dodgerblue";
+
+  class Ball { 
+    constructor(x, y, radius, speed, angle, color) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.speed = speed;
+      this.setAngle(angle);
+      this.color = color;
+    }
+  
+    setAngle(angle) {
+      var radian = angle / 180 * Math.PI;
+      this.mx = this.speed * Math.cos(radian);
+      this.my = this.speed * -Math.sin(radian);
+    }
+  
+    move(k) {
+      this.x += this.mx * k;
+      this.y += this.my * k;
+    }
+  
+    get collideX() {
+      if (this.mx > 0) return this.x + this.radius;
+      else return this.x - this.radius;
+    }
+  
+    get collideY() {
+      if (this.my > 0) return this.y + this.radius;
+      else return this.y - this.radius;
+    }
+  
+    collideWall(left, top, right) {
+      if (this.mx < 0 && this.collideX < left) this.mx *= -1;
+      if (this.mx > 0 && this.collideX > right) this.mx *= -1;
+      if (this.my < 0 && this.collideY < top) this.my *= -1;
+    }
+  
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.closePath();
+    }
+  }
+
+  class Paddle {
+    constructor(x, y, width, height, speed, color) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.halfWidth = width / 2;
+      this.height = height;
+      this.speed = speed;
+      this.color = color;
+    }
+  
+    get center() { return this.x + this.halfWidth; }
+  
+    collide(ball) {
+      var yCheck = () => this.y - ball.radius < ball.y && 
+        ball.y < this.y + ball.radius;
+      var xCheck = () => this.x < ball.x && ball.x < this.x + this.width;
+      if (ball.my > 0 && yCheck() && xCheck()) {
+        const hitPos = ball.x - this.center;
+        var angle = 80 - (hitPos / this.halfWidth * 60); // 20 ~ 80
+        if (hitPos < 0) angle += 20; // 100 ~ 160
+        ball.setAngle(angle);
+      }
+    }
+  
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.closePath();
+    }
+  }
+
+  class Bricks {
+    constructor(rows, cols, x, y, width, height, color) {
+      this.rows = rows;
+      this.cols = cols;
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.brickWidth = width / cols;
+      this.brickHeight = height / rows;
+      this.count = rows * cols;
+      this.color = color;
+      this.data = [];
+      for (var i = 0; i < rows; i++) {
+        var line = new Array(cols);
+        line.fill(1);
+        this.data.push(line);
+      }
+    }
+  
+    collide(x, y) {
+      var row = Math.floor((y - this.y) / this.brickHeight);
+      var col = Math.floor((x - this.x) / this.brickWidth);
+      if (row < 0 || row >= this.rows) return false;
+      if (col < 0 || col >= this.cols) return false;
+      if (this.data[row][col]) {
+        this.data[row][col] = 0;
+        this.count--;
+        return true;
+      }
+      else return false;
+    }
+  
+    draw(ctx) {
+      ctx.fillStyle = this.color;
+      ctx.strokeStyle = "lightgray";
+      for (var r = 0; r < this.rows; r++) {
+        for (var c = 0; c < this.cols; c++) {
+          if (!this.data[r][c]) continue;
+          var x = this.x + (this.brickWidth * c);
+          var y = this.y + (this.brickHeight * r);
+          ctx.beginPath();
+          ctx.fillRect(x, y, this.brickWidth, this.brickHeight);
+          ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
+          ctx.closePath();
+        }
+      }
+    }
+  }
+
+  canvas.addEventListener("mousemove", function(ev){
+    game.paddle.x = ev.offsetX - game.paddle.halfWidth;
+    if(game.paddle.x < 0){
+      game.paddle.x = 0;
+    } else if(game.paddle.x + game.paddle.width > WIDTH){
+      game.paddle.x = WIDTH - game.paddle.width;
+    }
+  })
+
+  class Game {
+    constructor(no) {
+      var ballSpeeds = [15, 15];
+      var brickSettings = [
+        [3, 5, 0, 50, WIDTH, 150, COLOR],
+        [7, 10, 0, 50, WIDTH, 150, COLOR]
+      ];
+  
+      this.state = "start";
+      this.timeCount = 0;
+      this.paddle = new Paddle(PADDLE_X, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT,
+        PADDLE_SPEED, COLOR);
+      this.ball = new Ball(this.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS,
+        ballSpeeds[no], 75, COLOR);
+      this.bricks = new Bricks(...brickSettings[no]);
+    }
+  
+    update() {
+      if (this.state == "start") {
+        this.timeCount++;
+        if (this.timeCount >= 100) this.state = "play";
+        return ;
+      }
+      if (this.state != "play") return;
+
+      const DIV = 10;
+      for (var i = 0; i < DIV; i++) {
+        this.ball.move(1 / DIV);
+        this.ball.collideWall(0, 0, WIDTH);
+        this.paddle.collide(this.ball);
+        if (this.bricks.collide(this.ball.collideX, this.ball.y)) this.ball.mx *= -1;
+        if (this.bricks.collide(this.ball.x, this.ball.collideY)) this.ball.my *= -1;
+      }
+  
+      if (this.ball.y > HEIGHT + 50) this.state = "end";
+      if (this.bricks.count == 0) this.state = "clear";
+    }
+  
+    draw() {
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      this.bricks.draw(ctx);
+      this.paddle.draw(ctx);
+      this.ball.draw(ctx);
+    }
+  }
+  
+  function drawText(text) {
+    ctx.font = "bold 70px arial";
+    ctx.fillStyle = "dodgerblue";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, WIDTH / 2, HEIGHT / 2);
+  }
+
+  var game = null;
+
+  function mainLoop() {
+    requestAnimationFrame(mainLoop);
+
+    if (game) {
+      game.update();
+      game.draw();
+      if (game.state == "end") drawText("END");
+      if (game.state == "clear") drawText("CLEAR");
+    }
+    else drawText("Breakout");
+  }
+
+  mainLoop();
 }
 
 // =====================황수빈 (GAME1 임시로 작업하고 있는거)==============================
