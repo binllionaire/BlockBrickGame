@@ -376,7 +376,108 @@ img {
 }
 #game3{
   display: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
+
+
+/* ==========================이재호=========================== */
+#left_screen {
+  float: left;
+  width: 70%; 
+  height: 100%;
+}
+#right_screen {
+  position: relative;
+  float: left;
+  width: 30%;
+  height: 100%;
+}
+#game3canvas {
+  width: 100%;
+  height: 100%;
+}
+#game3_notice {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  width: 500px;
+  height: 700px;
+  top: 100px;
+  left: 700px;
+  background-color: #67f3da;
+}
+#game3_notice_title{
+  background: none;
+}
+#game3_notice_title h1{
+  background: none;
+}
+#game3_notice_description{
+  background: none;
+}
+#game3_notice_description h3{
+  background: none;
+}
+#game3_notice button {
+  background-color: white;
+}
+#game3_startBlock {
+  position: absolute;
+  top: 30px;
+  left: 150px;
+  width: 300px;
+  height: 60px;
+  background-color: blue;
+}
+#game3_endBlock {
+  position: absolute;
+  top: 530px;
+  left: 150px;
+  width: 300px;
+  height: 60px;
+  background-color: red;
+}
+.game3_block {
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  background-color: white;
+}
+#game3_block1 {
+  top: 120px;
+  left: 250px;
+}
+#game3_block2 {
+  top: 210px;
+  left: 250px;
+}
+#game3_block3 {
+  top: 300px;
+  left: 250px;
+}
+#game3_block4 {
+  top: 390px;
+  left: 250px;
+}
+#game3_block5 {
+  top: 120px;
+  left: 350px;
+}
+#game3_block6 {
+  top: 210px;
+  left: 350px;
+}
+#game3_block7 {
+  top: 300px;
+  left: 350px;
+}
+#game3_block8 {
+  top: 390px;
+  left: 350px;
+}
+
 /* =========================고현규=========================== */
 
 #game2>#canvas_for_game2{
@@ -394,3 +495,4 @@ img {
 
 
 /* =========================고현규=========================== */
+
