@@ -10,21 +10,20 @@
 		* { padding: 0; margin: 0;
 		}
 		canvas {  background: #eee; display: block; margin: 0 auto; width: 100%;}
-		.g1 { width: 70%; height: 100%; float: left; border: 1px solid black;}
-		.g2 { width: 30%; height: 100%; float:left; border: 1px solid black; border-left: none;}
+	#game1 {  float: left; border: 1px solid black;}
+		#game2 {  float:left; border: 1px solid black; border-left: none;}
 		#time { background:red ;}
         #game1 { width: 100%; height: 100%;}
         
 	</style>
 	</head>
 	<body>
-	<div class="g1">
-	<canvas id="game1_1">
-	</canvas>
+	<div id = "game1">
+	<canvas id="gme1"></canvas>
 </div>
-	<div class="g2">
 		<div id="time">
 		</div>
+    <div id = "game2">
 		<canvas id = "game1_2">
 
 		</canvas>
@@ -32,7 +31,7 @@
 	<script>
 		/* 시간 함수 */
 	window.onload = function() {	
-		var timelef = 10;
+		var timelef = 1000;
 		function reduce() {
 			timelef -= 1;
 			document.getElementById("time").innerHTML = timelef;
@@ -47,10 +46,17 @@
 
 		}
 
-var canvas = document.getElementById("#game1");
-var ctx = canvas.getContext("2d");
+var canvas = document.getElementById("#gme1");
+var ctx = document.getContext("2d");
+/*
+canvas.width = document.body.clientWidth/2;
+canvas.height = document.body.clientHeight; */
+
 var canvas_2 = document.getElementById("#game1_2");
+canvas_2.width = document.body.clientWidth;
+canvas_2.height = document.body.clientHeight; 
 var ctx_2 = canvas.getContext("2d");
+
 var ballRadius = 10;
 var x = canvas.width/2;
 var y = canvas.height-30;
