@@ -482,11 +482,46 @@ img {
 
 #game2>#canvas_for_game2{
   margin: auto;
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 #doll_img_for_game2{
   margin: 0px auto;
   width: 200px;
+
+}
+
+#score_for_game2{
+  width: 980px;
+  height: 58px;
+  margin: 0px auto;
+  background-color: white;
+  padding: 10px;
+  border-top: 2px solid;
+  border-color: #e11880;
+  border-radius: 0px 0px 10px 10px;
+}
+
+#scoreBox{
+  background-color: #e11880;
+  height: 40px;
+  /* width: 980px; */
+  width: 0px;
+  border-radius: 20px;
+
+}
+
+#textArea{
+  width: 980px;
+  height: 60px;
+  margin: 0px auto;
+  text-align: center;
+  line-height: 60px;
+  font-size: 30px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0px 0px;
+  border-bottom: 2px solid;
+  border-color: #e11880;
 }
 /* =========================고현규=========================== */

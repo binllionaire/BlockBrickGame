@@ -298,47 +298,83 @@ function for_game2(){
   var dy = -2;
   var ballRadius = 12; //공의 반지름
   var paddleHeight = 12; //패들높이
-  var paddleWidth = 150; //패들 폭
+  var paddleWidth = 180; //패들 폭
   var paddleX = (canvas.width-paddleWidth)/2; //패들 위치
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
 
-  var brickRowCount = 3; //벽돌의 행 갯수
-  var brickColumnCount = 10; //벽돌의 열 갯수
-  var brickWidth = 89; //벽돌의 폭
+  var brickRowCount = 1; //벽돌의 행 갯수
+  var brickColumnCount = 3; //벽돌의 열 갯수
+  var brickWidth = 200; //벽돌의 폭
   var brickHeight = 30; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 9; //벽돌의 왼쪽 여백
 
+  var score = 0;
+  var scoreBoxFullWidth = 980;
+
+  var lives = 3; //목숨갯수
+
+  var canMove = true;
+
+  function reset(again){
+    x = canvas.width/2;
+    y = canvas.height-40;
+    dx = 2;
+    dy = -2;
+    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+
+    score = 0;
+
+    lives = 3; //목숨갯수
+
+    canMove = true;
+
+    $("#scoreBox").css({"width":"0px"});
+
+    if(again){
+      startInterval();
+    }
+  }
+
+
   //벽돌 배치를 이차원 배열을 이용해서 함
   var bricks = [];
   for(var c=0; c<brickColumnCount; c++) {
-      bricks[c] = [];
-      for(var r=0; r<brickRowCount; r++) {
-          bricks[c][r] = { x: 0, y: 0, status: 1};
-      }
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1};
+    }
   }
 
   document.addEventListener("keydown",keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
+  document.addEventListener("mousemove", mouseMoveHandler, false);
 
   function keyDownHandler(e) {
     if(e.keyCode == 39) {
-        rightPressed = true;
+      rightPressed = true;
     }
     else if(e.keyCode == 37) {
-        leftPressed = true;
+      leftPressed = true;
     }
   }
 
   function keyUpHandler(e) {
-      if(e.keyCode == 39) {
-          rightPressed = false;
-      }
-      else if(e.keyCode == 37) {
-          leftPressed = false;
-      }
+    if(e.keyCode == 39) {
+      rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+      leftPressed = false;
+    }
+  }
+
+  function mouseMoveHandler(e){
+    var relativeX = e.clientX = canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width){
+      paddleX = relativeX - paddleWidth/2;
+    }
   }
 
   function collisionDetection(){
@@ -349,10 +385,36 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
+            score++;
+            $("#scoreBox").animate({width:'+=320px'});
+            if(score == brickRowCount*brickColumnCount){
+              stopInterval();
+              alert("You Win");
+              //document.location.reload();
+              //for_game2();
+              var again = false;
+              reset(again);
+
+              // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+
+            }
           }
         }
       }
     }
+  }
+
+  // function drawSocre(){
+  //   var s = "+=";
+  //   s += scoreBoxFullWidth*(score/(brickRowCount*brickColumnCount));
+  //   s+="px";
+  //   $("#scoreBox").animate({width:'+=10px'});
+  // }
+
+  function drawLives(){
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives : "+lives, canvas.width-65, 20);
   }
 
   function drawBall() {
@@ -391,9 +453,6 @@ function for_game2(){
 
   function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // drawBricks();
-      // drawBall();
-      // drawPaddle();
 
       if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
@@ -403,20 +462,43 @@ function for_game2(){
       }
       else if(y + dy > canvas.height-ballRadius) {
           if(x >= paddleX && x <= paddleX + paddleWidth) {
-              dy = -dy;
+            if(x >= paddleX && x < paddleX + paddleWidth/3){
+              dy = -(dy/Math.abs(dy));
+              dx = -3;
+            }else if(x >= paddleX + paddleWidth/3 && x < paddleX + (paddleWidth/3)*2){
+              dy = -(dy/Math.abs(dy))*2;
+              dx = (dx/Math.abs(dx))*2;
+            }else{
+              dy = -(dy/Math.abs(dy));
+              dx = 3;
+            }
           }
           else {
+            lives--;
+            if(!lives){
               alert("GAME OVER");
               stopInterval();
-              document.location.reload();
+              //document.location.reload();
+              //for_game2();
+              var again = true;
+              reset(again);
+            }
+            else{
+              x = canvas.width/2;
+              y = canvas.height-30;
+              dx = 2;
+              dy = -2;
+              paddleX = (canvas.width - paddleWidth)/2;
+            }
           }
       }
-
-      if(rightPressed && paddleX < canvas.width-paddleWidth) {
-        paddleX += 3;
-      }
-      else if(leftPressed && paddleX > 0) {
-          paddleX -= 3;
+      if(canMove){
+        if(rightPressed && paddleX < canvas.width-paddleWidth) {
+          paddleX += 4;
+        }
+        else if(leftPressed && paddleX > 0) {
+            paddleX -= 4;
+        }
       }
 
       x += dx;
@@ -426,15 +508,40 @@ function for_game2(){
       drawBall();
       drawPaddle();
       collisionDetection();
+      //drawSocre();
+      drawLives();
+
+      //requestAnimationFrame(draw);
   }
+
+  var countNum = 0;
+  var texts = ["무","무궁","무궁화","무궁화","무궁화 꽃","무궁화 꽃","무궁화 꽃이","무궁화 꽃이","무궁화 꽃이 피","무궁화 꽃이 피었","무궁화 꽃이 피었습","무궁화 꽃이 피었습니","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!"]
+
+  function textOut(){
+    $("#textArea").text(texts[countNum]);
+    countNum++;
+    if(countNum == 13){
+      canMove = false;
+      $("#doll_img_for_game2").attr("src","doll_front.png");
+      setTimeout(function(){
+        countNum = 0;
+        $("#doll_img_for_game2").attr("src","doll_back.png");
+        canMove = true;
+      },1200)
+    }
+  }
+
+  var textInterval;
 
   var interv;
 
   function startInterval(){
-    interv = setInterval(draw, 4);
+    interv = setInterval(draw, 6);
+    textInterval = setInterval(textOut,500);
   }
   function stopInterval(){
     clearInterval(interv);
+    clearInterval(textInterval);
   }
 
   startInterval();
