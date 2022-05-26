@@ -50,6 +50,7 @@ function game3(){
   var ctx;
   var game3notice;
   var game3noticeButton;
+  var game3_LifeDiv;
 
   canvas = document.getElementById("game3canvas");
   ctx = canvas.getContext('2d');
@@ -59,24 +60,57 @@ function game3(){
   game3noticeButton = $("#game3_notice button");
   game3noticeButton.click(function(){
     game3notice.css("display","none");
-    startGame(0);
+    initGameOption();
+    startGame();
+  })
+  game3_LifeDiv = $("#game3_life");
+
+  $("#game3_replay").click(function(){
+    initGameOption();
+    startGame();
   })
 
-  function startGame(no) {
-    game = new Game(no);
+  function startGame() {
+    game = new Game();
     canvas.focus();
-    canvas.style.cursor = "none";
+    canvas.style.cursor = "none"; 
+    game3_LifeDiv.text("목숨:"+life);
+    console.log(currentstage);
+
+    canvas.addEventListener("mousemove", function(ev){
+      game.paddle.x = ev.offsetX - game.paddle.halfWidth;
+      if(game.paddle.x < 0){
+        game.paddle.x = 0;
+      } else if(game.paddle.x + game.paddle.width > WIDTH){
+        game.paddle.x = WIDTH - game.paddle.width;
+      }
+    })
   }
 
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
   var BALL_RADIUS = 10;
-  var PADDLE_WIDTH = 150;
+  var PADDLE_WIDTH = 200;
   var PADDLE_HEIGHT = 15;
   var PADDLE_X = (WIDTH - PADDLE_WIDTH) / 2;
   var PADDLE_Y = HEIGHT - PADDLE_HEIGHT - 10;
   var PADDLE_SPEED = 7;
   var COLOR = "dodgerblue";
+
+  var currentstage;
+  var life;
+  var trueBlock = new Array(4);
+  function assignTrueBlock(){
+    for(var i=0; i<4; i++){
+      trueBlock[i] = Math.floor(Math.random()*2); //0은 왼쪽 1은 오른쪽
+    }
+  }
+  function initGameOption(){
+    currentstage = 0;
+    life = 5;
+    assignTrueBlock();
+  }
+
 
   class Ball { 
     constructor(x, y, radius, speed, angle, color) {
@@ -207,38 +241,24 @@ function game3(){
     }
   }
 
-  canvas.addEventListener("mousemove", function(ev){
-    game.paddle.x = ev.offsetX - game.paddle.halfWidth;
-    if(game.paddle.x < 0){
-      game.paddle.x = 0;
-    } else if(game.paddle.x + game.paddle.width > WIDTH){
-      game.paddle.x = WIDTH - game.paddle.width;
-    }
-  })
-
   class Game {
-    constructor(no) {
-      var ballSpeeds = [15, 15];
+    constructor() {
+      var ballSpeeds = 12;
       var brickSettings = [
-        [3, 5, 0, 50, WIDTH, 150, COLOR],
-        [7, 10, 0, 50, WIDTH, 150, COLOR]
+        [3, 3, WIDTH/2-400, 50, 250, 250, 'red'], //rows, cols, x, y, width, height, color
+        [3, 3, WIDTH/2+150, 50, 250, 250, 'blue']
       ];
   
-      this.state = "start";
-      this.timeCount = 0;
+      this.state = "play";
       this.paddle = new Paddle(PADDLE_X, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT,
         PADDLE_SPEED, COLOR);
       this.ball = new Ball(this.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS,
-        ballSpeeds[no], 75, COLOR);
-      this.bricks = new Bricks(...brickSettings[no]);
+        ballSpeeds, 75, COLOR);
+      this.brickleft = new Bricks(...brickSettings[0]);
+      this.brickright = new Bricks(...brickSettings[1]);
     }
   
     update() {
-      if (this.state == "start") {
-        this.timeCount++;
-        if (this.timeCount >= 100) this.state = "play";
-        return ;
-      }
       if (this.state != "play") return;
 
       const DIV = 10;
@@ -246,17 +266,25 @@ function game3(){
         this.ball.move(1 / DIV);
         this.ball.collideWall(0, 0, WIDTH);
         this.paddle.collide(this.ball);
-        if (this.bricks.collide(this.ball.collideX, this.ball.y)) this.ball.mx *= -1;
-        if (this.bricks.collide(this.ball.x, this.ball.collideY)) this.ball.my *= -1;
+        if (this.brickleft.collide(this.ball.collideX, this.ball.y)) this.ball.mx *= -1;
+        if (this.brickleft.collide(this.ball.x, this.ball.collideY)) this.ball.my *= -1;
+        if (this.brickright.collide(this.ball.collideX, this.ball.y)) this.ball.mx *= -1;
+        if (this.brickright.collide(this.ball.x, this.ball.collideY)) this.ball.my *= -1;
       }
   
-      if (this.ball.y > HEIGHT + 50) this.state = "end";
-      if (this.bricks.count == 0) this.state = "clear";
+      if (this.ball.y > HEIGHT + 50) this.state = "fall";
+      if (this.brickleft.count == 0){
+        this.state = "left";
+      } 
+      if (this.brickright.count == 0){
+        this.state = "right";
+      } 
     }
   
     draw() {
       ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      this.bricks.draw(ctx);
+      this.brickleft.draw(ctx);
+      this.brickright.draw(ctx);
       this.paddle.draw(ctx);
       this.ball.draw(ctx);
     }
@@ -278,10 +306,35 @@ function game3(){
     if (game) {
       game.update();
       game.draw();
-      if (game.state == "end") drawText("END");
-      if (game.state == "clear") drawText("CLEAR");
+      if(currentstage == 4){    //4개의 징검다리를 다 건넜을경우
+        drawText("clear");
+        game = null;
+        canvas.style.cursor = "Default";
+      }
+      else if(life == 0){       //목숨이 0인경우
+        drawText("fail");
+        game = null;
+        canvas.style.cursor = "Default";
+      }
+      else if(game.state == "fall"){    //공이 아래로 빠졌을경우
+        life--;
+        game3_LifeDiv.text("목숨:"+life);
+        startGame();
+      }
+      else if(game.state == "left" && trueBlock[currentstage] == 0){  //징검다리 성공
+        currentstage++;
+        startGame();
+      }
+      else if(game.state == "right" && trueBlock[currentstage] == 1){   //징검다리 성공
+        currentstage++;
+        startGame();
+      }
+      else if(game.state == "right" || game.state == "left"){
+        life--;
+        game3_LifeDiv.text("목숨:"+life);
+        startGame();
+      }
     }
-    else drawText("Breakout");
   }
 
   mainLoop();
