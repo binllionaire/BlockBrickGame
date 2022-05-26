@@ -1,9 +1,9 @@
-<<<<<<< HEAD
+
   * {
     margin: 0px;
     padding: 0px;
     background-color: black;
-=======
+  }
 * {
   margin: 0px;
   padding: 0px;
@@ -90,8 +90,7 @@ img {
   30% {
     transform: skew(0.8deg, -0.1deg);
     opacity: 0.75;
->>>>>>> ecaead197afef185a0c64c502d56705e3292ba2e
-  }
+ }
   body {
     width: 960px;
     margin: 0px auto;
@@ -105,9 +104,9 @@ img {
   img {
     border: 0px;
   }
-  #logo{
+  #logo { 
     display: block;
-    margin: 150px auto 50px auto;
+    margin : 150px auto 50px auto; 
   }
 
   #main-menu p {
@@ -385,13 +384,10 @@ img {
   #game3{
     display: none;
   }
-<<<<<<< HEAD
   #game_1 {
     width: 960px;
     height: 960px;
   }
-=======
-}
 
 #startButton{
   margin: 100px auto auto auto;
@@ -649,7 +645,8 @@ img {
   border-radius: 5px;
 }
 
-
+/*<<<<<<< HEAD
+*/
 
 
 
@@ -659,8 +656,15 @@ img {
 
 
 /* =========================고현규=========================== */
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 >>>>>>> ecaead197afef185a0c64c502d56705e3292ba2e
 =======
 
 >>>>>>> c77dd529009b1f8d16592668e948e6cc90af0997
+=======*/
+#doll_img_for_game2{
+  margin: 0px auto;
+  width: 200px;
+}
+/* =========================고현규=========================== 
+>>>>>>> c1d40445352fb58ae2170801ec25691c60965505*/

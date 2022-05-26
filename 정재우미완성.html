@@ -1,4 +1,4 @@
-//정재우.html
+
 <!Doctype html>
 	<!DOCTYPE html>
 	<html>
@@ -9,24 +9,23 @@
 	<style>
 		* { padding: 0; margin: 0;
 		}
-		canvas { background: #eee; display: block; margin: 0 auto; }
-		.g1 {float: left; border: 1px solid black;}
-		.g2 {float: left; border: 1px solid black; border-left: none;}
-		#time { background:red ; position: absolute; width: 200px; height: 50px;}
-
+		canvas {  background: #eee; display: block; margin: 0 auto; width: 100%;}
+		.g1 { width: 70%; height: 100%; float: left; border: 1px solid black;}
+		.g2 { width: 30%; height: 100%; float:left; border: 1px solid black; border-left: none;}
+		#time { background:red ;}
+        #game1 { width: 100%; height: 100%;}
+        
 	</style>
 	</head>
 	<body>
 	<div class="g1">
-	<canvas id="game1" width="480" height="320">
-		
+	<canvas id="game1_1">
 	</canvas>
 </div>
 	<div class="g2">
 		<div id="time">
-
 		</div>
-		<canvas id = "game1_2" width="480" height="320">
+		<canvas id = "game1_2">
 
 		</canvas>
 		</div>
@@ -48,23 +47,23 @@
 
 		}
 
-var canvas = document.getElementById("game1");
+var canvas = document.getElementById("#game1");
 var ctx = canvas.getContext("2d");
-var canvas_2 = document.getElementById("game1_2");
+var canvas_2 = document.getElementById("#game1_2");
 var ctx_2 = canvas.getContext("2d");
-var ballRadius = 5;
+var ballRadius = 10;
 var x = canvas.width/2;
-var y = canvas.height-50;
+var y = canvas.height-30;
 var dx = 2;
 var dy = -2;
-var paddleHeight = 30;
+var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
-var brickRowCount = dx;
-var brickColumnCount = -dy;
-var brickWidth = 50;
+var brickRowCount = 5;
+var brickColumnCount = 3;
+var brickWidth = 75;
 var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
@@ -79,11 +78,6 @@ for(var c=0; c<brickColumnCount; c++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
-/*
-function level() {
-	canvas_2.style.backgroundImage = "hangman0.gif";
-} */ 
-
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -119,10 +113,10 @@ function collisionDetection() {
       var b = bricks[c][r];
       if(b.status == 1) {
         if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-          dy = -dy; 
+          dy = -dy;
           b.status = 0;
           score++;
-          if(score == 18) { //brickRowCount*brickColumnCount
+          if(score == brickRowCount*brickColumnCount) {
             alert("YOU WIN, CONGRATS!");
             document.location.reload();
           }
@@ -141,26 +135,28 @@ function drawBall() {
 }
 function drawPaddle() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight); 
-  ctx.fillStyle = "#EEAADD";
+  ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
 }
-function drawBricks() {
-	
-  for(var c=0; c<brickColumnCount; c++) {
+function drawBricks() { 
+        
+      for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
       if(bricks[c][r].status == 1) {
-        var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-        var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+        var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+        var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
+        
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = "#DDD";
+        ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
-      }
+    
+    }
     }
   }
 }
@@ -209,10 +205,6 @@ function draw() {
       }
     }
   }
-  // 바 길이 조정 구상중(미완성)
-  if(true) {
-  	paddleWidth = ballRadius*5*dx;
-  }
 
   if(rightPressed && paddleX < canvas.width-paddleWidth) {
     paddleX += 7;
@@ -221,7 +213,8 @@ function draw() {
     paddleX -= 7;
   }
 
-  x += dx;  y += dy;
+  x += dx;
+  y += dy;
   requestAnimationFrame(draw);
 }
 

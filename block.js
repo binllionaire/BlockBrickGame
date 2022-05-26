@@ -28,3 +28,5 @@ $(document).ready(function(){
     $("#game-menu").css("display","none"); 
     $("#game3").css("display","block"); 
   }
+
+  
