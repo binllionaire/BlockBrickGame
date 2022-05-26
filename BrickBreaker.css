@@ -21,13 +21,89 @@ a {
 }
 img {
   border: 0px;
+  background-color: transparent;
+}
+#previous{
+  float: left;
+  display: block;
+  margin-top: 60px;
+  margin-left: 50px;
+}
+
+#bgi{
+  float: left;
+  display: block;
+}
+#next{
+  display: block;
+  margin-top: 60px;
 }
 #settingIcon{
   width:50px;
   height :50px;
   float: right;
   cursor: pointer;
-  filter: opacity(0.5) drop-shadow(0 0 0 white);
+}
+#setting{
+  display: none;
+  border-radius: 10px;
+}
+#setting p{
+  background-color: transparent;
+  color: black;
+  font-family: 'Gowun Batang', serif;
+}
+
+#setting p:nth-child(1){
+  font-size: 30px;
+  text-align: center;
+}
+.popup{
+  color: black;
+	position:fixed;
+	top:0;
+	left:0;
+	background-color: white;
+	padding: 30px 20px;
+	z-index: 1;
+	width: 500px;
+	height: 400px;
+	border: 3px solid #e11880;
+}
+
+#okButton{
+  width: 100px;
+  height: 40px;
+  color: white;
+  border-radius: 5px;
+  background-color: #e11880;
+  margin: 20px 200px 200px;
+  border: 0px;
+}
+
+input[type=radio]{
+  display: none;
+}
+input[type=radio]+label{
+  margin-top: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  height: 30px;
+  width: 90px;
+  border: 1px solid #e11880;
+  line-height: 30px;
+  text-align: center;
+  font-weight:bold;
+  font-size:13px;
+}
+input[type=radio]+label{
+  background-color: #fff;
+  color: #e11880;
+}
+input[type=radio]:checked+label{
+  background-color: #e11880;
+  color: #fff;
 }
 /*메인메뉴*/
 #main-menu{
@@ -37,7 +113,6 @@ img {
   background-size: cover;
   display: block;
   height: 100%;
-  
 }
 /* main-menu 오징어게임 로고 */
 #logo{
@@ -50,7 +125,7 @@ img {
 }
 
 /* main-menu 의 Brick Out 글씨 */
-#main-menu p {
+#main-menu #title {
   text-align: center;
   color: #fff;
   font-size: 5em;
@@ -62,12 +137,12 @@ img {
   animation: glitch1 2.5s infinite;
 }
 
-#main-menu p:nth-child(2) {
+#main-menu #title:nth-child(2) {
   color: #67f3da;
   animation: glitch2 2.5s infinite;
 }
 
-#main-menu p:nth-child(3) {
+#main-menu #title:nth-child(3) {
   color: #f16f6f;
   animation: glitch3 2.5s infinite;
 }
@@ -369,6 +444,7 @@ img {
   font-size: 20px;
   color: #e11880 ;
 }
+
 #menu3 p:nth-child(2){
   font-size: 30px;
   margin-bottom: 10px;
@@ -387,7 +463,6 @@ img {
   height: 100%;
 }
 
-
 /* ==========================이재호=========================== */
 #left_screen {
   float: left;
@@ -400,7 +475,6 @@ img {
   width: 30%;
   height: 100%;
 }
-
 
 #brickout1{
   width: 70%;

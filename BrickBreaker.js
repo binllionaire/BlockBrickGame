@@ -1,15 +1,71 @@
+var flag = 1; //배경화면 바꾸기 플래그
+var imgUrl;
+
 $(document).ready(function(){
   $("#startButton").on("click", intro);
 
   $('#startButton').hover(function(){
   $("#main-menu").fadeTo('slow', 0.1, function()
 {
-  $("#main-menu").css('background-image','url("background.jpg")');
+  if(flag ==1){
+    imgUrl = 'url("background1.jpg")'
+  }
+  else if(flag==2){
+    imgUrl = 'url("background2.jpg")'
+  }
+  else if(flag==3){
+    imgUrl = 'url("background3.jpg")'
+  }
+  $("#main-menu").css('background-image',imgUrl);
 }).fadeTo('slow', 1);
     }, 
     function() {
       $("#main-menu").css('background-image','none');}, 
   )
+
+  //환경설정 - 배경화면 변경
+  $("#next").click(function(){
+    if($("#bgi").attr("src")=="background1.jpg"){
+    ($("#bgi").attr("src","background2.jpg"));
+    flag=2;
+    }
+    else if($("#bgi").attr("src")=="background2.jpg"){
+      ($("#bgi").attr("src","background3.jpg"));
+      flag=3;
+      }
+      else if($("#bgi").attr("src")=="background3.jpg"){
+        ($("#bgi").attr("src","background1.jpg"));
+        flag=1;
+        }
+  });
+  $("#previous").click(function(){
+    if($("#bgi").attr("src")=="background1.jpg"){
+    ($("#bgi").attr("src","background3.jpg"));
+    flag=3;
+    }
+    else if($("#bgi").attr("src")=="background2.jpg"){
+      ($("#bgi").attr("src","background1.jpg"));
+      flag=1;
+      }
+      else if($("#bgi").attr("src")=="background3.jpg"){
+        ($("#bgi").attr("src","background2.jpg"));
+        flag=2;
+        }
+  });
+
+  //배경음악 설정
+  if($('input[name="bgm"]:checked').attr('id')==select){
+    $("#audio").attr("src","bgm1.mp3");
+  }
+  else if($('input[name="bgm"]:checked').attr('id')==select2){
+    $("#audio").attr("src","bgm2.mp3");
+  }
+
+  //환경설정 창 닫기
+  $("#okButton").click(function(){
+    $("#setting").fadeOut("slow");
+  });
+
 
 
 
@@ -22,9 +78,23 @@ $(document).ready(function(){
   $("#menu2").on("click", game2);
   $("#menu3").on("click", game3);
 
+  $("#settingIcon").on("click",showSetting);
+
 });
 
-
+//환경설정
+function showSetting(){
+  $("#setting").fadeIn("slow");
+  $("#setting").addClass("popup");
+  change_position($(".popup"));
+  $("#setting").css("display","block");
+}
+//환경설정 팝업 위치설정
+function change_position(obj){
+  var l = ($(window).width()-obj.width())/2;
+  var t = ($(window).height()-obj.height())/2;
+  obj.css({top:t,left:l});
+}
 function intro(){
   $("#main-menu").css("display","none"); 
   $("#intro").fadeIn( 2000 );

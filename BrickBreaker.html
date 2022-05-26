@@ -19,11 +19,30 @@
 <!-- 메인메뉴 -->
  <div id="main-menu">
     <img id="settingIcon" src="setting.png">
+  
     <img id="logo" src="logo.png">
-    <p>BRICK OUT</p>
-    <p>BRICK OUT</p>
-    <p>BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
     <button id="startButton">START</button>
+
+   <!--환경 설정-->
+     <div id="setting">
+       <p>환경설정</p>
+       <p>배경화면 변경</p>
+       <br>
+       <img id = "previous" src="previous.png" width="50px">
+       <img id = "bgi" src="background1.jpg" width="300px" >
+       <img id = "next" src = "next.png" width="50px">
+       <br><br><br><br>
+       <p>배경음악 변경</p>
+       
+       <input type="radio" id="select" name="bgm"><label for="select">BGM 1</label>
+       <input type="radio" id="select2" name="bgm"><label for="select2">BGM 2</label>
+       
+       <br>
+       <button id="okButton">확인</button>
+     </div>
  </div>
 <!-- 인트로 -->
  <div id="intro">
@@ -100,7 +119,7 @@
 </div>
 <!-- 오디오재생 -->
 <audio autoplay controls> 
-  <source src="bgm1.mp3" type="audio/mp3"> 
+  <source id ="audio" src="bgm1.mp3" type="audio/mp3"> 
 </audio>
 </body>
 </html>
