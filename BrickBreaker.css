@@ -426,17 +426,17 @@ img {
 #game3_startBlock {
   position: absolute;
   top: 30px;
-  left: 150px;
-  width: 300px;
-  height: 60px;
+  left: 88px;
+  width: 400px;
+  height: 70px;
   background-color: blue;
 }
 #game3_endBlock {
   position: absolute;
-  top: 530px;
-  left: 150px;
-  width: 300px;
-  height: 60px;
+  top: 630px;
+  left: 88px;
+  width: 400px;
+  height: 70px;
   background-color: red;
 }
 .game3_block {
@@ -445,37 +445,37 @@ img {
   height: 60px;
   background-color: white;
 }
-#game3_block1 {
-  top: 120px;
-  left: 250px;
+#game3_block1L {
+  top: 152px;
+  left: 160px;
 }
-#game3_block2 {
-  top: 210px;
-  left: 250px;
+#game3_block2L {
+  top: 274px;
+  left: 160px;
 }
-#game3_block3 {
-  top: 300px;
-  left: 250px;
+#game3_block3L {
+  top: 396px;
+  left: 160px;
 }
-#game3_block4 {
-  top: 390px;
-  left: 250px;
+#game3_block4L {
+  top: 518px;
+  left: 160px;
 }
-#game3_block5 {
-  top: 120px;
-  left: 350px;
+#game3_block1R {
+  top: 152px;
+  right: 160px;
 }
-#game3_block6 {
-  top: 210px;
-  left: 350px;
+#game3_block2R {
+  top: 274px;
+  right: 160px;
 }
-#game3_block7 {
-  top: 300px;
-  left: 350px;
+#game3_block3R {
+  top: 396px;
+  right: 160px;
 }
-#game3_block8 {
-  top: 390px;
-  left: 350px;
+#game3_block4R {
+  top: 518px;
+  right: 160px;
 }
 #game3_replay {
   position: absolute;
@@ -492,6 +492,14 @@ img {
   width: 100px;
   height: 100px;
   background-color: violet;
+}
+#game3_character {
+  z-index: 1;
+  position: absolute;
+  top: 15px;
+  left: 248px;
+  width: 80px;
+  height: 100px;
 }
 
 /* =========================고현규=========================== */

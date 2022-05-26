@@ -75,7 +75,6 @@ function game3(){
     canvas.focus();
     canvas.style.cursor = "none"; 
     game3_LifeDiv.text("목숨:"+life);
-    console.log(currentstage);
 
     canvas.addEventListener("mousemove", function(ev){
       game.paddle.x = ev.offsetX - game.paddle.halfWidth;
@@ -192,7 +191,7 @@ function game3(){
   }
 
   class Bricks {
-    constructor(rows, cols, x, y, width, height, color) {
+    constructor(rows, cols, x, y, width, height, color, bricktype) {
       this.rows = rows;
       this.cols = cols;
       this.x = x;
@@ -201,13 +200,22 @@ function game3(){
       this.height = height;
       this.brickWidth = width / cols;
       this.brickHeight = height / rows;
-      this.count = rows * cols;
+      this.count;
+      // this.count = rows * cols;
       this.color = color;
       this.data = [];
-      for (var i = 0; i < rows; i++) {
-        var line = new Array(cols);
-        line.fill(1);
-        this.data.push(line);
+      // for (var i = 0; i < rows; i++) {
+      //   var line = new Array(cols);
+      //   line.fill(1);
+      //   this.data.push(line);
+      // }
+      if(bricktype=='left'){
+        this.data = [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0]];
+        this.count = 8;
+      } 
+      else if(bricktype=='right'){
+        this.data = [[1,1,1,0,0], [1,0,0,1,0], [1,1,1,0,0], [1,0,0,1,0], [1,0,0,1,0]];
+        this.count = 12;
       }
     }
   
@@ -245,15 +253,15 @@ function game3(){
     constructor() {
       var ballSpeeds = 12;
       var brickSettings = [
-        [3, 3, WIDTH/2-400, 50, 250, 250, 'red'], //rows, cols, x, y, width, height, color
-        [3, 3, WIDTH/2+150, 50, 250, 250, 'blue']
+        [5, 5, WIDTH/2-400, 50, 400, 400, 'red', 'left'], //rows, cols, x, y, width, height, color
+        [5, 5, WIDTH/2+150, 50, 400, 400, 'blue', 'right']
       ];
   
       this.state = "play";
       this.paddle = new Paddle(PADDLE_X, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT,
         PADDLE_SPEED, COLOR);
       this.ball = new Ball(this.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS,
-        ballSpeeds, 75, COLOR);
+        ballSpeeds, 90, COLOR);
       this.brickleft = new Bricks(...brickSettings[0]);
       this.brickright = new Bricks(...brickSettings[1]);
     }
