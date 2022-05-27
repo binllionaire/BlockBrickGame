@@ -637,6 +637,8 @@ function for_game2(){
   var paddleHeight = 20; //패들높이
   var paddleWidth = 180; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
+  var paddleColor = "#000000";
+
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
 
@@ -668,6 +670,7 @@ function for_game2(){
     dx = 2;
     dy = -2;
     paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+    paddleColor = "#000000";
 
     score = 0;
 
@@ -797,7 +800,7 @@ function for_game2(){
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
 
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = paddleColor;
     ctx.fill();
     ctx.closePath();
   }
@@ -832,10 +835,10 @@ function for_game2(){
     }
     else if(y + dy > canvas.height-ballRadius) {
       if(x >= paddleX && x <= paddleX + paddleWidth) {
-        if(x >= paddleX && x < paddleX + paddleWidth/3){
+        if(x >= paddleX && x < paddleX + paddleWidth/4){
           dy = -(dy/Math.abs(dy));
           dx = -3;
-        }else if(x >= paddleX + paddleWidth/3 && x < paddleX + (paddleWidth/3)*2){
+        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
           dy = -(dy/Math.abs(dy))*2;
           dx = (dx/Math.abs(dx))*2;
         }else{
@@ -877,7 +880,6 @@ function for_game2(){
     drawBall();
     drawPaddle();
     collisionDetection();
-    //drawSocre();
     drawLives();
   }
 
@@ -889,11 +891,13 @@ function for_game2(){
     countNum++;
     if(countNum == 13){
       canMove = false;
+      paddleColor = "#FF0000";
       $("#doll_img_for_game2").attr("src","doll_front.png");
       setTimeout(function(){
         countNum = 0;
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
+        paddleColor = "#000000";
       },1200)
     }
   }
@@ -902,7 +906,7 @@ function for_game2(){
   var interv;
 
   function startInterval(){
-    interv = setInterval(draw, 6);
+    interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,500);
   }
   function stopInterval(){
