@@ -581,6 +581,7 @@ background-color: #e11880;
 }
 .game3_character {
   z-index: 1;
+  display: block;
   position: absolute;
   width: 96px;
   height: 96px;

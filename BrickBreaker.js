@@ -119,13 +119,24 @@ function game3(){
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
-
   var canvas_Width = screen.availWidth*7/10;
   var canvas_Height = screen.availHeight;
   var canvas;
   var ctx;
   var game3notice;
   var game3noticeButton;
+  var current_character;
+  var currentstage;
+  var life;
+  var trueBlock = new Array(4);
+  var mouseEvent = function(ev){
+    game.paddle.x = ev.offsetX - game.paddle.halfWidth;
+    if(game.paddle.x < 0){
+      game.paddle.x = 0;
+    } else if(game.paddle.x + game.paddle.width > WIDTH){
+      game.paddle.x = WIDTH - game.paddle.width;
+    }
+  };
 
   canvas = document.getElementById("game3canvas");
   ctx = canvas.getContext('2d');
@@ -137,29 +148,78 @@ function game3(){
 
   game3noticeButton = $("#game3_notice button");
   game3noticeButton.click(function(){
-    game3notice.css("display","none");
+    game3notice.css("display","none");      //처음 알림창 확인버튼 클릭 핸들러
     initGameOption();
     startGame();
   })
 
   $("#game3_replay").click(function(){
-    initGameOption();
+    initGameOption();                       //다시하기 버튼 클릭이벤트 핸들러
     startGame();
   })
+
+  function change_Character(){
+    var str = "#game3_character"+life;
+    current_character = $(str);             //캐릭터 바꾸기
+    current_character.css({'top':'1%','right':'41%'});
+  }
+
+  function assignTrueBlock(){
+    for(var i=0; i<4; i++){
+      // trueBlock[i] = Math.floor(Math.random()*2); //0은 왼쪽 1은 오른쪽
+      trueBlock[i] = 0;
+    }
+  }
+  function initGameOption(){
+    currentstage = 1;                   //게임 변수 초기화
+    life = 5;
+    assignTrueBlock();
+    $("#game3_character5").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'1%', 'right':'41%'});
+    $("#game3_character4").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'45%'});
+    $("#game3_character3").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'30%'});
+    $("#game3_character2").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'15%'});
+    $("#game3_character1").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'0'});
+    $(".game3_block").css('display','block');
+    current_character = $("#game3_character5");
+  }
+
+  function character_Jumping(state){
+    var decideLR;
+    var targetBlock_position;                        //캐릭터 점프
+    var targetBlockid;
+    var targetTop;
+    var targetLeft;
+
+    if(currentstage==4){
+      current_character.animate({
+        left: current_character.position().top + 100 + 'px'
+      }, 2000, 'swing');
+    }
+
+    if(state == 'left'){
+      decideLR = 'L';
+      current_character.css('transform','scaleX(-1)');
+    } else if(state == 'right'){
+      decideLR = 'R';
+      current_character.css('transform','scaleX(1)');
+    }
+    targetBlockid = ("#game3_block" + currentstage) + decideLR;
+    targetBlock_position = $(targetBlockid).position();
+    targetTop = targetBlock_position.top;
+    targetLeft = targetBlock_position.left;
+
+    current_character.animate({
+      top: targetTop - 40 + 'px',
+      left: targetLeft - 5 + 'px'
+    }, 2000, 'swing');
+  }
 
   function startGame() {
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
 
-    canvas.addEventListener("mousemove", function(ev){
-      game.paddle.x = ev.offsetX - game.paddle.halfWidth;
-      if(game.paddle.x < 0){
-        game.paddle.x = 0;
-      } else if(game.paddle.x + game.paddle.width > WIDTH){
-        game.paddle.x = WIDTH - game.paddle.width;
-      }
-    })
+    canvas.addEventListener("mousemove", mouseEvent);
   }
 
   var WIDTH = canvas.width;
@@ -171,20 +231,6 @@ function game3(){
   var PADDLE_Y = HEIGHT - PADDLE_HEIGHT - 10;
   var PADDLE_SPEED = 7;
   var COLOR = "dodgerblue";
-
-  var currentstage;
-  var life;
-  var trueBlock = new Array(4);
-  function assignTrueBlock(){
-    for(var i=0; i<4; i++){
-      trueBlock[i] = Math.floor(Math.random()*2); //0은 왼쪽 1은 오른쪽
-    }
-  }
-  function initGameOption(){
-    currentstage = 0;
-    life = 5;
-    assignTrueBlock();
-  }
 
 
   class Ball { 
@@ -287,7 +333,7 @@ function game3(){
       // }
       if(bricktype=='left'){
         this.data = [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0]];
-        this.count = 8;
+        this.count = 1;
       } 
       else if(bricktype=='right'){
         this.data = [[1,1,1,0,0], [1,0,0,1,0], [1,1,1,0,0], [1,0,0,1,0], [1,0,0,1,0]];
@@ -390,31 +436,54 @@ function game3(){
     if (game) {
       game.update();
       game.draw();
-      if(currentstage == 4){    //4개의 징검다리를 다 건넜을경우
+      if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
         drawText("clear");
+        canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
       }
       else if(life == 0){       //목숨이 0인경우
         drawText("fail");
+        canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
         life--;
+        currentstage = 1;
+        current_character.css('display','none');
+        change_Character();
         startGame();
       }
-      else if(game.state == "left" && trueBlock[currentstage] == 0){  //징검다리 성공
+      else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
+        game.state = 'stop';
+        character_Jumping('left');
         currentstage++;
-        startGame();
+        setTimeout(startGame, 4000);
       }
-      else if(game.state == "right" && trueBlock[currentstage] == 1){   //징검다리 성공
+      else if(game.state == "right" && trueBlock[currentstage-1] == 1){   //징검다리 성공
+        game.state = 'stop';
+        character_Jumping('right');
         currentstage++;
-        startGame();
+        setTimeout(startGame, 4000);
       }
-      else if(game.state == "right" || game.state == "left"){
+      else if(game.state == "right"){
+        game.state = 'stop';
         life--;
-        startGame();
+        character_Jumping('right');
+        currentstage = 1;
+        current_character.css('display','none');
+        change_Character();
+        setTimeout(startGame, 4000);
+      }
+      else if(game.state == "left"){
+        game.state = 'stop';
+        life--;
+        character_Jumping('left');
+        currentstage = 1;
+        current_character.css('display','none');
+        change_Character();
+        setTimeout(startGame, 4000);
       }
     }
   }
