@@ -1,31 +1,20 @@
-* {
-  margin: 0px;
-  padding: 0px;
-  background-color: black;
-}
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0px auto;
-  
-}
-canvas{
-  margin: 0px 0px 0px 0px;
-}
-html{
-  width: 100%;
-  height: 100%;
-}
-li {
-  list-style: none;
-}
-a {
-  text-decoration: none;
-}
-img {
-  border: 0px;
-  background-color: transparent;
-}
+* { margin: 0px; padding: 0px; background-color: black; }
+body { width: 100%; height: 100%; margin: 0px auto; }
+canvas{ margin: 0px 0px 0px 0px;}
+html{ width: 100%; height: 100%; }
+li { list-style: none; }
+a { text-decoration: none;}
+img { border: 0px; background-color: transparent;}
+
+
+
+/*=================================================== 환경설정 ==================================================*/
+/*=================================================== 환경설정 ==================================================*/
+/*=================================================== 환경설정 ==================================================*/
+/*=================================================== 환경설정 ==================================================*/
+/*=================================================== 환경설정 ==================================================*/
+
+
 #previous{
   float: left;
   display: block;
@@ -85,7 +74,6 @@ img {
   margin: 20px 200px 200px;
   border: 0px;
 }
-
 input[type=radio]{
   display: none;
 }
@@ -110,7 +98,16 @@ input[type=radio]:checked+label{
   background-color: #e11880;
   color: #fff;
 }
-/*메인메뉴*/
+
+
+/*=================================================== 메인메뉴 ==================================================*/
+/*=================================================== 메인메뉴 ==================================================*/
+/*=================================================== 메인메뉴 ==================================================*/
+/*=================================================== 메인메뉴 ==================================================*/
+/*=================================================== 메인메뉴 ==================================================*/
+
+
+
 #main-menu{
   padding-top: 10px;
   background-position: center;
@@ -119,7 +116,6 @@ input[type=radio]:checked+label{
   display: block;
   height: 100%;
 }
-/* main-menu 오징어게임 로고 */
 #logo{
   display: block;
   margin-top: 200px;
@@ -128,8 +124,6 @@ input[type=radio]:checked+label{
   margin-bottom: 40px;
   background-color: transparent;
 }
-
-/* main-menu 의 Brick Out 글씨 */
 #main-menu #title {
   text-align: center;
   color: #fff;
@@ -141,7 +135,6 @@ input[type=radio]:checked+label{
   line-height: 0;
   animation: glitch1 2.5s infinite;
 }
-
 #main-menu #title:nth-child(2) {
   color: #67f3da;
   animation: glitch2 2.5s infinite;
@@ -153,168 +146,51 @@ input[type=radio]:checked+label{
 }
 
 @keyframes glitch1 {
-  0% {
-    transform: none;
-    opacity: 1;
-  }
-  7% {
-    transform: skew(-0.5deg, -0.9deg);
-    opacity: 0.75;
-  }
-  10% {
-    transform: none;
-    opacity: 1;
-  }
-  27% {
-    transform: none;
-    opacity: 1;
-  }
-  30% {
-    transform: skew(0.8deg, -0.1deg);
-    opacity: 0.75;
-  }
-  35% {
-    transform: none;
-    opacity: 1;
-  }
-  52% {
-    transform: none;
-    opacity: 1;
-  }
-  55% {
-    transform: skew(-1deg, 0.2deg);
-    opacity: 0.75;
-  }
-  50% {
-    transform: none;
-    opacity: 1;
-  }
-  72% {
-    transform: none;
-    opacity: 1;
-  }
-  75% {
-    transform: skew(0.4deg, 1deg);
-    opacity: 0.75;
-  }
-  80% {
-    transform: none;
-    opacity: 1;
-  }
-  100% {
-    transform: none;
-    opacity: 1;
-  }
+  0% {transform: none; opacity: 1;}
+  7% {transform: skew(-0.5deg, -0.9deg);opacity: 0.75;}
+  10% {transform: none;opacity: 1;}
+  27% {transform: none;opacity: 1;}
+  30% { transform: skew(0.8deg, -0.1deg);opacity: 0.75;}
+  35% {transform: none;opacity: 1;}
+  52% {transform: none;opacity: 1;}
+  55% {transform: skew(-1deg, 0.2deg);opacity: 0.75;}
+  50% {transform: none;opacity: 1;}
+  72% {transform: none;opacity: 1;}
+  75% {transform: skew(0.4deg, 1deg);opacity: 0.75;}
+  80% {transform: none;opacity: 1;}
+  100% {transform: none;opacity: 1;}
 }
 
 @keyframes glitch2 {
-  0% {
-    transform: none;
-    opacity: 0.25;
-  }
-  7% {
-    transform: translate(-2px, -3px);
-    opacity: 0.5;
-  }
-  10% {
-    transform: none;
-    opacity: 0.25;
-  }
-  27% {
-    transform: none;
-    opacity: 0.25;
-  }
-  30% {
-    transform: translate(-5px, -2px);
-    opacity: 0.5;
-  }
-  35% {
-    transform: none;
-    opacity: 0.25;
-  }
-  52% {
-    transform: none;
-    opacity: 0.25;
-  }
-  55% {
-    transform: translate(-5px, -1px);
-    opacity: 0.5;
-  }
-  50% {
-    transform: none;
-    opacity: 0.25;
-  }
-  72% {
-    transform: none;
-    opacity: 0.25;
-  }
-  75% {
-    transform: translate(-2px, -6px);
-    opacity: 0.5;
-  }
-  80% {
-    transform: none;
-    opacity: 0.25;
-  }
-  100% {
-    transform: none;
-    opacity: 0.25;
-  }
+  0% {transform: none; opacity: 0.25; }
+  7% {transform: translate(-2px, -3px);opacity: 0.5;}
+  10% {transform: none; opacity: 0.25; }
+  27% {transform: none;opacity: 0.25;}
+  30% {transform: translate(-5px, -2px);opacity: 0.5;}
+  35% {transform: none; opacity: 0.25;}
+  52% {transform: none;opacity: 0.25;}
+  55% {transform: translate(-5px, -1px);opacity: 0.5;}
+  50% {transform: none;opacity: 0.25;}
+  72% {transform: none;opacity: 0.25; }
+  75% {transform: translate(-2px, -6px); opacity: 0.5;}
+  80% {transform: none;opacity: 0.25;}
+  100% {transform: none;opacity: 0.25; }
 }
 
 @keyframes glitch3 {
-  0% {
-    transform: none;
-    opacity: 0.25;
-  }
-  7% {
-    transform: translate(2px, 3px);
-    opacity: 0.5;
-  }
-  10% {
-    transform: none;
-    opacity: 0.25;
-  }
-  27% {
-    transform: none;
-    opacity: 0.25;
-  }
-  30% {
-    transform: translate(5px, 2px);
-    opacity: 0.5;
-  }
-  35% {
-    transform: none;
-    opacity: 0.25;
-  }
-  52% {
-    transform: none;
-    opacity: 0.25;
-  }
-  55% {
-    transform: translate(5px, 1px);
-    opacity: 0.5;
-  }
-  50% {
-    transform: none;
-    opacity: 0.25;
-  }
-  72% {
-    transform: none;
-    opacity: 0.25;
-  }
-  75% {
-    transform: translate(2px, 6px);
-    opacity: 0.5;
-  }
-  80% {
-    transform: none;
-    opacity: 0.25;
-  }
-  100% {
-    transform: none;
-    opacity: 0.25;
-  }
+  0%  {transform: none; opacity: 0.25;}
+  7%  {transform: translate(2px, 3px); opacity: 0.5;}
+  10% {transform: none; opacity: 0.25;}
+  27% {transform: none;opacity: 0.25;}
+  30% {transform: translate(5px, 2px);opacity: 0.5;}
+  35% {transform: none;opacity: 0.25; }
+  52% {transform: none; opacity: 0.25;}
+  55% {transform: translate(5px, 1px);opacity: 0.5;}
+  50% {transform: none;opacity: 0.25;}
+  72% {transform: none; opacity: 0.25;}
+  75% {transform: translate(2px, 6px);opacity: 0.5;}
+  80% {transform: none; opacity: 0.25;}
+  100% {transform: none;opacity: 0.25;}
 }
 
 #startButton{
@@ -327,10 +203,8 @@ input[type=radio]:checked+label{
   border-radius: 0.6em;
   color: #e11880;
   cursor: pointer;
- 
   font-size: 1rem;
   line-height: 1;
-  
   padding: 1.2em 2.8em;
   text-decoration: none;
   text-align: center;
@@ -343,6 +217,17 @@ input[type=radio]:checked+label{
   outline: 0;
   box-shadow: 0 0 40px 40px #e11880 inset;
 }
+
+
+
+/*=================================================== 인트로 ==================================================*/
+/*=================================================== 인트로 ==================================================*/
+/*=================================================== 인트로 ==================================================*/
+/*=================================================== 인트로 ==================================================*/
+/*=================================================== 인트로 ==================================================*/
+
+
+
 #intro{
   display: none;
   text-align: center;
@@ -353,8 +238,6 @@ input[type=radio]:checked+label{
   font-family: 'Gowun Batang', serif;
   color: white;
 }
-
-
 #intro p:nth-child(2){
   margin-top: 50px;
   font-size: 40px;
@@ -370,6 +253,16 @@ input[type=radio]:checked+label{
   font-family: 'Gowun Batang', serif;
   color: #e11880 ;
 }
+
+
+
+/*=================================================== 게임메뉴 ==================================================*/
+/*=================================================== 게임메뉴 ==================================================*/
+/*=================================================== 게임메뉴 ==================================================*/
+/*=================================================== 게임메뉴 ==================================================*/
+/*=================================================== 게임메뉴 ==================================================*/
+
+
 
 #game-menu{
   padding-top: 15px;
@@ -468,7 +361,168 @@ input[type=radio]:checked+label{
   height: 100%;
 }
 
-/* ==========================이재호=========================== */
+
+
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+
+
+#left{
+  background-color: #B8DFF8;
+  display: block;
+  float: left;
+  width: 70%;
+  height: 100%;
+}
+
+#right{
+  background-color: #e11880;
+  color:white;
+  display: block;
+  float: left;
+  width: 30%;
+  height: 100%;
+}
+
+#game1_notice {
+  display: none; 
+  z-index: 1;
+  position: absolute;
+  width: 50%;
+  height: 60%;
+  top: 20%;
+  left: 25%;
+  color: white;
+  background-color: black;
+  border: 3px solid #e11880;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
+}
+#game1_notice_title{
+  background: none;
+  margin-bottom: 10px;
+}
+#game1_notice_title h1{
+  background: none;
+}
+#game1_notice_description{
+  background: none;
+}
+#game1_notice_description h3{
+  background: none;
+}
+#game1_notice button {
+  background-color: white;
+}
+
+
+
+
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+
+
+
+#leftside{
+  background-color: #B8DFF8;
+  display: block;
+  float: left;
+  width: 70%;
+  height: 100%;
+}
+
+#rightside{
+  display: block;
+  float: left;
+  width: 30%;
+  height: 100%;
+}
+
+#game2>#canvas_for_game2{
+ 
+  border-radius: 0px;
+}
+
+#doll_img_for_game2{
+  display: block;
+  margin: 10px auto 10px auto;
+  width: 200px;
+}
+#score_for_game2{
+  width: 100%;
+  height: 20%;
+  background-color: white;
+  padding: 5px 0 5px 0;
+  background-color: #F2E4C5;
+}
+/*진행상황바*/
+#scoreBox{
+  height: 40px;
+  width: 0px;
+  border-radius: 20px;
+  margin-bottom: 1px;
+  background-color: #31938D;
+}
+
+#textArea{
+  font-family: 'Gowun Batang', serif;
+  width: 100%;
+  height: 20%;
+  text-align: center;
+  font-size: 30px;
+  background-color: #FFD400;
+  padding: 10px;
+}
+#game2_notice {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  width: 50%;
+  height: 60%;
+  top: 20%;
+  left: 25%;
+  color: white;
+  background-color: black;
+  border: 3px solid #e11880;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
+}
+#game2_notice_title{
+  background: none;
+  margin-bottom: 10px;
+}
+#game2_notice_title h1{
+  background: none;
+}
+#game2_notice_description{
+  background: none;
+}
+#game2_notice_description h3{
+  background: none;
+}
+#game2_notice button {
+  background-color: white;
+}
+
+
+
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+
+
 #left_screen {
   float: left;
   width: 70%; 
@@ -618,94 +672,3 @@ background-color: #e11880;
   top: 1%;
   right: 41%;
 }
-/*==========================정재우===========================*/
-#brickout1 { float: left;}
-#game1_1 {float: right;}
-/* =========================고현규=========================== */
-#leftside{
-  background-color: #B8DFF8;
-  display: block;
-  float: left;
-  width: 70%;
-  height: 100%;
-}
-
-#rightside{
-  display: block;
-  float: left;
-  width: 30%;
-  height: 100%;
-}
-
-#game2>#canvas_for_game2{
- 
-  border-radius: 0px;
-}
-
-#doll_img_for_game2{
-  
-  display: block;
-  margin: 10px auto 10px auto;
-  width: 200px;
-
-}
-
-#score_for_game2{
-  width: 100%;
-  height: 20%;
-  background-color: white;
-  padding: 5px 0 5px 0;
-  background-color: #F2E4C5;
-}
-/*진행상황바*/
-#scoreBox{
-  height: 40px;
-  width: 0px;
-  border-radius: 20px;
-  margin-bottom: 1px;
-  background-color: #31938D;
-}
-
-#textArea{
-  font-family: 'Gowun Batang', serif;
-  width: 100%;
-  height: 20%;
-  text-align: center;
-  font-size: 30px;
-  background-color: #FFD400;
-  padding: 10px;
-}
-#game2_notice {
-  display: none;
-  z-index: 1;
-  position: absolute;
-  width: 50%;
-  height: 60%;
-  top: 20%;
-  left: 25%;
-  color: white;
-  background-color: black;
-  border: 3px solid #e11880;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  font-family: 'Gowun Batang', serif;
-}
-#game2_notice_title{
-  background: none;
-  margin-bottom: 10px;
-}
-#game2_notice_title h1{
-  background: none;
-}
-#game2_notice_description{
-  background: none;
-}
-#game2_notice_description h3{
-  background: none;
-}
-#game2_notice button {
-  background-color: white;
-}
-/* =========================고현규=========================== */
-
