@@ -495,14 +495,21 @@ background-color: #e11880;
   display: none;
   z-index: 1;
   position: absolute;
-  width: 500px;
-  height: 700px;
-  top: 100px;
-  left: 700px;
-  background-color: #67f3da;
+  width: 50%;
+  height: 60%;
+  top: 20%;
+  left: 25%;
+  color: white;
+  background-color: black;
+  border: 3px solid #e11880;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
 }
 #game3_notice_title{
   background: none;
+  margin-bottom: 10px;
 }
 #game3_notice_title h1{
   background: none;
@@ -642,3 +649,4 @@ background-color: #e11880;
   border-color: #e11880;
 }
 /* =========================고현규=========================== */
+
