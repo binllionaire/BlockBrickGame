@@ -605,6 +605,8 @@ function for_game1(){
 // =====================고현규==============================
 
 function for_game2(){
+
+
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
   var x = canvas.width/2;
@@ -626,6 +628,13 @@ function for_game2(){
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
 
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+          canvas.width = window.innerWidth*0.7;
+          canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
   var score = 0;
   var scoreBoxFullWidth = 980;
 

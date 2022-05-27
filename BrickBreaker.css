@@ -9,6 +9,9 @@ body {
   margin: 0px auto;
   
 }
+canvas{
+  margin: 0px 0px 0px 0px;
+}
 html{
   width: 100%;
   height: 100%;
@@ -28,6 +31,7 @@ img {
   display: block;
   margin-top: 60px;
   margin-left: 50px;
+  cursor: pointer;
 }
 
 #bgi{
@@ -35,6 +39,7 @@ img {
   display: block;
 }
 #next{
+  cursor: pointer;
   display: block;
   margin-top: 60px;
 }
@@ -496,14 +501,21 @@ background-color: #e11880;
   display: none;
   z-index: 1;
   position: absolute;
-  width: 500px;
-  height: 700px;
-  top: 100px;
-  left: 700px;
-  background-color: #67f3da;
+  width: 50%;
+  height: 60%;
+  top: 20%;
+  left: 25%;
+  color: white;
+  background-color: black;
+  border: 3px solid #e11880;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
 }
 #game3_notice_title{
   background: none;
+  margin-bottom: 10px;
 }
 #game3_notice_title h1{
   background: none;
@@ -610,6 +622,7 @@ background-color: #e11880;
 #leftside{
   display: block;
   float: left;
+  width: 70%;
 }
 
 #rightside{
@@ -617,28 +630,28 @@ background-color: #e11880;
   float: left;
   width: 30%;
   height: 1000px;
+  width: 30%;
 }
 
 #game2>#canvas_for_game2{
-  margin: auto;
   border-radius: 0px;
 }
 
 #doll_img_for_game2{
-  margin: 0px auto;
+  display: block;
+  margin: 10px auto 20px auto;
   width: 200px;
 
 }
 
 #score_for_game2{
-  width: 980px;
-  height: 68px;
+  width: 100%;
+  height: 20%;
   margin: 0px auto;
   background-color: white;
   padding: 10px;
   border-top: 2px solid;
   border-color: #e11880;
-  border-radius: 0px 0px 10px 10px;
 }
 
 #scoreBox{
@@ -659,15 +672,13 @@ background-color: #e11880;
 }
 
 #textArea{
-  width: 980px;
-  height: 60px;
-  margin: 0px auto;
+  font-family: 'Gowun Batang', serif;
+  width: 100%;
+  height: 20%;
   text-align: center;
-  line-height: 60px;
   font-size: 30px;
   background-color: white;
   padding: 10px;
-  border-radius: 10px 10px 0px 0px;
   border-bottom: 2px solid;
   border-color: #e11880;
 }
@@ -680,3 +691,4 @@ background-color: #e11880;
   float: left;
 }
 /* =========================고현규=========================== */
+
