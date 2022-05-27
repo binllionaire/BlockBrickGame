@@ -656,19 +656,11 @@ background-color: #e11880;
 
 #scoreBox{
   background-color: #e11880;
-  height: 30px;
+  height: 40px;
   /* width: 980px; */
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
-}
-
-#lifeBox{
-  margin-top: 1px;
-  width: 960px;
-  height: 30px;
-  border-radius: 20px;
-  background-color: aquamarine;
 }
 
 #textArea{
@@ -684,7 +676,7 @@ background-color: #e11880;
 }
 
 .lifes_for_game2{
-  width: 100px;
+  width: 60px;
   margin: 30px;
   padding: 5px;
   display: block;
