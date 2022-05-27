@@ -451,7 +451,7 @@ function for_game1(){
   
   // Make sure the image is loaded first otherwise nothing will draw.
   background.onload = function(){
-      ctx.drawImage(background,0,0);   
+    ctx.drawImage(background,0,0);   
   }
   
   var bricks = [];
@@ -665,7 +665,7 @@ function for_game2(){
 
   document.addEventListener("keydown",keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
-  //document.addEventListener("mousemove", mouseMoveHandler, false);
+  document.addEventListener("mousemove", mouseMoveHandler, false);
 
   function keyDownHandler(e) {
     if(e.keyCode == 39) {
@@ -685,12 +685,12 @@ function for_game2(){
     }
   }
 
-  // function mouseMoveHandler(e){
-  //   var relativeX = e.clientX = canvas.offsetLeft;
-  //   if(relativeX > 0 && relativeX < canvas.width){
-  //     paddleX = relativeX - paddleWidth/2;
-  //   }
-  // }
+  function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(canMove && relativeX > 0 && relativeX < canvas.width) {
+      paddleX = relativeX - paddleWidth/2;
+    }
+  }
 
   function collisionDetection(){
     for(var c = 0; c < brickColumnCount; c++){
