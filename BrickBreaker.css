@@ -671,4 +671,12 @@ background-color: #e11880;
   border-bottom: 2px solid;
   border-color: #e11880;
 }
+
+.lifes_for_game2{
+  width: 100px;
+  margin: 30px;
+  padding: 5px;
+  display: block;
+  float: left;
+}
 /* =========================고현규=========================== */
