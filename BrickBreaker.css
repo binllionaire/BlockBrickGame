@@ -657,14 +657,13 @@ background-color: #e11880;
 }
 
 #scoreBox{
-  height: 30px;
-  /* width: 980px; */
+  height: 40px;
+
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
   background-color: #31938D;
 }
-
 #lifeBox{
   margin-top: 1px;
   width: 960px;
@@ -685,7 +684,7 @@ background-color: #e11880;
 }
 
 .lifes_for_game2{
-  width: 100px;
+  width: 60px;
   margin: 30px;
   padding: 5px;
   display: block;

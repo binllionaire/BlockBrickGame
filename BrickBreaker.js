@@ -606,7 +606,6 @@ function for_game1(){
 
 function for_game2(){
 
-
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
   var x = window.innerWidth*0.7/2;
@@ -614,7 +613,7 @@ function for_game2(){
   var dx = 2;
   var dy = -2;
   var ballRadius = 12; //공의 반지름
-  var paddleHeight = 12; //패들높이
+  var paddleHeight = 20; //패들높이
   var paddleWidth = 180; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var rightPressed = false; // -> 버튼 눌림
@@ -627,8 +626,6 @@ function for_game2(){
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
-
-
 
   window.addEventListener('resize', resizeCanvas, false);
 
@@ -660,10 +657,25 @@ function for_game2(){
 
     $("#scoreBox").css({"width":"0px"});
 
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        var b = bricks[c][r];
+        b.status = 1;
+      }
+    }
+
     if(again){
       startInterval();
     }
   }
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth*0.7;
+    canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
 
 
   //벽돌 배치를 이차원 배열을 이용해서 함
@@ -713,12 +725,11 @@ function for_game2(){
             dy = -dy;
             b.status = 0;
             score++;
-            $("#scoreBox").animate({width:'+=65px'});
+            $("#scoreBox").animate({width:'+=90px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
               alert("You Win");
-              //document.location.reload();
-              //for_game2();
+              
               var again = false;
               reset(again);
 
@@ -730,13 +741,6 @@ function for_game2(){
       }
     }
   }
-
-  // function drawSocre(){
-  //   var s = "+=";
-  //   s += scoreBoxFullWidth*(score/(brickRowCount*brickColumnCount));
-  //   s+="px";
-  //   $("#scoreBox").animate({width:'+=10px'});
-  // }
 
   function drawLives(){
     ctx.font = "16px Arial";
@@ -752,7 +756,9 @@ function for_game2(){
     for(var i = 0; i < lives; i++){
       var lifeBox = document.createElement('img');
       lifeBox.setAttribute("class",'lifes_for_game2');
-      lifeBox.setAttribute("src","life_image_for_game2.png");
+      var imgNum = i%5;
+      var imgName = "game2char"+imgNum+".png";
+      lifeBox.setAttribute("src",imgName);
 
       rightArea_lifes.appendChild(lifeBox);
     }
@@ -761,7 +767,7 @@ function for_game2(){
   function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#black";
+    ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.closePath();
 
@@ -770,7 +776,7 @@ function for_game2(){
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
 
-    ctx.fillStyle = "#f76707";
+    ctx.fillStyle = "#000000";
     ctx.fill();
     ctx.closePath();
   }
@@ -795,67 +801,63 @@ function for_game2(){
   }
 
   function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-      }
-      if(y + dy < ballRadius) {
-        dy = -dy;
-      }
-      else if(y + dy > canvas.height-ballRadius) {
-          if(x >= paddleX && x <= paddleX + paddleWidth) {
-            if(x >= paddleX && x < paddleX + paddleWidth/3){
-              dy = -(dy/Math.abs(dy));
-              dx = -3;
-            }else if(x >= paddleX + paddleWidth/3 && x < paddleX + (paddleWidth/3)*2){
-              dy = -(dy/Math.abs(dy))*2;
-              dx = (dx/Math.abs(dx))*2;
-            }else{
-              dy = -(dy/Math.abs(dy));
-              dx = 3;
-            }
-          }
-          else {
-            lives--;
-            $("#lifeBox").animate({width:'-=96px'});
-            if(!lives){
-              alert("GAME OVER");
-              stopInterval();
-              //document.location.reload();
-              //for_game2();
-              var again = true;
-              reset(again);
-            }
-            else{
-              x = canvas.width/2;
-              y = canvas.height-30;
-              dx = 2;
-              dy = -2;
-              paddleX = (canvas.width - paddleWidth)/2;
-            }
-          }
-      }
-      if(canMove){
-        if(rightPressed && paddleX < canvas.width-paddleWidth) {
-          paddleX += 4;
-        }
-        else if(leftPressed && paddleX > 0) {
-            paddleX -= 4;
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+      dx = -dx;
+    }
+    if(y + dy < ballRadius) {
+      dy = -dy;
+    }
+    else if(y + dy > canvas.height-ballRadius) {
+      if(x >= paddleX && x <= paddleX + paddleWidth) {
+        if(x >= paddleX && x < paddleX + paddleWidth/3){
+          dy = -(dy/Math.abs(dy));
+          dx = -3;
+        }else if(x >= paddleX + paddleWidth/3 && x < paddleX + (paddleWidth/3)*2){
+          dy = -(dy/Math.abs(dy))*2;
+          dx = (dx/Math.abs(dx))*2;
+        }else{
+          dy = -(dy/Math.abs(dy));
+          dx = 3;
         }
       }
+      else {
+        lives--;
+        if(!lives){
+          alert("GAME OVER");
+          stopInterval();
+          
+          var again = true;
+          reset(again);
+        }
+        else{
+          x = canvas.width/2;
+          y = canvas.height-30;
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width - paddleWidth)/2;
+        }
+      }
+    }
+    if(canMove){
+      if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 4;
+      }
+      else if(leftPressed && paddleX > 0) {
+        paddleX -= 4;
+      }
+    }
 
-      x += dx;
-      y += dy;
+    x += dx;
+    y += dy;
 
-      drawBricks();
-      drawBall();
-      drawPaddle();
-      collisionDetection();
-      //drawSocre();
-      drawLives();
-
-      //requestAnimationFrame(draw);
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    collisionDetection();
+    //drawSocre();
+    drawLives();
   }
 
   var countNum = 0;
@@ -876,7 +878,6 @@ function for_game2(){
   }
 
   var textInterval;
-
   var interv;
 
   function startInterval(){
