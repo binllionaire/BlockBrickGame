@@ -607,6 +607,17 @@ background-color: #e11880;
 }
 
 /* =========================고현규=========================== */
+#leftside{
+  display: block;
+  float: left;
+}
+
+#rightside{
+  display: block;
+  float: left;
+  width: 30%;
+  height: 1000px;
+}
 
 #game2>#canvas_for_game2{
   margin: auto;
@@ -621,7 +632,7 @@ background-color: #e11880;
 
 #score_for_game2{
   width: 980px;
-  height: 58px;
+  height: 68px;
   margin: 0px auto;
   background-color: white;
   padding: 10px;
@@ -632,11 +643,19 @@ background-color: #e11880;
 
 #scoreBox{
   background-color: #e11880;
-  height: 40px;
+  height: 30px;
   /* width: 980px; */
   width: 0px;
   border-radius: 20px;
+  margin-bottom: 1px;
+}
 
+#lifeBox{
+  margin-top: 1px;
+  width: 960px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: aquamarine;
 }
 
 #textArea{
