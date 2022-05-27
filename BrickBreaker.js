@@ -190,9 +190,9 @@ function game3(){
     var targetTop;
     var targetLeft;
 
-    if(currentstage==4){
+    if(currentstage==5){
       current_character.animate({
-        left: current_character.position().top + 100 + 'px'
+        top: current_character.position().top + 100 + 'px'
       }, 2000, 'swing');
     }
 
@@ -212,6 +212,25 @@ function game3(){
       top: targetTop - 40 + 'px',
       left: targetLeft - 5 + 'px'
     }, 2000, 'swing');
+  }
+
+  function character_fall(state){            
+    var decideLR;                                 //잘못점프시 낙하 모션
+    var targetBlockid;
+
+    if(state == 'left'){
+      decideLR = 'L';
+    } else if(state == 'right'){
+      decideLR = 'R';
+    }
+    targetBlockid = ("#game3_block" + currentstage) + decideLR;
+    $(targetBlockid).fadeOut(1000);
+    setTimeout(function(){
+      current_character.animate({
+        top: current_character.position().top + 50 + 'px'
+      }, 1000);
+      current_character.fadeOut(1000);
+    },1000)
   }
 
   function startGame() {
@@ -337,7 +356,7 @@ function game3(){
       } 
       else if(bricktype=='right'){
         this.data = [[1,1,1,0,0], [1,0,0,1,0], [1,1,1,0,0], [1,0,0,1,0], [1,0,0,1,0]];
-        this.count = 12;
+        this.count = 1;
       }
     }
   
@@ -438,6 +457,7 @@ function game3(){
       game.draw();
       if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
         drawText("clear");
+        setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
@@ -459,31 +479,37 @@ function game3(){
         game.state = 'stop';
         character_Jumping('left');
         currentstage++;
-        setTimeout(startGame, 4000);
+        if(currentstage != 5)
+          setTimeout(startGame, 3000);
       }
       else if(game.state == "right" && trueBlock[currentstage-1] == 1){   //징검다리 성공
         game.state = 'stop';
         character_Jumping('right');
         currentstage++;
-        setTimeout(startGame, 4000);
+        if(currentstage != 5)
+          setTimeout(startGame, 3000);
       }
-      else if(game.state == "right"){
+      else if(game.state == "right"){       //징검다리 실패
         game.state = 'stop';
         life--;
         character_Jumping('right');
-        currentstage = 1;
-        current_character.css('display','none');
-        change_Character();
-        setTimeout(startGame, 4000);
+        setTimeout(function(){
+          character_fall('right');
+          currentstage = 1;
+        },2000)        
+        setTimeout(change_Character,4500);
+        setTimeout(startGame, 5000);
       }
-      else if(game.state == "left"){
+      else if(game.state == "left"){           //징검다리 실패
         game.state = 'stop';
         life--;
         character_Jumping('left');
-        currentstage = 1;
-        current_character.css('display','none');
-        change_Character();
-        setTimeout(startGame, 4000);
+        setTimeout(function(){
+          character_fall('left');
+          currentstage = 1;
+        },2000)
+        setTimeout(change_Character,4500);
+        setTimeout(startGame, 5000);
       }
     }
   }
