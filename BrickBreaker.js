@@ -743,6 +743,10 @@ function game3(){
       current_character.css('transform','scaleX(1)');
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
+
+    if($(targetBlockid).css('display') == 'none'){
+      return ;
+    }
     targetBlock_position = $(targetBlockid).position();
     targetTop = targetBlock_position.top;
     targetLeft = targetBlock_position.left;
@@ -763,13 +767,17 @@ function game3(){
       decideLR = 'R';
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
-    $(targetBlockid).fadeOut(1000);
-    setTimeout(function(){
-      current_character.animate({
-        top: current_character.position().top + 50 + 'px'
-      }, 1000);
+    if($(targetBlockid).css('display') != 'none'){
+      $(targetBlockid).fadeOut(1000);
+      setTimeout(function(){
+        current_character.animate({
+          top: current_character.position().top + 50 + 'px'
+        }, 1000);
+        current_character.fadeOut(1000);
+      },1000)
+    } else {
       current_character.fadeOut(1000);
-    },1000)
+    }
   }
 
   function startGame() {
