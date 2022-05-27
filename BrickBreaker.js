@@ -739,6 +739,20 @@ function for_game2(){
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
     ctx.fillText("Lives : "+lives, canvas.width-65, 20);
+
+    var rightArea_lifes = document.getElementById('rightside');
+
+    while(rightArea_lifes.firstChild){
+      rightArea_lifes.removeChild(rightArea_lifes.firstChild);
+    }
+
+    for(var i = 0; i < lives; i++){
+      var lifeBox = document.createElement('img');
+      lifeBox.setAttribute("class",'lifes_for_game2');
+      lifeBox.setAttribute("src","life_image_for_game2.png");
+
+      rightArea_lifes.appendChild(lifeBox);
+    }
   }
 
   function drawBall() {
