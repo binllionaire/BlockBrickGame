@@ -617,7 +617,9 @@ background-color: #e11880;
   top: 10px;
   right: 240px;
 }
-
+/*==========================정재우===========================*/
+#brickout1 { float: left;}
+#game1_1 {float: right;}
 /* =========================고현규=========================== */
 #leftside{
   display: block;

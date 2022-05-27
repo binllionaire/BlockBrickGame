@@ -426,7 +426,9 @@ function game3(){
 
 function for_game1(){
   var canvas = document.getElementById("canvas_for_game1");
+  var canvas2 = document.getElementById("canvas_for_game1_1");
   var ctx = canvas.getContext("2d");
+  var ctx2 = canvas2.getContext("2d");
   var ballRadius = 10;
   var x = canvas.width/2;
   var y = canvas.height-30;
@@ -446,14 +448,26 @@ function for_game1(){
   var brickOffsetLeft = 30;
   var score = 0;
   var lives = 3;
+  var timelef = 100;
   var background = new Image();
   background.src = "game1_wallpaper.jpeg";
-  
-  // Make sure the image is loaded first otherwise nothing will draw.
   background.onload = function(){
-    ctx.drawImage(background,0,0);   
+    ctx.drawImage(background,0,0);
+    ctx2.drawImage(background, 0, 0);   
   }
-  
+  $(document).ready(function()  {
+    function reduce() {
+        timelef -= 1;
+        document.getElementById("time").innerHTML = timelef;
+        if(timelef == 0) {
+            alert("Time over!");
+            window.location.reload();
+        }        
+    }
+    setInterval(reduce,1000);
+});
+
+
   var bricks = [];
   for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
@@ -496,7 +510,7 @@ function for_game1(){
         var b = bricks[c][r];
         if(b.status == 1) {
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-            dy = -dy;
+            dy = -(Math.random()*2.5)*dy;
             b.status = 0;
             score++;
             if(score == brickRowCount*brickColumnCount) {
@@ -529,10 +543,18 @@ function for_game1(){
         if(bricks[c][r].status == 1) {
           var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
           var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[c][r].x = brickX;
-          bricks[c][r].y = brickY;
+          bricks[0][0].x = 50;
+          bricks[0][0].y = 50;
           ctx.beginPath();
-          ctx.rect(brickX, brickY, brickWidth, brickHeight);
+          ctx.rect(50, 50, brickWidth, brickHeight);
+          ctx.fillStyle = "#e11880";
+          ctx.fill();
+          ctx.closePath();
+          
+          bricks[0][1].x = 130;
+          bricks[0][1].y = 130;
+          ctx.beginPath();
+          ctx.rect(130, 130, brickWidth, brickHeight);
           ctx.fillStyle = "#e11880";
           ctx.fill();
           ctx.closePath();
@@ -599,14 +621,12 @@ function for_game1(){
   }
 
   draw();
-}
+
 
 
 // =====================고현규==============================
 
 function for_game2(){
-
-
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
   var x = canvas.width/2;
@@ -628,13 +648,6 @@ function for_game2(){
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
 
-  window.addEventListener('resize', resizeCanvas, false);
-
-  function resizeCanvas() {
-          canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight*0.6;
-  }
-  resizeCanvas();
   var score = 0;
   var scoreBoxFullWidth = 980;
 
@@ -739,20 +752,6 @@ function for_game2(){
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
     ctx.fillText("Lives : "+lives, canvas.width-65, 20);
-
-    var rightArea_lifes = document.getElementById('rightside');
-
-    while(rightArea_lifes.firstChild){
-      rightArea_lifes.removeChild(rightArea_lifes.firstChild);
-    }
-
-    for(var i = 0; i < lives; i++){
-      var lifeBox = document.createElement('img');
-      lifeBox.setAttribute("class",'lifes_for_game2');
-      lifeBox.setAttribute("src","life_image_for_game2.png");
-
-      rightArea_lifes.appendChild(lifeBox);
-    }
   }
 
   function drawBall() {
@@ -886,6 +885,7 @@ function for_game2(){
   }
 
   startInterval();
+}
 }
 
 // =====================고현규============================= 
