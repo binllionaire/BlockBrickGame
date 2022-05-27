@@ -28,6 +28,7 @@ img {
   display: block;
   margin-top: 60px;
   margin-left: 50px;
+  cursor: pointer;
 }
 
 #bgi{
@@ -35,6 +36,7 @@ img {
   display: block;
 }
 #next{
+  cursor: pointer;
   display: block;
   margin-top: 60px;
 }
@@ -542,8 +544,8 @@ background-color: #e11880;
 }
 .game3_block {
   position: absolute;
-  width: 20%;
-  height: 15%;
+  width: 80px;
+  height: 60px;
   background-color: white;
 }
 #game3_block1L {
