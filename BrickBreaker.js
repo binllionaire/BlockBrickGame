@@ -303,18 +303,18 @@ function for_game2(){
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
 
-  var brickRowCount = 1; //벽돌의 행 갯수
-  var brickColumnCount = 3; //벽돌의 열 갯수
-  var brickWidth = 200; //벽돌의 폭
+  var brickRowCount = 3; //벽돌의 행 갯수
+  var brickColumnCount = 5; //벽돌의 열 갯수
+  var brickWidth = 150; //벽돌의 폭
   var brickHeight = 30; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
-  var brickOffsetLeft = 9; //벽돌의 왼쪽 여백
+  var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
 
   var score = 0;
   var scoreBoxFullWidth = 980;
 
-  var lives = 3; //목숨갯수
+  var lives = 10; //목숨갯수
 
   var canMove = true;
 
@@ -327,7 +327,7 @@ function for_game2(){
 
     score = 0;
 
-    lives = 3; //목숨갯수
+    lives = 10; //목숨갯수
 
     canMove = true;
 
@@ -350,7 +350,7 @@ function for_game2(){
 
   document.addEventListener("keydown",keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
-  document.addEventListener("mousemove", mouseMoveHandler, false);
+  //document.addEventListener("mousemove", mouseMoveHandler, false);
 
   function keyDownHandler(e) {
     if(e.keyCode == 39) {
@@ -370,12 +370,12 @@ function for_game2(){
     }
   }
 
-  function mouseMoveHandler(e){
-    var relativeX = e.clientX = canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width){
-      paddleX = relativeX - paddleWidth/2;
-    }
-  }
+  // function mouseMoveHandler(e){
+  //   var relativeX = e.clientX = canvas.offsetLeft;
+  //   if(relativeX > 0 && relativeX < canvas.width){
+  //     paddleX = relativeX - paddleWidth/2;
+  //   }
+  // }
 
   function collisionDetection(){
     for(var c = 0; c < brickColumnCount; c++){
@@ -386,7 +386,7 @@ function for_game2(){
             dy = -dy;
             b.status = 0;
             score++;
-            $("#scoreBox").animate({width:'+=320px'});
+            $("#scoreBox").animate({width:'+=65px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
               alert("You Win");
@@ -475,6 +475,7 @@ function for_game2(){
           }
           else {
             lives--;
+            $("#lifeBox").animate({width:'-=96px'});
             if(!lives){
               alert("GAME OVER");
               stopInterval();
