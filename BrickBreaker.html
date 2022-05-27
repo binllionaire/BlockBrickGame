@@ -18,11 +18,31 @@
 
 <!-- 메인메뉴 -->
  <div id="main-menu">
+    <img id="settingIcon" src="setting.png">
+  
     <img id="logo" src="logo.png">
-    <p>BRICK OUT</p>
-    <p>BRICK OUT</p>
-    <p>BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
+    <p id="title">BRICK OUT</p>
     <button id="startButton">START</button>
+
+   <!--환경 설정-->
+     <div id="setting">
+       <p>환경설정</p>
+       <p>배경화면 변경</p>
+       <br>
+       <img id = "previous" src="previous.png" width="50px">
+       <img id = "bgi" src="background1.jpg" width="300px" >
+       <img id = "next" src = "next.png" width="50px">
+       <br><br><br><br>
+       <p>배경음악 변경</p>
+       
+       <input type="radio" id="select" name="bgm"><label for="select">BGM 1</label>
+       <input type="radio" id="select2" name="bgm"><label for="select2">BGM 2</label>
+       
+       <br>
+       <button id="okButton">확인</button>
+     </div>
  </div>
 <!-- 인트로 -->
  <div id="intro">
@@ -54,8 +74,15 @@
 
 <!--각각메뉴 --> 
 <div id="game1">
-
+  <!--황수빈이 임의로 추가한거-->
+<div id="brickout1">
+  <canvas id="canvas_for_game1" width="700px" height="500px"></canvas>
 </div>
+<div id="score1">
+  <p>현재 상금</p>
+</div>
+</div>
+<!---->
 <div id="game2">
   <div id="leftside">
     <img src="doll_back.png" alt="" id="doll_img_for_game2">
@@ -77,32 +104,44 @@
       <h1>징검다리 게임</h1>
     </div>
     <div id="game3_notice_description">
-      <h3>징검다리 게임은 오른쪽 화면의 블럭을 한칸씩.....</h3>
+      <h3>
+        징검다리 게임은 오른쪽 화면의 블럭을 한칸씩 내려가서 목표지점에 도달하는 게임입니다.<br>
+        블럭은 각 행에 있는 왼쪽과 오른쪽 블럭 중 하나를 선택해서 내려가야 하며, 선택은 왼쪽 화면의 블럭
+        깨기를 통해 결정되는데 왼쪽의 블럭집단을 먼저 부술경우 왼쪽이 선택되고 오른쪽의 블럭집단을 먼저 부술경우
+        오른쪽으로 선택됩니다.<br>
+        하지만 주의하세요! 각 행에 양 블럭 중에 하나는 가짜 블럭으로 선택할 경우 목숨이
+        1 감소합니다. 또한 블럭깨기 도중 공을 패들로 받지 못해 떨어진 경우에도 목숨은 감소합니다.
+        목숨은 총 5개 주어지며 주어진 목숨내로 4개의 징검다리를 모두 건너는게 목적입니다.<br>
+        오른쪽 하단의 다시하기 버튼을 통해 목숨과 가짜 블럭 배치를 초기화할수 있습니다.
+      </h3>
     </div>
     <button>확인</button>        
   </div>
 
   <div id="left_screen">
-    <canvas id="game3canvas" width="1000" height="1000"></canvas>
+    <canvas id="game3canvas" width="1344" height="1000"></canvas>
   </div>
 
   <div id="right_screen">
+    <img id="game3_character" src="gameCharacter.png">
     <div id="game3_startBlock"></div>
-    <div id="game3_block1" class="game3_block"></div>
-    <div id="game3_block2" class="game3_block"></div>
-    <div id="game3_block3" class="game3_block"></div>
-    <div id="game3_block4" class="game3_block"></div>
-    <div id="game3_block5" class="game3_block"></div>
-    <div id="game3_block6" class="game3_block"></div>
-    <div id="game3_block7" class="game3_block"></div>
-    <div id="game3_block8" class="game3_block"></div>
+    <div id="game3_block1L" class="game3_block"></div>
+    <div id="game3_block2L" class="game3_block"></div>
+    <div id="game3_block3L" class="game3_block"></div>
+    <div id="game3_block4L" class="game3_block"></div>
+    <div id="game3_block1R" class="game3_block"></div>
+    <div id="game3_block2R" class="game3_block"></div>
+    <div id="game3_block3R" class="game3_block"></div>
+    <div id="game3_block4R" class="game3_block"></div>
     <div id="game3_endBlock"></div>
+    <div id="game3_replay">다시하기</div>
+    <div id="game3_life"></div>
   </div>
 
 </div>
 <!-- 오디오재생 -->
 <audio autoplay controls> 
-  <source src="bgm1.mp3" type="audio/mp3"> 
+  <source id ="audio" src="bgm1.mp3" type="audio/mp3"> 
 </audio>
 </body>
 </html>
