@@ -151,7 +151,6 @@ function game3(){
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
-    game3_LifeDiv.text("목숨:"+life);
 
     canvas.addEventListener("mousemove", function(ev){
       game.paddle.x = ev.offsetX - game.paddle.halfWidth;
