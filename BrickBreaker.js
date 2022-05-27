@@ -66,9 +66,6 @@ $(document).ready(function(){
     $("#setting").fadeOut("slow");
   });
 
-
-
-
   $("#intro p:nth-child(2)").on("click",gameMenu);
   $("#game1Button").on("click", game1);
   $("#game2Button").on("click", game2);
@@ -111,10 +108,552 @@ function game1(){
 function game2(){
   $("#game-menu").css("display","none"); 
   $("#game2").css("display","block");
-  for_game2();// <<<=====================고현규=============
+  for_game2();
 }
 
-  // ==============================이재호====================================
+
+
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+/*=================================================== GAME 1 ==================================================*/
+
+
+function for_game1(){
+
+  var width =window.innerWidth*0.7;
+  var height = window.innerHeight;
+  var x = width/2;
+  var y = height-40;
+  var canvas = document.getElementById("canvas_for_game1");
+  var ctx = canvas.getContext("2d");
+  var ballRadius = 10;
+  var x = width/2;
+  var y = height-40;
+  var dx = 2;
+  var dy = -2;
+  var paddleHeight = 10;
+  var paddleWidth = 75;
+  var paddleX = (width-paddleWidth)/2;
+  var rightPressed = false;
+  var leftPressed = false;
+  var brickRowCount = 5;
+  var brickColumnCount = 3;
+  var brickWidth = 75;
+  var brickHeight = 20;
+  var brickPadding = 10;
+  var brickOffsetTop = 30;
+  var brickOffsetLeft = 30;
+  var score = 0;
+  var lives = 3;
+  var timelef = 100;
+  
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+          canvas.width = window.innerWidth*0.7;
+          canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
+
+  var game1notice = $("#game1_notice");
+  game1notice.fadeIn(2000);
+
+  var game1noticeButton = $("#game1_notice button");
+  
+  game1noticeButton.click(function(){
+    game1notice.css("display","none");
+    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
+  })
+  $(document).ready(function()  {
+    
+    function reduce() {
+        timelef -= 1;
+        document.getElementById("time").innerHTML = timelef;
+        if(timelef == 0) {
+            alert("Time over!");
+            window.location.reload();
+        }        
+    }
+    setInterval(reduce,1000);
+});
+
+
+  var bricks = [];
+  for(var c=0; c<brickColumnCount; c++) {
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+
+  document.addEventListener("keydown", keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
+  document.addEventListener("mousemove", mouseMoveHandler, false);
+
+  function keyDownHandler(e) {
+      if(e.key == "Right" || e.key == "ArrowRight") {
+          rightPressed = true;
+      }
+      else if(e.key == "Left" || e.key == "ArrowLeft") {
+          leftPressed = true;
+      }
+  }
+
+  function keyUpHandler(e) {
+      if(e.key == "Right" || e.key == "ArrowRight") {
+          rightPressed = false;
+      }
+      else if(e.key == "Left" || e.key == "ArrowLeft") {
+          leftPressed = false;
+      }
+  }
+
+  function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+      paddleX = relativeX - paddleWidth/2;
+    }
+  }
+  function collisionDetection() {
+    for(var c=0; c<brickColumnCount; c++) {
+      for(var r=0; r<brickRowCount; r++) {
+        var b = bricks[c][r];
+        if(b.status == 1) {
+          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+            dy = -(Math.random()*2.5)*dy;
+            b.status = 0;
+            score++;
+            if(score == brickRowCount*brickColumnCount) {
+              alert("YOU WIN, CONGRATS!");
+              document.location.reload();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "#e11880";
+    ctx.fill();
+    ctx.closePath();
+  }
+  function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#e11880";
+    ctx.fill();
+    ctx.closePath();
+  }
+  function drawBricks() {
+    for(var c=0; c<brickColumnCount; c++) {
+      for(var r=0; r<brickRowCount; r++) {
+        if(bricks[c][r].status == 1) {
+          var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+          var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+          bricks[0][0].x = 50;
+          bricks[0][0].y = 50;
+          ctx.beginPath();
+          ctx.rect(50, 50, brickWidth, brickHeight);
+          ctx.fillStyle = "#e11880";
+          ctx.fill();
+          ctx.closePath();
+          
+          bricks[0][1].x = 130;
+          bricks[0][1].y = 130;
+          ctx.beginPath();
+          ctx.rect(130, 130, brickWidth, brickHeight);
+          ctx.fillStyle = "#e11880";
+          ctx.fill();
+          ctx.closePath();
+        }
+      }
+    }
+  }
+  function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#e11880";
+    ctx.fillText("Score: "+score, 8, 20);
+  }
+  function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#e11880";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    drawScore();
+    drawLives();
+    collisionDetection();
+
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+      dx = -dx;
+    }
+    if(y + dy < ballRadius) {
+      dy = -dy;
+    }
+    else if(y + dy > canvas.height-ballRadius) {
+      if(x > paddleX && x < paddleX + paddleWidth) {
+        dy = -dy;
+      }
+      else {
+        lives--;
+        if(!lives) {
+          alert("GAME OVER");
+          document.location.reload();
+        }
+        else {
+          x = canvas.width/2;
+          y = canvas.height-30;
+          dx = 3;
+          dy = -3;
+          paddleX = (canvas.width-paddleWidth)/2;
+        }
+      }
+    }
+
+    if(rightPressed && paddleX < canvas.width-paddleWidth) {
+      paddleX += 7;
+    }
+    else if(leftPressed && paddleX > 0) {
+      paddleX -= 7;
+    }
+
+    x += dx;
+    y += dy;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
+}
+
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+
+
+
+function for_game2(){
+  
+  var canvas = document.getElementById("canvas_for_game2");
+  var ctx = canvas.getContext("2d");
+  var x = window.innerWidth*0.7/2;
+  var y = window.innerHeight*0.6-40;
+  var dx = 2;
+  var dy = -2;
+  var ballRadius = 12; //공의 반지름
+  var paddleHeight = 20; //패들높이
+  var paddleWidth = 180; //패들 폭
+  var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
+  var paddleColor = "#000000";
+
+  var rightPressed = false; // -> 버튼 눌림
+  var leftPressed = false; // <- 버튼 눌림
+
+  var brickRowCount = 3; //벽돌의 행 갯수
+  var brickColumnCount = 5; //벽돌의 열 갯수
+  var brickWidth = 150; //벽돌의 폭
+  var brickHeight = 30; //벽돌의 높이
+  var brickPadding = 10; //벽돌의 padding
+  var brickOffsetTop = 10; //벽돌의 위쪽 여백
+  var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
+
+ 
+  var game2notice = $("#game2_notice");
+  game2notice.fadeIn(2000);
+
+  var game2noticeButton = $("#game2_notice button");
+  game2noticeButton.click(function(){
+    game2notice.css("display","none");
+    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
+  })
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+          canvas.width = window.innerWidth*0.7;
+          canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
+
+  var score = 0;
+
+  var lives = 10; //목숨갯수
+
+  var canMove = true;
+
+  function reset(again){
+    x = canvas.width/2;
+    y = canvas.height-40;
+    dx = 2;
+    dy = -2;
+    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+    paddleColor = "#000000";
+
+    score = 0;
+
+    lives = 10; //목숨갯수
+
+    canMove = true;
+
+    $("#scoreBox").css({"width":"0px"});
+
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        var b = bricks[c][r];
+        b.status = 1;
+      }
+    }
+
+    if(again){
+      startInterval();
+    }
+  }
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth*0.7;
+    canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
+
+
+  //벽돌 배치를 이차원 배열을 이용해서 함
+  var bricks = [];
+  for(var c=0; c<brickColumnCount; c++) {
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1};
+    }
+  }
+
+  document.addEventListener("keydown",keyDownHandler, false);
+  document.addEventListener("keyup", keyUpHandler, false);
+  document.addEventListener("mousemove", mouseMoveHandler, false);
+
+  function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+      rightPressed = true;
+    }
+    else if(e.keyCode == 37) {
+      leftPressed = true;
+    }
+  }
+
+  function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+      rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+      leftPressed = false;
+    }
+  }
+
+  function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(canMove && relativeX > 0 && relativeX < canvas.width) {
+      paddleX = relativeX - paddleWidth/2;
+    }
+  }
+
+  function collisionDetection(){
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        var b = bricks[c][r];
+        if(b.status == 1){
+          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+            dy = -dy;
+            b.status = 0;
+            score++;
+            $("#scoreBox").animate({width:'+=90px'});
+            if(score == brickRowCount*brickColumnCount){
+              stopInterval();
+              alert("You Win");
+              
+              var again = false;
+              reset(again);
+
+              // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function drawLives(){
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Lives : "+lives, canvas.width-65, 20);
+
+
+    var rightArea_lifes = document.getElementById('rightside');
+
+    while(rightArea_lifes.firstChild){
+      rightArea_lifes.removeChild(rightArea_lifes.firstChild);
+    }
+
+    for(var i = 0; i < lives; i++){
+      var lifeBox = document.createElement('img');
+      lifeBox.setAttribute("class",'lifes_for_game2');
+      var imgNum = i%5;
+      var imgName = "game2char"+imgNum+".png";
+      lifeBox.setAttribute("src",imgName);
+
+      rightArea_lifes.appendChild(lifeBox);
+    }
+  }
+
+  function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "#ffffff";
+    ctx.fill();
+    ctx.closePath();
+
+  }
+  function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+
+    ctx.fillStyle = paddleColor;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawBricks(){
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        if(bricks[c][r].status == 1){
+          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+          bricks[c][r].x = brickX;
+          bricks[c][r].y = brickY;
+          ctx.beginPath();
+          ctx.rect(brickX, brickY, brickWidth, brickHeight);
+
+          ctx.fillStyle = "#f76707";
+          ctx.fill();
+          ctx.closePath();
+        }
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+      dx = -dx;
+    }
+    if(y + dy < ballRadius) {
+      dy = -dy;
+    }
+    else if(y + dy > canvas.height-ballRadius) {
+      if(x >= paddleX && x <= paddleX + paddleWidth) {
+        if(x >= paddleX && x < paddleX + paddleWidth/4){
+          dy = -(dy/Math.abs(dy));
+          dx = -3;
+        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
+          dy = -(dy/Math.abs(dy))*2;
+          dx = (dx/Math.abs(dx))*2;
+        }else{
+          dy = -(dy/Math.abs(dy));
+          dx = 3;
+        }
+      }
+      else {
+        lives--;
+        if(!lives){
+          alert("GAME OVER");
+          stopInterval();
+          
+          var again = true;
+          reset(again);
+        }
+        else{
+          x = canvas.width/2;
+          y = canvas.height-30;
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width - paddleWidth)/2;
+        }
+      }
+    }
+    if(canMove){
+      if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 4;
+      }
+      else if(leftPressed && paddleX > 0) {
+        paddleX -= 4;
+      }
+    }
+
+    x += dx;
+    y += dy;
+
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    collisionDetection();
+    drawLives();
+  }
+
+  var countNum = 0;
+  var texts = ["무","무궁","무궁화","무궁화","무궁화 꽃","무궁화 꽃","무궁화 꽃이","무궁화 꽃이","무궁화 꽃이 피","무궁화 꽃이 피었","무궁화 꽃이 피었습","무궁화 꽃이 피었습니","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!"]
+
+  function textOut(){
+    $("#textArea").text(texts[countNum]);
+    countNum++;
+    if(countNum == 13){
+      canMove = false;
+      paddleColor = "#FF0000";
+      $("#doll_img_for_game2").attr("src","doll_front.png");
+      setTimeout(function(){
+        countNum = 0;
+        $("#doll_img_for_game2").attr("src","doll_back.png");
+        canMove = true;
+        paddleColor = "#000000";
+      },1200)
+    }
+  }
+
+  var textInterval;
+  var interv;
+
+  function startInterval(){
+    interv = setInterval(draw, 4);
+    textInterval = setInterval(textOut,500);
+  }
+  function stopInterval(){
+    clearInterval(interv);
+    clearInterval(textInterval);
+  }
+
+  startInterval();
+}
+
+
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+/*=================================================== GAME 3 ==================================================*/
+
+
 function game3(){ 
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
@@ -421,500 +960,3 @@ function game3(){
 
   mainLoop();
 }
-
-// =====================황수빈 (GAME1 임시로 작업하고 있는거)==============================
-
-function for_game1(){
-  var canvas = document.getElementById("canvas_for_game1");
-  var canvas2 = document.getElementById("canvas_for_game1_1");
-  var ctx = canvas.getContext("2d");
-  var ctx2 = canvas2.getContext("2d");
-  var ballRadius = 10;
-  var x = canvas.width/2;
-  var y = canvas.height-30;
-  var dx = 2;
-  var dy = -2;
-  var paddleHeight = 10;
-  var paddleWidth = 75;
-  var paddleX = (canvas.width-paddleWidth)/2;
-  var rightPressed = false;
-  var leftPressed = false;
-  var brickRowCount = 5;
-  var brickColumnCount = 3;
-  var brickWidth = 75;
-  var brickHeight = 20;
-  var brickPadding = 10;
-  var brickOffsetTop = 30;
-  var brickOffsetLeft = 30;
-  var score = 0;
-  var lives = 3;
-  var timelef = 100;
-  var background = new Image();
-  background.src = "game1_wallpaper.jpeg";
-  background.onload = function(){
-    ctx.drawImage(background,0,0);
-    ctx2.drawImage(background, 0, 0);   
-  }
-  $(document).ready(function()  {
-    function reduce() {
-        timelef -= 1;
-        document.getElementById("time").innerHTML = timelef;
-        if(timelef == 0) {
-            alert("Time over!");
-            window.location.reload();
-        }        
-    }
-    setInterval(reduce,1000);
-});
-
-
-  var bricks = [];
-  for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-      bricks[c][r] = { x: 0, y: 0, status: 1 };
-    }
-  }
-
-  document.addEventListener("keydown", keyDownHandler, false);
-  document.addEventListener("keyup", keyUpHandler, false);
-  document.addEventListener("mousemove", mouseMoveHandler, false);
-
-  function keyDownHandler(e) {
-      if(e.key == "Right" || e.key == "ArrowRight") {
-          rightPressed = true;
-      }
-      else if(e.key == "Left" || e.key == "ArrowLeft") {
-          leftPressed = true;
-      }
-  }
-
-  function keyUpHandler(e) {
-      if(e.key == "Right" || e.key == "ArrowRight") {
-          rightPressed = false;
-      }
-      else if(e.key == "Left" || e.key == "ArrowLeft") {
-          leftPressed = false;
-      }
-  }
-
-  function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth/2;
-    }
-  }
-  function collisionDetection() {
-    for(var c=0; c<brickColumnCount; c++) {
-      for(var r=0; r<brickRowCount; r++) {
-        var b = bricks[c][r];
-        if(b.status == 1) {
-          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-            dy = -(Math.random()*2.5)*dy;
-            b.status = 0;
-            score++;
-            if(score == brickRowCount*brickColumnCount) {
-              alert("YOU WIN, CONGRATS!");
-              document.location.reload();
-            }
-          }
-        }
-      }
-    }
-  }
-
-  function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#e11880";
-    ctx.fill();
-    ctx.closePath();
-  }
-  function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#e11880";
-    ctx.fill();
-    ctx.closePath();
-  }
-  function drawBricks() {
-    for(var c=0; c<brickColumnCount; c++) {
-      for(var r=0; r<brickRowCount; r++) {
-        if(bricks[c][r].status == 1) {
-          var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
-          var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[0][0].x = 50;
-          bricks[0][0].y = 50;
-          ctx.beginPath();
-          ctx.rect(50, 50, brickWidth, brickHeight);
-          ctx.fillStyle = "#e11880";
-          ctx.fill();
-          ctx.closePath();
-          
-          bricks[0][1].x = 130;
-          bricks[0][1].y = 130;
-          ctx.beginPath();
-          ctx.rect(130, 130, brickWidth, brickHeight);
-          ctx.fillStyle = "#e11880";
-          ctx.fill();
-          ctx.closePath();
-        }
-      }
-    }
-  }
-  function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#e11880";
-    ctx.fillText("Score: "+score, 8, 20);
-  }
-  function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#e11880";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    drawScore();
-    drawLives();
-    collisionDetection();
-
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-      dx = -dx;
-    }
-    if(y + dy < ballRadius) {
-      dy = -dy;
-    }
-    else if(y + dy > canvas.height-ballRadius) {
-      if(x > paddleX && x < paddleX + paddleWidth) {
-        dy = -dy;
-      }
-      else {
-        lives--;
-        if(!lives) {
-          alert("GAME OVER");
-          document.location.reload();
-        }
-        else {
-          x = canvas.width/2;
-          y = canvas.height-30;
-          dx = 3;
-          dy = -3;
-          paddleX = (canvas.width-paddleWidth)/2;
-        }
-      }
-    }
-
-    if(rightPressed && paddleX < canvas.width-paddleWidth) {
-      paddleX += 7;
-    }
-    else if(leftPressed && paddleX > 0) {
-      paddleX -= 7;
-    }
-
-    x += dx;
-    y += dy;
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-
-}
-
-// =====================고현규==============================
-
-function for_game2(){
-  var canvas = document.getElementById("canvas_for_game2");
-  var ctx = canvas.getContext("2d");
-  var x = window.innerWidth*0.7/2;
-  var y = window.innerHeight*0.6-40;
-  var dx = 2;
-  var dy = -2;
-  var ballRadius = 12; //공의 반지름
-  var paddleHeight = 20; //패들높이
-  var paddleWidth = 180; //패들 폭
-  var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
-  var paddleColor = "#000000";
-
-  var rightPressed = false; // -> 버튼 눌림
-  var leftPressed = false; // <- 버튼 눌림
-
-  var brickRowCount = 3; //벽돌의 행 갯수
-  var brickColumnCount = 5; //벽돌의 열 갯수
-  var brickWidth = 150; //벽돌의 폭
-  var brickHeight = 30; //벽돌의 높이
-  var brickPadding = 10; //벽돌의 padding
-  var brickOffsetTop = 10; //벽돌의 위쪽 여백
-  var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
-
-  window.addEventListener('resize', resizeCanvas, false);
-
-  function resizeCanvas() {
-          canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight*0.6;
-  }
-  resizeCanvas();
-
-  var score = 0;
-
-  var lives = 10; //목숨갯수
-
-  var canMove = true;
-
-  function reset(again){
-    x = canvas.width/2;
-    y = canvas.height-40;
-    dx = 2;
-    dy = -2;
-    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
-    paddleColor = "#000000";
-
-    score = 0;
-
-    lives = 10; //목숨갯수
-
-    canMove = true;
-
-    $("#scoreBox").css({"width":"0px"});
-
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
-        var b = bricks[c][r];
-        b.status = 1;
-      }
-    }
-
-    if(again){
-      startInterval();
-    }
-  }
-
-  window.addEventListener('resize', resizeCanvas, false);
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.6;
-  }
-  resizeCanvas();
-
-
-  //벽돌 배치를 이차원 배열을 이용해서 함
-  var bricks = [];
-  for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-      bricks[c][r] = { x: 0, y: 0, status: 1};
-    }
-  }
-
-  document.addEventListener("keydown",keyDownHandler, false);
-  document.addEventListener("keyup", keyUpHandler, false);
-  document.addEventListener("mousemove", mouseMoveHandler, false);
-
-  function keyDownHandler(e) {
-    if(e.keyCode == 39) {
-      rightPressed = true;
-    }
-    else if(e.keyCode == 37) {
-      leftPressed = true;
-    }
-  }
-
-  function keyUpHandler(e) {
-    if(e.keyCode == 39) {
-      rightPressed = false;
-    }
-    else if(e.keyCode == 37) {
-      leftPressed = false;
-    }
-  }
-
-  function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if(canMove && relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth/2;
-    }
-  }
-
-  function collisionDetection(){
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
-        var b = bricks[c][r];
-        if(b.status == 1){
-          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-            dy = -dy;
-            b.status = 0;
-            score++;
-            $("#scoreBox").animate({width:'+=90px'});
-            if(score == brickRowCount*brickColumnCount){
-              stopInterval();
-              alert("You Win");
-              
-              var again = false;
-              reset(again);
-
-              // <<<<<<<================= 레벌 3 으로 넘어가는 시점
-
-            }
-          }
-        }
-      }
-    }
-  }
-
-  function drawLives(){
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("Lives : "+lives, canvas.width-65, 20);
-
-
-    var rightArea_lifes = document.getElementById('rightside');
-
-    while(rightArea_lifes.firstChild){
-      rightArea_lifes.removeChild(rightArea_lifes.firstChild);
-    }
-
-    for(var i = 0; i < lives; i++){
-      var lifeBox = document.createElement('img');
-      lifeBox.setAttribute("class",'lifes_for_game2');
-      var imgNum = i%5;
-      var imgName = "game2char"+imgNum+".png";
-      lifeBox.setAttribute("src",imgName);
-
-      rightArea_lifes.appendChild(lifeBox);
-    }
-  }
-
-  function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-    ctx.closePath();
-
-  }
-  function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-
-    ctx.fillStyle = paddleColor;
-    ctx.fill();
-    ctx.closePath();
-  }
-
-  function drawBricks(){
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
-        if(bricks[c][r].status == 1){
-          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[c][r].x = brickX;
-          bricks[c][r].y = brickY;
-          ctx.beginPath();
-          ctx.rect(brickX, brickY, brickWidth, brickHeight);
-
-          ctx.fillStyle = "#f76707";
-          ctx.fill();
-          ctx.closePath();
-        }
-      }
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-      dx = -dx;
-    }
-    if(y + dy < ballRadius) {
-      dy = -dy;
-    }
-    else if(y + dy > canvas.height-ballRadius) {
-      if(x >= paddleX && x <= paddleX + paddleWidth) {
-        if(x >= paddleX && x < paddleX + paddleWidth/4){
-          dy = -(dy/Math.abs(dy));
-          dx = -3;
-        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-          dy = -(dy/Math.abs(dy))*2;
-          dx = (dx/Math.abs(dx))*2;
-        }else{
-          dy = -(dy/Math.abs(dy));
-          dx = 3;
-        }
-      }
-      else {
-        lives--;
-        if(!lives){
-          alert("GAME OVER");
-          stopInterval();
-          
-          var again = true;
-          reset(again);
-        }
-        else{
-          x = canvas.width/2;
-          y = canvas.height-30;
-          dx = 2;
-          dy = -2;
-          paddleX = (canvas.width - paddleWidth)/2;
-        }
-      }
-    }
-    if(canMove){
-      if(rightPressed && paddleX < canvas.width-paddleWidth) {
-        paddleX += 4;
-      }
-      else if(leftPressed && paddleX > 0) {
-        paddleX -= 4;
-      }
-    }
-
-    x += dx;
-    y += dy;
-
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    collisionDetection();
-    drawLives();
-  }
-
-  var countNum = 0;
-  var texts = ["무","무궁","무궁화","무궁화","무궁화 꽃","무궁화 꽃","무궁화 꽃이","무궁화 꽃이","무궁화 꽃이 피","무궁화 꽃이 피었","무궁화 꽃이 피었습","무궁화 꽃이 피었습니","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!","무궁화 꽃이 피었습니다!"]
-
-  function textOut(){
-    $("#textArea").text(texts[countNum]);
-    countNum++;
-    if(countNum == 13){
-      canMove = false;
-      paddleColor = "#FF0000";
-      $("#doll_img_for_game2").attr("src","doll_front.png");
-      setTimeout(function(){
-        countNum = 0;
-        $("#doll_img_for_game2").attr("src","doll_back.png");
-        canMove = true;
-        paddleColor = "#000000";
-      },1200)
-    }
-  }
-
-  var textInterval;
-  var interv;
-
-  function startInterval(){
-    interv = setInterval(draw, 4);
-    textInterval = setInterval(textOut,500);
-  }
-  function stopInterval(){
-    clearInterval(interv);
-    clearInterval(textInterval);
-  }
-
-  startInterval();
-}
-
-// =====================고현규============================= 
