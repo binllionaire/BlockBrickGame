@@ -626,14 +626,14 @@ background-color: #e11880;
   display: block;
   float: left;
   width: 70%;
+  height: 100%;
 }
 
 #rightside{
   display: block;
   float: left;
   width: 30%;
-  height: 1000px;
-  width: 30%;
+  height: 100%;
 }
 
 #game2>#canvas_for_game2{
@@ -652,27 +652,17 @@ background-color: #e11880;
 #score_for_game2{
   width: 100%;
   height: 20%;
-  margin: 0px auto;
   background-color: white;
-  padding: 10px;
-  
+  padding: 5px 0 5px 0;
+  background-color: #F2E4C5;
 }
-
+/*진행상황바*/
 #scoreBox{
   height: 40px;
-
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
   background-color: #31938D;
-}
-#lifeBox{
-  margin-top: 1px;
-  width: 960px;
-  height: 30px;
-  border-radius: 20px;
-  background-color: "aquamarine";
-
 }
 
 #textArea{
@@ -684,13 +674,37 @@ background-color: #e11880;
   background-color: #FFD400;
   padding: 10px;
 }
-
-.lifes_for_game2{
-  width: 60px;
-  margin: 30px;
-  padding: 5px;
-  display: block;
-  float: left;
+#game2_notice {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  width: 50%;
+  height: 60%;
+  top: 20%;
+  left: 25%;
+  color: white;
+  background-color: black;
+  border: 3px solid #e11880;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Gowun Batang', serif;
+}
+#game2_notice_title{
+  background: none;
+  margin-bottom: 10px;
+}
+#game2_notice_title h1{
+  background: none;
+}
+#game2_notice_description{
+  background: none;
+}
+#game2_notice_description h3{
+  background: none;
+}
+#game2_notice button {
+  background-color: white;
 }
 /* =========================고현규=========================== */
 

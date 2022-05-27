@@ -74,6 +74,19 @@
 
 <!--각각메뉴 --> 
 <div id="game1">
+
+  <div id="game1_notice">       <!--게임시작할때 뜨는 알림창-->
+    <div id="game1_notice_title">
+      <h1>달고나게임</h1>
+    </div>
+    <div id="game1_notice_description">
+      <h3> 
+        주어진 시간 안에 별모양의 테두리를 부셔라! <br>
+      </h3>
+    </div>
+    <button>확인</button>        
+  </div>
+
   <!--황수빈이 임의로 추가한거-->
 <div id="brickout1">
   <canvas id="canvas_for_game1" width="700px" height="500px"></canvas>
@@ -87,6 +100,22 @@
 </div>
 <!--무궁화 꽃이 피었습니다.-->
 <div id="game2">
+
+  <div id="game2_notice">       <!--게임시작할때 뜨는 알림창-->
+    <div id="game2_notice_title">
+      <h1>무궁화 꽃이 피었습니다</h1>
+    </div>
+    <div id="game2_notice_description">
+      <h3> 
+        술래는 해당 문장을 다 외우면 뒤를 돌아본다. <br>
+        이때 패들은 움직이지 않는다.<br>
+        공을 놓치면 한 명씩 죽는다.<br>
+        끝까지 생존하여 모든 블록을 파괴하라!<br>
+      </h3>
+    </div>
+    <button>확인</button>        
+  </div>
+
   <div id="leftside">
     <img src="doll_back.png" alt="" id="doll_img_for_game2">
     <div id="textArea"></div>
@@ -97,6 +126,17 @@
     </div>
   </div>
   <div id="rightside">
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+    <div class="lifes_for_game2"></div>
+  </div>
   </div>
 
   
@@ -105,18 +145,17 @@
 
   <div id="game3_notice">       <!--게임시작할때 뜨는 알림창-->
     <div id="game3_notice_title">
-      <h1>징검다리 게임</h1>
+      <h1>징검다리 건너기</h1>
     </div>
     <div id="game3_notice_description">
       <h3>
-        징검다리 게임은 오른쪽 화면의 블럭을 한칸씩 내려가서 목표지점에 도달하는 게임입니다.<br>
-        블럭은 각 행에 있는 왼쪽과 오른쪽 블럭 중 하나를 선택해서 내려가야 하며,<br> 선택은 왼쪽 화면의 블럭
-        깨기를 통해 결정되는데<br> 왼쪽의 블럭집단을 먼저 부술경우 왼쪽이 선택되고 <br>오른쪽의 블럭집단을 먼저 부술경우
-        오른쪽으로 선택됩니다.<br>
-        하지만 주의하세요! <br>각 행에 양 블럭 중에 하나는 가짜 블럭으로 선택할 경우 목숨이
-        1 감소합니다. <br>또한 블럭깨기 도중 공을 패들로 받지 못해 떨어진 경우에도 목숨은 감소합니다.<br>
-        목숨은 총 5개 주어지며 주어진 목숨내로 4개의 징검다리를 모두 건너는게 목적입니다.<br>
-        오른쪽 하단의 다시하기 버튼을 통해 목숨과 가짜 블럭 배치를 초기화할수 있습니다.
+        4칸의 다리를 지나 반대편으로 건너가라!<br>
+        왼쪽의 블럭집단을 먼저 부술경우 왼쪽이 선택되고 <br>
+        오른쪽의 블럭집단을 먼저 부술경우 오른쪽으로 선택된다.<br>
+        깨지는 유리 블럭으로 건너갈 경우 목숨이 감소합니다. <br>
+        공을 놓치는 경우에도 목숨은 감소합니다.<br>
+        목숨은 총 5개 주어지며 주어진 목숨내로 4개의 징검다리를 모두 건너라!<br>
+        오른쪽 하단의 다시하기 버튼을 통해 목숨과 가짜 블럭 배치를 초기화할수 있다.
       </h3>
     </div>
     <button>확인</button>        
