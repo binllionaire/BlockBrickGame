@@ -113,20 +113,27 @@ function game2(){
   $("#game2").css("display","block");
   for_game2();// <<<=====================고현규=============
 }
+
+  // ==============================이재호====================================
 function game3(){ 
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
+
+  var canvas_Width = screen.availWidth*7/10;
+  var canvas_Height = screen.availHeight;
   var canvas;
   var ctx;
   var game3notice;
   var game3noticeButton;
-  var game3_LifeDiv;
 
   canvas = document.getElementById("game3canvas");
   ctx = canvas.getContext('2d');
   game3notice = $("#game3_notice");
   game3notice.fadeIn(2000);
+
+  canvas.setAttribute('width', canvas_Width);
+  canvas.setAttribute('height', canvas_Height);
 
   game3noticeButton = $("#game3_notice button");
   game3noticeButton.click(function(){
@@ -134,7 +141,6 @@ function game3(){
     initGameOption();
     startGame();
   })
-  game3_LifeDiv = $("#game3_life");
 
   $("#game3_replay").click(function(){
     initGameOption();
@@ -145,7 +151,6 @@ function game3(){
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
-    game3_LifeDiv.text("목숨:"+life);
 
     canvas.addEventListener("mousemove", function(ev){
       game.paddle.x = ev.offsetX - game.paddle.halfWidth;
@@ -324,8 +329,8 @@ function game3(){
     constructor() {
       var ballSpeeds = 12;
       var brickSettings = [
-        [5, 5, WIDTH/2-400, 50, 400, 400, 'red', 'left'], //rows, cols, x, y, width, height, color
-        [5, 5, WIDTH/2+150, 50, 400, 400, 'blue', 'right']
+        [5, 5, 200, 50, 350, 350, 'red', 'left'], //rows, cols, x, y, width, height, color
+        [5, 5, WIDTH-450, 50, 350, 350, 'blue', 'right']
       ];
   
       this.state = "play";
@@ -397,7 +402,6 @@ function game3(){
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
         life--;
-        game3_LifeDiv.text("목숨:"+life);
         startGame();
       }
       else if(game.state == "left" && trueBlock[currentstage] == 0){  //징검다리 성공
@@ -410,7 +414,6 @@ function game3(){
       }
       else if(game.state == "right" || game.state == "left"){
         life--;
-        game3_LifeDiv.text("목숨:"+life);
         startGame();
       }
     }

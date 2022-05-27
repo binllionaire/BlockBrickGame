@@ -474,6 +474,7 @@ input[type=radio]:checked+label{
   float: left;
   width: 30%;
   height: 100%;
+  background-color: #f16f6f;
 }
 
 #brickout1{
@@ -578,21 +579,31 @@ background-color: #e11880;
   height: 100px;
   background-color: skyblue;
 }
-#game3_life {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  width: 100px;
-  height: 100px;
-  background-color: violet;
-}
-#game3_character {
+.game3_character {
   z-index: 1;
   position: absolute;
-  top: 15px;
-  left: 248px;
-  width: 80px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
+}
+#game3_character1 {
+  bottom: 0;
+  right: 0;
+}
+#game3_character2 {
+  bottom: 0;
+  right: 96px;
+}
+#game3_character3 {
+  bottom: 0;
+  right: 192px;
+}
+#game3_character4 {
+  bottom: 0;
+  right: 288px;
+}
+#game3_character5 { /* 처음 게임 시작하는 캐릭터 */
+  top: 10px;
+  right: 240px;
 }
 
 /* =========================고현규=========================== */
