@@ -608,14 +608,14 @@ function for_game2(){
 
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
-  var x = canvas.width/2;
-  var y = canvas.height-40;
+  var x = window.innerWidth*0.7/2;
+  var y = window.innerHeight*0.6-40;
   var dx = 2;
   var dy = -2;
   var ballRadius = 12; //공의 반지름
-  var paddleHeight = 12; //패들높이
+  var paddleHeight = 20; //패들높이
   var paddleWidth = 180; //패들 폭
-  var paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+  var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
 
@@ -626,9 +626,17 @@ function for_game2(){
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
-  
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+          canvas.width = window.innerWidth*0.7;
+          canvas.height = window.innerHeight*0.6;
+  }
+  resizeCanvas();
+
+
   var score = 0;
-  var scoreBoxFullWidth = 980;
 
   var lives = 10; //목숨갯수
 
@@ -736,7 +744,7 @@ function for_game2(){
 
   function drawLives(){
     ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "black";
     ctx.fillText("Lives : "+lives, canvas.width-65, 20);
 
     var rightArea_lifes = document.getElementById('rightside');
@@ -759,7 +767,7 @@ function for_game2(){
   function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#e11880";
+    ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.closePath();
 
@@ -768,7 +776,7 @@ function for_game2(){
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
 
-    ctx.fillStyle = "#e11880";
+    ctx.fillStyle = "#000000";
     ctx.fill();
     ctx.closePath();
   }
@@ -784,7 +792,7 @@ function for_game2(){
           ctx.beginPath();
           ctx.rect(brickX, brickY, brickWidth, brickHeight);
 
-          ctx.fillStyle = "#e11880";
+          ctx.fillStyle = "#f76707";
           ctx.fill();
           ctx.closePath();
         }

@@ -620,6 +620,7 @@ background-color: #e11880;
 
 /* =========================고현규=========================== */
 #leftside{
+  background-color: #B8DFF8;
   display: block;
   float: left;
   width: 70%;
@@ -634,12 +635,14 @@ background-color: #e11880;
 }
 
 #game2>#canvas_for_game2{
+ 
   border-radius: 0px;
 }
 
 #doll_img_for_game2{
+  
   display: block;
-  margin: 10px auto 20px auto;
+  margin: 10px auto 10px auto;
   width: 200px;
 
 }
@@ -650,17 +653,24 @@ background-color: #e11880;
   margin: 0px auto;
   background-color: white;
   padding: 10px;
-  border-top: 2px solid;
-  border-color: #e11880;
+  
 }
 
 #scoreBox{
-  background-color: #e11880;
   height: 40px;
-  /* width: 980px; */
+
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
+  background-color: #31938D;
+}
+#lifeBox{
+  margin-top: 1px;
+  width: 960px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: "aquamarine";
+
 }
 
 #textArea{
@@ -669,10 +679,8 @@ background-color: #e11880;
   height: 20%;
   text-align: center;
   font-size: 30px;
-  background-color: white;
+  background-color: #FFD400;
   padding: 10px;
-  border-bottom: 2px solid;
-  border-color: #e11880;
 }
 
 .lifes_for_game2{
