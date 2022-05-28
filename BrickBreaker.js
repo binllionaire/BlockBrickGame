@@ -1,7 +1,9 @@
 var flag = 1; //배경화면 바꾸기 플래그
 var imgUrl;
-
+var bgm1;
+var bgm2;
 $(document).ready(function(){
+
   $("#startButton").on("click", intro);
 
   $('#startButton').hover(function(){
@@ -54,13 +56,28 @@ $(document).ready(function(){
   });
 
   //배경음악 설정
-  if($('input[name="bgm"]:checked').attr('id')==select){
-    $("#audio").attr("src","bgm1.mp3");
-  }
-  else if($('input[name="bgm"]:checked').attr('id')==select2){
-    $("#audio").attr("src","bgm2.mp3");
-  }
 
+  $("#select").on("click",bgm1);
+  $("#select2").on("click",bgm2);
+  bgm1=new Audio("bgm1.mp3");
+  bgm2=new Audio("bgm2.mp3");
+  bgm1.load();
+  bgm1.oncanplaythrough=function(){
+    bgm1.play();
+  }
+  bgm1.loop=true;
+  bgm2.loop=true;
+
+  function bgm1(){      
+      bgm2.pause();
+      bgm1.play();
+    }
+    function bgm2(){      
+      bgm1.pause();
+      bgm2.play();
+    }
+   
+  
   //환경설정 창 닫기
   $("#okButton").click(function(){
     $("#setting").fadeOut("slow");
@@ -345,16 +362,27 @@ function for_game1(){
 
 
 function for_game2(){
-  
+  /*
+  bgm1.pause();
+  bgm2.pause();
+   var bgm3=new Audio("bgm3.mp3");
+  bgm3.load();
+  bgm3.oncanplaythrough=function(){
+    bgm3.play();
+  }
+  bgm3.loop=true;
+  */
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
   var x = window.innerWidth*0.7/2;
   var y = window.innerHeight*0.6-40;
+  canvas.width = window.innerWidth*0.7;
+  canvas.height = window.innerHeight;
   var dx = 2;
   var dy = -2;
-  var ballRadius = 12; //공의 반지름
+  var ballRadius = 10; //공의 반지름
   var paddleHeight = 20; //패들높이
-  var paddleWidth = 180; //패들 폭
+  var paddleWidth = 150; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var paddleColor = "#000000";
 
@@ -363,8 +391,8 @@ function for_game2(){
 
   var brickRowCount = 3; //벽돌의 행 갯수
   var brickColumnCount = 5; //벽돌의 열 갯수
-  var brickWidth = 150; //벽돌의 폭
-  var brickHeight = 30; //벽돌의 높이
+  var brickWidth = 100; //벽돌의 폭
+  var brickHeight = 20; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
@@ -383,7 +411,7 @@ function for_game2(){
 
   function resizeCanvas() {
           canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight*0.6;
+          canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -503,6 +531,7 @@ function for_game2(){
     var rightArea_lifes = document.getElementById('rightside');
 
     while(rightArea_lifes.firstChild){
+      
       rightArea_lifes.removeChild(rightArea_lifes.firstChild);
     }
 
@@ -773,6 +802,7 @@ function game3(){
   }
 
   function startGame() {
+    
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
