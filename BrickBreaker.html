@@ -12,7 +12,7 @@
 <!-- JS, JQUERY 연결 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="BrickBreaker.js"></script>
-<style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
+<style>* { padding: 0; margin: 0; } canvas {display: block; margin: 0 0 0 0; }</style>
 </head>
 <body>
 
@@ -35,7 +35,7 @@
        <img id = "bgi" src="background1.jpg" width="300px" >
        <img id = "next" src = "next.png" width="50px">
        <br><br><br><br>
-       <p>배경음악 설정</p><br>
+       <p>배경음악 설정</p>
        <input type="radio" id="select" name="bgm" checked="check"><label for="select">BGM 1</label>
        <input type="radio" id="select2" name="bgm"><label for="select2">BGM 2</label>
       
@@ -51,31 +51,38 @@
 <!-- 게임메뉴 -->
 <div id="game-menu">
   <div id="menu1">
-    <p>LEVEL 1</p>
+    <p>첫번째 게임</p>
     <p>달고나게임</p>
     <img id="game1Menu" src="game1.jpg" width="100%" height="80%">
     
   </div>
   <div id="menu2">
-    <p>LEVEL 2</p>
+    <p>두번째 게임</p>
     <p>무궁화 꽃이 피었습니다</p>
     <img id="game2Menu" src="game2.jpg" width="100%" height="80%">
     
  </div>
   <div id="menu3">
-    <p>LEVEL 3</p>
+    <p>세번째 게임</p>
     <p>징검다리 건너기</p>
     <img id="game3Menu" src="game3.jpg" width="100%" height="80%">
     
   </div>
  </div>
-
+  <!--클리어 화면-->
+  <div id="clear">
+  <p>통과 !</p>
+  </div>
+  <!--실패 화면-->
+  <div id="fail">
+  <p>실패</p>
+  </div>
 <!--각각메뉴 --> 
 <div id="game1">
 
   <div id="game1_notice">       <!--게임시작할때 뜨는 알림창-->
     <div id="game1_notice_title">
-      <h1>달고나게임</h1>
+      <h1>첫번째 게임 : 달고나게임</h1>
     </div>
     <div id="game1_notice_description">
       <h3> 
@@ -99,14 +106,14 @@
 
   <div id="game2_notice">       <!--게임시작할때 뜨는 알림창-->
     <div id="game2_notice_title">
-      <h1>무궁화 꽃이 피었습니다</h1>
+      <h1>두번째 게임 : 무궁화 꽃이 피었습니다</h1>
     </div>
     <div id="game2_notice_description">
       <h3> 
-        술래는 해당 문장을 다 외우면 뒤를 돌아본다. <br>
-        이때 패들은 움직이지 않는다.<br>
-        공을 놓치면 한 명씩 죽는다.<br>
-        끝까지 생존하여 모든 블록을 파괴하라!<br>
+        술래는 해당 문장을 다 외우면 뒤를 돌아봅니다. <br>
+        이때 패들은 움직이지 않습니다.<br>
+        공을 놓치면 한 명씩 죽습니다.<br>
+        끝까지 생존하여 모든 블록을 파괴하세요!<br>
       </h3>
     </div>
     <button>확인</button>        
@@ -140,18 +147,17 @@
 
   <div id="game3_notice">       <!--게임시작할때 뜨는 알림창-->
     <div id="game3_notice_title">
-      <h1>징검다리 건너기</h1>
+      <h1>세번째 게임 : 징검다리 건너기</h1>
     </div>
     <div id="game3_notice_description">
-      <h3>
-        4칸의 다리를 지나 반대편으로 건너가라!<br>
+      <p>
+        4칸의 다리를 지나 반대편으로 건너가세요<br>
         왼쪽의 블럭집단을 부술경우 왼쪽이 선택되고 <br>
-        오른쪽의 블럭집단을 부술경우 오른쪽으로 선택된다.<br>
-        깨지는 유리 블럭으로 건너갈 경우 목숨이 감소합니다. <br>
-        공을 놓치는 경우에도 목숨은 감소합니다.<br>
-        목숨은 총 5개 주어지며 주어진 목숨내로 4개의 징검다리를 모두 건너라!<br>
-        오른쪽 하단의 다시하기 버튼을 통해 목숨과 가짜 블럭 배치를 초기화할수 있다.
-      </h3>
+        오른쪽의 블럭집단을 부술경우 오른쪽으로 선택됩니다<br>
+        깨지는 유리 블럭으로 건너갈 경우 목숨이 감소합니다 <br>
+        공을 놓치는 경우에도 목숨은 감소합니다<br>
+        목숨은 총 5개, 주어진 목숨내로 4개의 징검다리를 모두 건너세요<br>
+      </p>
     </div>
     <button>확인</button>        
   </div>
@@ -175,8 +181,9 @@
     <div id="game3_block2R" class="game3_block"></div>
     <div id="game3_block3R" class="game3_block"></div>
     <div id="game3_block4R" class="game3_block"></div>
+
     <div id="game3_endBlock"></div>
-    <div id="game3_replay">다시하기</div>
+    <div id="game3_replay"><img src="replay.png" width="60px" height="60px"></div>
   </div>
 
 </div>
