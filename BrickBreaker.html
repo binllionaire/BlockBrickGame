@@ -35,12 +35,10 @@
        <img id = "bgi" src="background1.jpg" width="300px" >
        <img id = "next" src = "next.png" width="50px">
        <br><br><br><br>
-       <p>배경음악 변경</p>
-       
-       <input type="radio" id="select" name="bgm"><label for="select">BGM 1</label>
+       <p>배경음악 설정</p><br>
+       <input type="radio" id="select" name="bgm" checked="check"><label for="select">BGM 1</label>
        <input type="radio" id="select2" name="bgm"><label for="select2">BGM 2</label>
-       
-       <br>
+      
        <button id="okButton">확인</button>
      </div>
  </div>
@@ -147,8 +145,8 @@
     <div id="game3_notice_description">
       <h3>
         4칸의 다리를 지나 반대편으로 건너가라!<br>
-        왼쪽의 블럭집단을 먼저 부술경우 왼쪽이 선택되고 <br>
-        오른쪽의 블럭집단을 먼저 부술경우 오른쪽으로 선택된다.<br>
+        왼쪽의 블럭집단을 부술경우 왼쪽이 선택되고 <br>
+        오른쪽의 블럭집단을 부술경우 오른쪽으로 선택된다.<br>
         깨지는 유리 블럭으로 건너갈 경우 목숨이 감소합니다. <br>
         공을 놓치는 경우에도 목숨은 감소합니다.<br>
         목숨은 총 5개 주어지며 주어진 목숨내로 4개의 징검다리를 모두 건너라!<br>
@@ -182,9 +180,10 @@
   </div>
 
 </div>
-<!-- 오디오재생 -->
-<audio autoplay controls> 
-  <source id ="audio" src="bgm1.mp3" type="audio/mp3"> 
+<!-- 오디오재생 
+<audio id ="audio" autoplay> 
+  <source  src="bgm1.mp3" type="audio/mp3"> 
 </audio>
+-->
 </body>
 </html>
