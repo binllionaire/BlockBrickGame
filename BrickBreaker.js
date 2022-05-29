@@ -149,16 +149,21 @@ function game_start() {
   })
    
 }
+
+var timelef = 11;
 function reduce() {
-  timelef -= 1;
-  document.getElementById("time").innerHTML = timelef;
-  if(timelef == 0) {
-      alert("Time over!");
+  var timetext = "제한 시간: "+timelef; // 시간
+  document.getElementById("right").innerHTML = timetext;
+  timelef-=1;
+ //3 2
+  if(timelef == -2) {
+    alert("Time over!");
       window.location.reload();
   }        
 }
 function reduceInterval() {
-setInterval(reduce,1000); }
+setInterval(reduce,1000); 
+}
 
 
 function for_game1(){
@@ -172,8 +177,8 @@ function for_game1(){
   var ballRadius = 10;
   var x = width/2;
   var y = height-40;
-  var dx = 2;
-  var dy = -2;
+  var dx = 4;
+  var dy = -4;
   var paddleHeight = 10;
   var paddleWidth = 75;
   var paddleX = (width-paddleWidth)/2;
@@ -190,7 +195,6 @@ function for_game1(){
 var count = brickColumnCount*brickRowCount;
 var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   var lives = 10; //목숨
-  var timelef = 100; // 시간
   
   window.addEventListener('resize', resizeCanvas, false);
 
