@@ -726,7 +726,7 @@ function game3(){
   function change_Character(){
     var str = "#game3_character"+life;
     current_character = $(str);             //캐릭터 바꾸기
-    current_character.css({'top':'1%','right':'41%'});
+    current_character.animate({top: '10%', right: '41%'}, 1000, 'swing');
   }
 
   function assignTrueBlock(){
@@ -739,12 +739,12 @@ function game3(){
     currentstage = 1;                   //게임 변수 초기화
     life = 5;
     assignTrueBlock();
-    $("#game3_character5").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'1%', 'right':'41%'});
-    $("#game3_character4").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'45%'});
-    $("#game3_character3").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'30%'});
-    $("#game3_character2").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'15%'});
-    $("#game3_character1").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'0'});
-    $(".game3_block").css('display','block');
+    $("#game3_character5").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'10%', 'right':'41%'});
+    $("#game3_character4").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'8%', 'right':'41%'});
+    $("#game3_character3").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'6%', 'right':'41%'});
+    $("#game3_character2").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'4%', 'right':'41%'});
+    $("#game3_character1").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'2%', 'right':'41'});
+    $(".game3_block").css({'display':'block', 'visibility':'visible'});
     current_character = $("#game3_character5");
   }
 
@@ -758,7 +758,7 @@ function game3(){
     if(currentstage==5){
       current_character.animate({
         top: current_character.position().top + 100 + 'px'
-      }, 2000, 'swing');
+      }, 2000, 'easeInOutQuart');
     }
 
     if(state == 'left'){
@@ -770,9 +770,9 @@ function game3(){
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
 
-    if($(targetBlockid).css('display') == 'none'){
-      return ;
-    }
+    // if($(targetBlockid).css('visivility') == 'hidden'){
+    //   return ;
+    // }
     targetBlock_position = $(targetBlockid).position();
     targetTop = targetBlock_position.top;
     targetLeft = targetBlock_position.left;
@@ -780,7 +780,7 @@ function game3(){
     current_character.animate({
       top: targetTop - 40 + 'px',
       left: targetLeft - 5 + 'px'
-    }, 2000, 'swing');
+    }, 2000, 'easeInOutQuart');
   }
 
   function character_fall(state){            
@@ -793,16 +793,22 @@ function game3(){
       decideLR = 'R';
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
-    if($(targetBlockid).css('display') != 'none'){
+    if($(targetBlockid).css('visibility') != 'hidden'){
       $(targetBlockid).fadeOut(1000);
       setTimeout(function(){
         current_character.animate({
           top: current_character.position().top + 50 + 'px'
         }, 1000);
         current_character.fadeOut(1000);
+        setTimeout(function(){
+          $(targetBlockid).css({'display':'block','visibility':'hidden'});
+        },1500);
       },1000)
     } else {
-      current_character.fadeOut(1000);
+        current_character.animate({
+          top: current_character.position().top + 50 + 'px'
+        }, 1000);
+        current_character.fadeOut(1000);
     }
   }
 
@@ -1043,11 +1049,17 @@ function game3(){
         canvas.style.cursor = "Default";
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
+        game.state = "stop";
         life--;
         currentstage = 1;
-        current_character.css('display','none');
-        change_Character();
-        startGame();
+        current_character.css('transition','1s');
+        current_character.css('transform','rotate(90deg)');
+        setTimeout(function(){
+          current_character.css('transition','');
+          current_character.fadeOut(1000);
+        },1500);
+        setTimeout(change_Character,3000);
+        setTimeout(startGame,4500);
       }
       else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
         game.state = 'stop';
@@ -1072,7 +1084,7 @@ function game3(){
           currentstage = 1;
         },2000)        
         setTimeout(change_Character,4500);
-        setTimeout(startGame, 5000);
+        setTimeout(startGame, 6000);
       }
       else if(game.state == "left"){           //징검다리 실패
         game.state = 'stop';
@@ -1083,7 +1095,7 @@ function game3(){
           currentstage = 1;
         },2000)
         setTimeout(change_Character,4500);
-        setTimeout(startGame, 5000);
+        setTimeout(startGame, 6000);
       }
     }
   }

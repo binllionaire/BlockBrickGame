@@ -738,22 +738,22 @@ input[type=radio]:checked+label{
   height: 96px;
 }
 #game3_character1 {
-  bottom: 0;
-  right: 0;
+  top: 2%;
+  right: 41%;
 }
 #game3_character2 {
-  bottom: 0;
-  right: 15%;
+  top: 4%;
+  right: 41%;
 }
 #game3_character3 {
-  bottom: 0;
-  right: 30%;
+  top: 6%;
+  right: 41%;
 }
 #game3_character4 {
-  bottom: 0;
-  right: 45%;
+  top: 8%;
+  right: 41%;
 }
 #game3_character5 { /* 처음 게임 시작하는 캐릭터 */
-  top: 1%;
+  top: 10%;
   right: 41%;
 }
