@@ -143,11 +143,23 @@ function game_start() {
   game1noticeButton.click(function(){
     game1notice.css("display","none");
      for_game1();
+     reduceInterval();
     // 게임 함수 실행
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
   })
    
 }
+function reduce() {
+  timelef -= 1;
+  document.getElementById("time").innerHTML = timelef;
+  if(timelef == 0) {
+      alert("Time over!");
+      window.location.reload();
+  }        
+}
+function reduceInterval() {
+setInterval(reduce,1000); }
+
 
 function for_game1(){
 
@@ -195,21 +207,10 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   
   game1noticeButton.click(function(){
     game1notice.css("display","none");
-    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
-  })
-  $(document).ready(function()  {
+    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!*/
     
-    function reduce() {
-        timelef -= 1;
-        document.getElementById("time").innerHTML = timelef;
-        if(timelef == 0) {
-            alert("Time over!");
-            window.location.reload();
-        }        
-    }
-    setInterval(reduce,1000);
-});
-*/
+   
+
 
   var bricks = [];
   for(var c=0; c<brickColumnCount; c++) {
