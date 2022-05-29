@@ -184,7 +184,7 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
 
   function resizeCanvas() {
           canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight*0.6;
+          canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -733,12 +733,11 @@ function for_game2(){
   }
   bgm3.loop=true;
   */
+ 
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
   var x = window.innerWidth*0.7/2;
   var y = window.innerHeight*0.6-40;
-  canvas.width = window.innerWidth*0.7;
-  canvas.height = window.innerHeight;
   var dx = 2;
   var dy = -2;
   var ballRadius = 10; //공의 반지름
@@ -750,10 +749,13 @@ function for_game2(){
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
 
-  var brickRowCount = 3; //벽돌의 행 갯수
-  var brickColumnCount = 5; //벽돌의 열 갯수
-  var brickWidth = 100; //벽돌의 폭
-  var brickHeight = 20; //벽돌의 높이
+ //클리어 보려고 임시로 해놓은거 !!!!
+
+  var brickRowCount = 1; //벽돌의 행 갯수
+  var brickColumnCount = 1; //벽돌의 열 갯수
+  
+  var brickWidth = 500; //벽돌의 폭
+  var brickHeight = 200; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
@@ -768,14 +770,6 @@ function for_game2(){
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
   })
 
-  window.addEventListener('resize', resizeCanvas, false);
-
-  function resizeCanvas() {
-          canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-
   var score = 0;
 
   var lives = 10; //목숨갯수
@@ -783,6 +777,9 @@ function for_game2(){
   var canMove = true;
 
   function reset(again){
+    
+    $("#fail").fadeIn(1000);
+    setTimeout(() => $("#fail").fadeOut(1000), 2000);
     x = canvas.width/2;
     y = canvas.height-40;
     dx = 2;
@@ -814,7 +811,7 @@ function for_game2(){
 
   function resizeCanvas() {
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.6;
+    canvas.height = window.innerHeight*0.65;
   }
   resizeCanvas();
 
@@ -869,13 +866,12 @@ function for_game2(){
             $("#scoreBox").animate({width:'+=90px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
-              alert("You Win");
-              
-              var again = false;
-              reset(again);
-
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
-
+              $("#game2").css("display","none");
+              $("#clear").fadeIn(1000);
+              setTimeout(() => $("#clear").fadeOut(1000), 2000);
+              setTimeout(() => game3(), 3000);
+              
             }
           }
         }
@@ -968,7 +964,7 @@ function for_game2(){
       else {
         lives--;
         if(!lives){
-          alert("GAME OVER");
+          
           stopInterval();
           
           var again = true;
@@ -1045,6 +1041,7 @@ function for_game2(){
 
 
 function game3(){ 
+  
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
@@ -1070,7 +1067,7 @@ function game3(){
   canvas = document.getElementById("game3canvas");
   ctx = canvas.getContext('2d');
   game3notice = $("#game3_notice");
-  game3notice.fadeIn(2000);
+  game3notice.fadeIn(1000);
 
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
@@ -1179,7 +1176,7 @@ function game3(){
   var PADDLE_X = (WIDTH - PADDLE_WIDTH) / 2;
   var PADDLE_Y = HEIGHT - PADDLE_HEIGHT - 10;
   var PADDLE_SPEED = 7;
-  var COLOR = "dodgerblue";
+  var COLOR = "white";
 
 
   class Ball { 
