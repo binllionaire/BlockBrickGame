@@ -263,7 +263,7 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
             score++;
             if(score == brickRowCount*brickColumnCount) {
               alert("YOU WIN, CONGRATS!");
-              document.location.reload();
+              //document.location.reload();
             }
           }
         }
@@ -356,7 +356,8 @@ score++;
 if(score == count) {
 alert("YOU WIN, CONGRATS!");
 document.location.reload();
-  }
+
+}
   }
   }
 /*if(x > bricks2[c][r].x && x < bricks2[c][r].x+brickWidth && y > bricks2[c][r].y && y < bricks2[c][r].y+brickHeight) {
@@ -556,25 +557,6 @@ for(var r=0; r<=0; r++) {
 
 
 
-     
-    
-   
- /*  if(bricks2_s[c][r].status == 1) {
-    var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-    var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-    bricks2_s[c][r].x = brickX_s;
-    bricks2_s[c][r].y = brickY_s;
-    ctx.beginPath();
-    ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-    ctx.fillStyle = "yellow";
-    ctx.fill();
-    ctx.closePath();
-          } 
-        }  
- }
-}
- 
-*/
 //노란 사각형을 그리는 함수(별) 
    
 // 파란 벽돌을 지워주는 함수(별)
@@ -588,7 +570,7 @@ count2-=1;
   }
 }
 
-}alert(count2);
+}
 }
 /*function eraseBrick1_2star() {
 for(c=1; c<brickColumnCount-1; c++){
@@ -619,14 +601,24 @@ function collisionDetection_star() {
     dx = -dx;
   }
         }        
-   
     }      
+    isWin();
   }
-  if(score == count2) {
+  
+
+  //document.location.reload();
+  }
+
+// 승리 체크, 다음 게임으로 넘어가기
+function isWin() {
+  if(score ==2) {    //count2) {
   alert("YOU WIN, CONGRATS!");
-  document.location.reload();
-  }
-}   
+  $("#game1").css("display","none");
+              $("#clear").fadeIn(1000);
+              setTimeout(() => $("#clear").fadeOut(1000), 2000);
+              setTimeout(() => game2(), 3000);
+            }
+}  
   function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#e11880";
@@ -644,24 +636,13 @@ function collisionDetection_star() {
     //drawBricks2();
    drawBricks_star();  
   drawBricks2_star2();
-    
     drawBall();
     drawPaddle();
     drawScore();
     drawLives();
     collisionDetection_star();
+    
 
-  //공 반사각 바꾸는 함수 
- /*if(x >= paddleX && x < paddleX + paddleWidth/4){
-dy = -(dy/Math.abs(dy));
-dx = -3;
-}else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-dy = -(dy/Math.abs(dy))*2;
-dx = (dx/Math.abs(dx))*2;
-}else{
-dy = -(dy/Math.abs(dy));
-dx = 3;
-}*/
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
       dx = -dx;
@@ -672,13 +653,13 @@ dx = 3;
     else if(y + dy > canvas.height-ballRadius) {
       if(x >= paddleX && x <= paddleX + paddleWidth) {
         if(x >= paddleX && x < paddleX + paddleWidth/4){
-          dy = -(dy/Math.abs(dy));
+          dy = -2*(dy/Math.abs(dy));
           dx = -3;
         }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-          dy = -(dy/Math.abs(dy))*2;
+          dy = -2*(dy/Math.abs(dy))*2;
           dx = (dx/Math.abs(dx))*2;
         }else{
-          dy = -(dy/Math.abs(dy));
+          dy = -3*(dy/Math.abs(dy));
           dx = 3;
         }
       }
@@ -714,7 +695,7 @@ dx = 3;
   
   //eraseBrick1_2();
  eraseBrick1_2s();
-alert(canvas.width/2);
+  // 승리 체크
 }
 // =====================정재우==============================
 
