@@ -370,7 +370,10 @@ input[type=radio]:checked+label{
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 
-
+#game1 {
+  width: 100%;
+  overflow: hidden;
+}
 #left{
   background-color: #B8DFF8;
   display: block;
@@ -386,6 +389,7 @@ input[type=radio]:checked+label{
   float: left;
   width: 30%;
   height: 100%;
+  position: relative;
 }
 
 #game1_notice {
