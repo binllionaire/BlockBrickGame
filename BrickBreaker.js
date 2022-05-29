@@ -120,7 +120,7 @@ function gameMenu(){
 function game1(){
   $("#game-menu").css("display","none"); 
   $("#game1").css("display","block"); 
-  for_game1();
+  game_start();
 }
 function game2(){
   $("#game-menu").css("display","none"); 
@@ -135,6 +135,30 @@ function game2(){
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
+// 확인을 누르면 게임을 시작하는 함수 추가 (정재우)
+function game_start() {
+  var game1notice = $("#game1_notice");
+  game1notice.fadeIn(2000);
+  var game1noticeButton = $("#game1_notice button");
+  game1noticeButton.click(function(){
+    game1notice.css("display","none");
+     for_game1();
+     reduceInterval();
+    // 게임 함수 실행
+    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
+  })
+   
+}
+function reduce() {
+  timelef -= 1;
+  document.getElementById("time").innerHTML = timelef;
+  if(timelef == 0) {
+      alert("Time over!");
+      window.location.reload();
+  }        
+}
+function reduceInterval() {
+setInterval(reduce,1000); }
 
 
 function for_game1(){
@@ -157,14 +181,16 @@ function for_game1(){
   var leftPressed = false;
   var brickRowCount = 5;
   var brickColumnCount = 3;
-  var brickWidth = 75;
+  var brickWidth = 35;
   var brickHeight = 20;
   var brickPadding = 10;
   var brickOffsetTop = 30;
-  var brickOffsetLeft = 30;
+  var brickOffsetLeft = 250.5; // 왼쪽 기본 여백
   var score = 0;
-  var lives = 3;
-  var timelef = 100;
+var count = brickColumnCount*brickRowCount;
+var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
+  var lives = 10; //목숨
+  var timelef = 100; // 시간
   
   window.addEventListener('resize', resizeCanvas, false);
 
@@ -174,27 +200,16 @@ function for_game1(){
   }
   resizeCanvas();
 
-  var game1notice = $("#game1_notice");
+  /*var game1notice = $("#game1_notice");
   game1notice.fadeIn(2000);
 
   var game1noticeButton = $("#game1_notice button");
   
   game1noticeButton.click(function(){
     game1notice.css("display","none");
-    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
-  })
-  $(document).ready(function()  {
+    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!*/
     
-    function reduce() {
-        timelef -= 1;
-        document.getElementById("time").innerHTML = timelef;
-        if(timelef == 0) {
-            alert("Time over!");
-            window.location.reload();
-        }        
-    }
-    setInterval(reduce,1000);
-});
+   
 
 
   var bricks = [];
@@ -270,27 +285,344 @@ function for_game1(){
     for(var c=0; c<brickColumnCount; c++) {
       for(var r=0; r<brickRowCount; r++) {
         if(bricks[c][r].status == 1) {
-          var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
-          var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[0][0].x = 50;
-          bricks[0][0].y = 50;
-          ctx.beginPath();
-          ctx.rect(50, 50, brickWidth, brickHeight);
-          ctx.fillStyle = "#e11880";
-          ctx.fill();
-          ctx.closePath();
-          
-          bricks[0][1].x = 130;
-          bricks[0][1].y = 130;
-          ctx.beginPath();
-          ctx.rect(130, 130, brickWidth, brickHeight);
-          ctx.fillStyle = "#e11880";
-          ctx.fill();
-          ctx.closePath();
-        }
+var brickX = c*(brickWidth+brickPadding)+brickOffsetLeft;
+var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+bricks[c][r].x = brickX;
+bricks[c][r].y = brickY;
+ctx.beginPath();
+ctx.rect(brickX, brickY, brickWidth, brickHeight);
+ctx.fillStyle = "#0095DD";
+ctx.fill();
+ctx.closePath();
+
+}
+}
+}
+}
+// 두번째 벽돌 배치 패턴-> 노랑 벽돌
+var bricks2 = [];
+for(var c=1; c<brickColumnCount-1; c++) {
+bricks2[c] = [];
+for(var r=1; r<brickRowCount-1; r++) {
+var d = bricks2[c][r];
+bricks2[c][r] = { x: 0, y: 0, status:1};
+}
+}
+//두번째 벽돌을 그리는 함수(사각형)
+function drawBricks2() {
+for(var c=1; c<brickColumnCount-1; c++) {
+for(var r=1; r<brickRowCount-1; r++) {
+if(bricks2[c][r].status == 1) {
+var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+bricks2[c][r].x = brickX;
+bricks2[c][r].y = brickY;
+ctx.beginPath();
+ctx.rect(brickX, brickY, brickWidth, brickHeight);
+ctx.fillStyle = "yellow";
+ctx.fill();
+ctx.closePath();
+}
+}
+}
+}
+// 파란 벽돌을 지워주는 함수(사각형)
+function eraseBrick1_2() {
+for(c=1; c<brickColumnCount-1; c++){
+for(r=1; r<brickRowCount-1; r++){
+if(bricks[c][r].x == bricks2[c][r].x) {
+bricks[c][r].status = 0;
+count--;
+}
+}
+}
+}
+
+// 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(사각형)
+function collisionDetection() {
+for(var c=0; c<brickColumnCount; c++) {
+for(var r=0; r<brickRowCount; r++) {
+var b = bricks[c][r];
+if(b.status == 1) {
+if(x >= bricks[c][r].x && x <= bricks[c][r].x+brickWidth && y >= bricks[c][r].y &&
+   y <= bricks[c][r].y+brickHeight) {
+dy = -dy;
+b.status = 0;
+score++;
+if(score == count) {
+alert("YOU WIN, CONGRATS!");
+document.location.reload();
+  }
+  }
+  }
+/*if(x > bricks2[c][r].x && x < bricks2[c][r].x+brickWidth && y > bricks2[c][r].y && y < bricks2[c][r].y+brickHeight) {
+dy = -dy;*/ 
+  }
+  }
+  }
+
+
+// 첫번째 블럭 배치(별)
+var brickX1;
+var brickY1;
+var bricks_s = [];
+for(var c=0; c<9; c++) {
+bricks_s[c] = [];
+for(var r=0; r<8; r++) {
+ // 파랑 벽돌
+bricks_s[c][r] = { x: 0, y: 0, status:1};
+}
+}
+// 블럭을 만드는 함수 -> x,y좌표 지정(별)
+function drawBricks_star() {
+for(var c=0; c<9; c++) {
+  for(var r=0; r<8; r++) {
+if(bricks_s[c][r].status == 1) {
+ brickX1 = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+ brickY1 = (r*(brickHeight+brickPadding))+brickOffsetTop; 
+bricks_s[c][r].x = brickX1;
+bricks_s[c][r].y = brickY1;
+ctx.beginPath();
+ctx.rect(brickX1, brickY1, brickWidth, brickHeight);
+ctx.fillStyle = "red";
+ctx.fill();
+ctx.closePath();
       }
     }
   }
+}
+
+// 두번째 벽돌 배치 패턴-> 노랑 벽돌(별)
+var brickX_s;
+var brickY_s;
+var bricks2_s = []; // 노랑 벽돌 선언
+for(var c=0; c<9; c++) { 
+bricks2_s[c] = [];
+for(var r=0; r<8; r++) {
+var e = bricks2_s[c][r];
+bricks2_s[c][r] = { x: 0, y: 0, status:1};
+} 
+
+}
+//두번째 벽돌을 그리는 함수(별)
+function drawBricks2_star2() {
+for(var r=0; r<=0; r++) {
+  for(var c=4; c<=4; c++) {
+  if(bricks2_s[c][r].status == 1) {
+    bricks_s[c][r].status = 2;
+    brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+    brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+    bricks2_s[c][r].x = brickX_s;
+    bricks2_s[c][r].y = brickY_s;
+    ctx.beginPath();
+    ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    ctx.closePath(); 
+    }  
+  }
+}
+  for(var r=1; r<=1; r++) {
+    for(var c=3; c<=5; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+      } 
+    }  
+  }
+  for(var r=2; r<=2; r++) {
+    for(var c=1; c<=7; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+            } 
+          }  
+  }
+  for(var r=3; r<=3; r++) {
+    for(var c=2; c<=6; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+            } 
+          }  
+  }
+   
+  for(var r=4; r<=4; r++) {
+    for(var c=3; c<=5; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+            } 
+          }  
+  }   
+  
+  for(var r=5; r<=5; r++) {
+    for(var c=2; c<=3; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+       brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+            } 
+          }
+    for(var c=5; c<=6; c++) {
+      if(bricks2_s[c][r].status == 1) {
+        bricks_s[c][r].status = 2;
+              var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+              var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+              bricks2_s[c][r].x = brickX_s;
+              bricks2_s[c][r].y = brickY_s;
+              ctx.beginPath();
+              ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+              ctx.fillStyle = "yellow";
+              ctx.fill();
+              ctx.closePath();
+                    } 
+                  }        
+  }
+  for(var r=6; r<=6; r++) {
+    for(var c=1; c<=2; c++) {
+    if(bricks2_s[c][r].status == 1) {
+      bricks_s[c][r].status = 2;
+      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+      bricks2_s[c][r].x = brickX_s;
+      bricks2_s[c][r].y = brickY_s;
+      ctx.beginPath();
+      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+            } 
+          }
+    for(var c=6; c<=7; c++) {
+            if(bricks2_s[c][r].status == 1) {
+              bricks_s[c][r].status = 2;
+              var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+              var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+              bricks2_s[c][r].x = brickX_s;
+              bricks2_s[c][r].y = brickY_s;
+              ctx.beginPath();
+              ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+              ctx.fillStyle = "yellow";
+              ctx.fill();
+              ctx.closePath();
+                    } 
+                  }
+  }
+} 
+
+
+
+     
+    
+   
+ /*  if(bricks2_s[c][r].status == 1) {
+    var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+    var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
+    bricks2_s[c][r].x = brickX_s;
+    bricks2_s[c][r].y = brickY_s;
+    ctx.beginPath();
+    ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    ctx.closePath();
+          } 
+        }  
+ }
+}
+ 
+*/
+//노란 사각형을 그리는 함수(별) 
+   
+// 파란 벽돌을 지워주는 함수(별)
+function eraseBrick1_2s() {
+for(c=0; c<9; c++){
+for(r=0; r<8; r++){
+if(bricks_s[c][r].status==2) {
+bricks_s[c][r].status = 0;
+count2-=1;
+
+  }
+}
+
+}alert(count2);
+}
+/*function eraseBrick1_2star() {
+for(c=1; c<brickColumnCount-1; c++){
+for(r=1; r<brickRowCount-1; r++){
+if(bricks[c][r].x == bricks2[c][r].x) {
+bricks[c][r].status = 0;
+count--;
+}
+}
+}
+}*/
+
+// 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(별)
+function collisionDetection_star() {
+  for(var c=0; c<9; c++) {
+  for(var r=0; r<8; r++) {
+  var e = bricks_s[c][r];
+  var f = bricks2_s[c][r];
+  if(e.status==1) {
+    if(x >=e.x && x <= e.x+brickWidth&& y >= e.y && y <= e.y+brickHeight) {
+  dy = -dy;
+  e.status = 0;
+  score++;}
+    }
+  if(f.status == 1){
+    if(x >=f.x && x <= f.x+brickWidth&& y >= f.y && y <= f.y+brickHeight) {
+    dy = -dy;
+    dx = -dx;
+  }
+        }        
+   
+    }      
+  }
+  if(score == count2) {
+  alert("YOU WIN, CONGRATS!");
+  document.location.reload();
+  }
+}   
   function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#e11880";
@@ -304,12 +636,28 @@ function for_game1(){
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
+     //drawBricks();
+    //drawBricks2();
+   drawBricks_star();  
+  drawBricks2_star2();
+    
     drawBall();
     drawPaddle();
     drawScore();
     drawLives();
-    collisionDetection();
+    collisionDetection_star();
+
+  //공 반사각 바꾸는 함수 
+ /*if(x >= paddleX && x < paddleX + paddleWidth/4){
+dy = -(dy/Math.abs(dy));
+dx = -3;
+}else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
+dy = -(dy/Math.abs(dy))*2;
+dx = (dx/Math.abs(dx))*2;
+}else{
+dy = -(dy/Math.abs(dy));
+dx = 3;
+}*/
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
       dx = -dx;
@@ -318,8 +666,17 @@ function for_game1(){
       dy = -dy;
     }
     else if(y + dy > canvas.height-ballRadius) {
-      if(x > paddleX && x < paddleX + paddleWidth) {
-        dy = -dy;
+      if(x >= paddleX && x <= paddleX + paddleWidth) {
+        if(x >= paddleX && x < paddleX + paddleWidth/4){
+          dy = -(dy/Math.abs(dy));
+          dx = -3;
+        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
+          dy = -(dy/Math.abs(dy))*2;
+          dx = (dx/Math.abs(dx))*2;
+        }else{
+          dy = -(dy/Math.abs(dy));
+          dx = 3;
+        }
       }
       else {
         lives--;
@@ -350,8 +707,13 @@ function for_game1(){
   }
 
   draw();
-
+  
+  //eraseBrick1_2();
+ eraseBrick1_2s();
+alert(canvas.width/2);
 }
+// =====================정재우==============================
+
 
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
