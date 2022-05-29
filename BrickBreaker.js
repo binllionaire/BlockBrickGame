@@ -960,7 +960,7 @@ function game3(){
           var y = this.y + (this.brickHeight * r);
           ctx.beginPath();
           ctx.fillRect(x, y, this.brickWidth, this.brickHeight);
-          ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
+          // ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
           ctx.closePath();
         }
       }
