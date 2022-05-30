@@ -1,7 +1,29 @@
 var flag = 1; //배경화면 바꾸기 플래그
+var flag2 = 1; //배경음악 바꾸기 플래그
 var imgUrl;
 var bgm1;
 var bgm2;
+
+var bgm1=new Audio("bgm1.mp3");
+var bgm2=new Audio("bgm2.mp3");
+
+bgm1.load();
+bgm1.oncanplaythrough=function(){
+  bgm1.play();
+}
+bgm1.loop=true;
+bgm2.loop=true;
+
+function bgm1(){   
+    flag2=1;   
+    bgm2.pause();
+    bgm1.play();
+  }
+  function bgm2(){  
+    flag2=2;    
+    bgm1.pause();
+    bgm2.play();
+  }
 $(document).ready(function(){
 
   $("#startButton").on("click", intro);
@@ -59,24 +81,9 @@ $(document).ready(function(){
 
   $("#select").on("click",bgm1);
   $("#select2").on("click",bgm2);
-  bgm1=new Audio("bgm1.mp3");
-  bgm2=new Audio("bgm2.mp3");
-  bgm1.load();
-  bgm1.oncanplaythrough=function(){
-    bgm1.play();
-  }
-  bgm1.loop=true;
-  bgm2.loop=true;
+  
 
-  function bgm1(){      
-      bgm2.pause();
-      bgm1.play();
-    }
-    function bgm2(){      
-      bgm1.pause();
-      bgm2.play();
-    }
-   
+
   
   //환경설정 창 닫기
   $("#okButton").click(function(){
@@ -150,6 +157,7 @@ function game_start() {
    
 }
 
+
 var timelef = 11;
 function reduce() {
   var timetext = "제한 시간: "+timelef; // 시간
@@ -201,7 +209,7 @@ function for_game1(){
 var count = brickColumnCount*brickRowCount;
 var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   var lives = 10; //목숨
-  
+ 
   window.addEventListener('resize', resizeCanvas, false);
 
   function resizeCanvas() {
@@ -350,6 +358,7 @@ count--;
 
 // 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(사각형)
 function collisionDetection() {
+
 for(var c=0; c<brickColumnCount; c++) {
 for(var r=0; r<brickRowCount; r++) {
 var b = bricks[c][r];
@@ -362,8 +371,6 @@ score++;
 if(score == count) {
 alert("YOU WIN, CONGRATS!");
 document.location.reload();
-
-}
   }
   }
 /*if(x > bricks2[c][r].x && x < bricks2[c][r].x+brickWidth && y > bricks2[c][r].y && y < bricks2[c][r].y+brickHeight) {
@@ -371,7 +378,7 @@ dy = -dy;*/
   }
   }
   }
-
+}
 
 // 첫번째 블럭 배치(별)
 var brickX1;
@@ -562,6 +569,7 @@ for(var r=0; r<=0; r++) {
 } 
 
 
+   
 
 //노란 사각형을 그리는 함수(별) 
    
@@ -575,9 +583,8 @@ count2-=1;
 
   }
 }
+}
 
-}
-}
 /*function eraseBrick1_2star() {
 for(c=1; c<brickColumnCount-1; c++){
 for(r=1; r<brickRowCount-1; r++){
@@ -590,12 +597,14 @@ count--;
 }*/
 
 // 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(별)
+
 var audio = new Audio('공깨질때.wav');
 function collisionDetection_star() {
   for(var c=0; c<9; c++) {
   for(var r=0; r<8; r++) {
   var e = bricks_s[c][r];
   var f = bricks2_s[c][r];
+
 if(e.status==1) {
     if(x >=e.x && x <= e.x+brickWidth/2&& y >= e.y && y <= e.y+brickHeight/2) {
       audio.play();
@@ -618,6 +627,7 @@ if(f.status == 1){
     dx = -dx;
   }
         }        
+
     }      
   }
 }
@@ -672,11 +682,13 @@ function stopWin() {
   }
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     drawBall();
     drawPaddle();
     drawScore();
     drawLives();
     collisionDetection_star();
+
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
       dx = -dx;
@@ -687,6 +699,7 @@ function stopWin() {
     else if(y + dy > canvas.height-ballRadius) {
       if(x >= paddleX && x <= paddleX + paddleWidth) {
         if(x >= paddleX && x < paddleX + paddleWidth/4){
+
           dy = -2*(dy/Math.abs(dy));
           dx = -3;
         }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
@@ -724,6 +737,7 @@ function stopWin() {
     y += dy;
     requestAnimationFrame(draw);
   }
+
   drawStar();
   setInterval(draw,1);
   //draw();
@@ -735,7 +749,7 @@ function stopWin() {
 }
 // =====================정재우==============================
 
-
+}
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
@@ -745,16 +759,22 @@ function stopWin() {
 
 
 function for_game2(){
-  /*
-  bgm1.pause();
-  bgm2.pause();
+  if(flag2=1){
+    bgm1.pause();
+  }
+  else if(flag2 =2){
+    bgm2.pause();
+  }
+
+ 
+
    var bgm3=new Audio("bgm3.mp3");
   bgm3.load();
   bgm3.oncanplaythrough=function(){
     bgm3.play();
   }
   bgm3.loop=true;
-  */
+  
  
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
@@ -889,9 +909,16 @@ function for_game2(){
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+              bgm3.pause();
               $("#game2").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
+              if(flag2=1){
+                bgm1.play()
+              }
+              else if(flag2 =2){
+                bgm2.play();
+              }
               setTimeout(() => game3(), 3000);
               
             }
@@ -1044,7 +1071,7 @@ function for_game2(){
 
   function startInterval(){
     interv = setInterval(draw, 4);
-    textInterval = setInterval(textOut,500);
+    textInterval = setInterval(textOut,400);
   }
   function stopInterval(){
     clearInterval(interv);
@@ -1064,6 +1091,7 @@ function for_game2(){
 
 function game3(){ 
   
+ 
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
@@ -1424,12 +1452,21 @@ function game3(){
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+
+        //성공화면 ->메인메뉴로
+        $("#game3").css("display","none");
+        $("#clear").fadeIn(1000);
+        setTimeout(() => $("#clear").fadeOut(1000), 2000);
+        setTimeout(() => $("#main-menu").css("display","block"), 3000);
+
       }
       else if(life == 0){       //목숨이 0인경우
         drawText("fail");
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+
+       
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
         game.state = "stop";
@@ -1485,3 +1522,4 @@ function game3(){
 
   mainLoop();
 }
+

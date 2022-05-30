@@ -40,6 +40,7 @@
        <p>배경음악 설정</p>
        <input type="radio" id="select" name="bgm" checked="check"><label for="select">BGM 1</label>
        <input type="radio" id="select2" name="bgm"><label for="select2">BGM 2</label>
+       
       
        <button id="okButton">확인</button>
      </div>
@@ -73,11 +74,15 @@
  </div>
   <!--클리어 화면-->
   <div id="clear">
-  <p>통과 !</p>
+    <video muted autoplay loop>
+      <source src="clear.mp4" type="video/mp4">
+      <strong>Your browser does not support the video tag.</strong>
+    </video>
+  <img id="clearImg" src="stageClear.png">
   </div>
   <!--실패 화면-->
   <div id="fail">
-  <p>실패</p>
+    <img id="clearImg" src="stageFailed.png">
   </div>
 <!--각각메뉴 --> 
 <div id="game1">

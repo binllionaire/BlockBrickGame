@@ -374,18 +374,24 @@ input[type=radio]:checked+label{
   background-size: cover;
   position: relative;
 }
-#clear p{
+#clear img{
+  width: 60%;
   background: none;
   position: absolute;
   text-align: center;
-  top:40%;
-  left: 40%;
-  font-size: 150px;
-  font-weight: bold;
-  font-family: 'Gowun Batang', serif;
+  top:10%;
+  left: 20%;
   z-index: 1;
   color: white;
 }
+
+video {
+   width: 100%; 
+   height: 100%;
+   background-size: cover;
+  }
+
+
 #fail{
   width: 100%;
   height: 100%;
@@ -395,17 +401,13 @@ input[type=radio]:checked+label{
   background-repeat : no-repeat;
   background-size: cover;
 }
-#fail p{
+#fail img{
+  width: 60%;
   background: none;
   position: absolute;
-  text-align: center;
-  top:40%;
-  left: 43%;
-  font-size: 150px;
-  font-weight: bold;
-  font-family: 'Gowun Batang', serif;
+  top:10%;
+  left: 20%;
   z-index: 1;
-  color: white;
 }
 
 /*=================================================== GAME 1 ==================================================*/
