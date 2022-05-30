@@ -1,29 +1,20 @@
 var flag = 1; //배경화면 바꾸기 플래그
 var flag2 = 1; //배경음악 바꾸기 플래그
-var imgUrl;
-var bgm1;
-var bgm2;
 
+var imgUrl;
+var totalScore =0;
 var bgm1=new Audio("bgm1.mp3");
 var bgm2=new Audio("bgm2.mp3");
-
 bgm1.load();
+
 bgm1.oncanplaythrough=function(){
   bgm1.play();
 }
 bgm1.loop=true;
 bgm2.loop=true;
 
-function bgm1(){   
-    flag2=1;   
-    bgm2.pause();
-    bgm1.play();
-  }
-  function bgm2(){  
-    flag2=2;    
-    bgm1.pause();
-    bgm2.play();
-  }
+
+
 $(document).ready(function(){
 
   $("#startButton").on("click", intro);
@@ -79,8 +70,8 @@ $(document).ready(function(){
 
   //배경음악 설정
 
-  $("#select").on("click",bgm1);
-  $("#select2").on("click",bgm2);
+  $("#select").on("click",bgm1Play);
+  $("#select2").on("click",bgm2Play);
   
 
 
@@ -102,6 +93,17 @@ $(document).ready(function(){
   $("#settingIcon").on("click",showSetting);
 
 });
+
+function bgm1Play(){   
+  flag2=1;   
+  bgm2.pause();
+  bgm1.play();
+}
+function bgm2Play(){  
+  flag2=2;    
+  bgm1.pause();
+  bgm2.play();
+}
 
 //환경설정
 function showSetting(){
@@ -580,7 +582,7 @@ for(r=0; r<8; r++){
 if(bricks_s[c][r].status==2) {
 bricks_s[c][r].status = 0;
 count2-=1;
-
+}
   }
 }
 }
@@ -749,7 +751,7 @@ function stopWin() {
 }
 // =====================정재우==============================
 
-}
+
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
@@ -901,7 +903,7 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
-            score++;
+            TotalScore += 
             $("#scoreBox").animate({width:'+=90px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
