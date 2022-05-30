@@ -1,7 +1,29 @@
 var flag = 1; //배경화면 바꾸기 플래그
+var flag2 = 1; //배경음악 바꾸기 플래그
 var imgUrl;
 var bgm1;
 var bgm2;
+
+var bgm1=new Audio("bgm1.mp3");
+var bgm2=new Audio("bgm2.mp3");
+
+bgm1.load();
+bgm1.oncanplaythrough=function(){
+  bgm1.play();
+}
+bgm1.loop=true;
+bgm2.loop=true;
+
+function bgm1(){   
+    flag2=1;   
+    bgm2.pause();
+    bgm1.play();
+  }
+  function bgm2(){  
+    flag2=2;    
+    bgm1.pause();
+    bgm2.play();
+  }
 $(document).ready(function(){
 
   $("#startButton").on("click", intro);
@@ -59,24 +81,9 @@ $(document).ready(function(){
 
   $("#select").on("click",bgm1);
   $("#select2").on("click",bgm2);
-  bgm1=new Audio("bgm1.mp3");
-  bgm2=new Audio("bgm2.mp3");
-  bgm1.load();
-  bgm1.oncanplaythrough=function(){
-    bgm1.play();
-  }
-  bgm1.loop=true;
-  bgm2.loop=true;
+  
 
-  function bgm1(){      
-      bgm2.pause();
-      bgm1.play();
-    }
-    function bgm2(){      
-      bgm1.pause();
-      bgm2.play();
-    }
-   
+
   
   //환경설정 창 닫기
   $("#okButton").click(function(){
@@ -724,16 +731,22 @@ alert(canvas.width/2);
 
 
 function for_game2(){
-  /*
-  bgm1.pause();
-  bgm2.pause();
+  if(flag2=1){
+    bgm1.pause();
+  }
+  else if(flag2 =2){
+    bgm2.pause();
+  }
+
+ 
+
    var bgm3=new Audio("bgm3.mp3");
   bgm3.load();
   bgm3.oncanplaythrough=function(){
     bgm3.play();
   }
   bgm3.loop=true;
-  */
+  
  
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
@@ -868,9 +881,16 @@ function for_game2(){
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+              bgm3.pause();
               $("#game2").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
+              if(flag2=1){
+                bgm1.play()
+              }
+              else if(flag2 =2){
+                bgm2.play();
+              }
               setTimeout(() => game3(), 3000);
               
             }
@@ -1023,7 +1043,7 @@ function for_game2(){
 
   function startInterval(){
     interv = setInterval(draw, 4);
-    textInterval = setInterval(textOut,500);
+    textInterval = setInterval(textOut,400);
   }
   function stopInterval(){
     clearInterval(interv);
@@ -1043,6 +1063,7 @@ function for_game2(){
 
 function game3(){ 
   
+ 
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
@@ -1088,7 +1109,7 @@ function game3(){
   function change_Character(){
     var str = "#game3_character"+life;
     current_character = $(str);             //캐릭터 바꾸기
-    current_character.css({'top':'1%','right':'41%'});
+    current_character.animate({top: '10%', right: '41%'}, 1000, 'swing');
   }
 
   function assignTrueBlock(){
@@ -1101,12 +1122,12 @@ function game3(){
     currentstage = 1;                   //게임 변수 초기화
     life = 5;
     assignTrueBlock();
-    $("#game3_character5").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'1%', 'right':'41%'});
-    $("#game3_character4").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'45%'});
-    $("#game3_character3").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'30%'});
-    $("#game3_character2").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'15%'});
-    $("#game3_character1").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'bottom':'0', 'right':'0'});
-    $(".game3_block").css('display','block');
+    $("#game3_character5").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'10%', 'right':'41%'});
+    $("#game3_character4").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'8%', 'right':'41%'});
+    $("#game3_character3").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'6%', 'right':'41%'});
+    $("#game3_character2").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'4%', 'right':'41%'});
+    $("#game3_character1").css({'top':'','right':'','bottom':'','left':'','transform':'scaleX(1)'}).css({'display':'block', 'top':'2%', 'right':'41'});
+    $(".game3_block").css({'display':'block', 'visibility':'visible'});
     current_character = $("#game3_character5");
   }
 
@@ -1120,7 +1141,7 @@ function game3(){
     if(currentstage==5){
       current_character.animate({
         top: current_character.position().top + 100 + 'px'
-      }, 2000, 'swing');
+      }, 2000, 'easeInOutQuart');
     }
 
     if(state == 'left'){
@@ -1131,6 +1152,10 @@ function game3(){
       current_character.css('transform','scaleX(1)');
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
+
+    // if($(targetBlockid).css('visivility') == 'hidden'){
+    //   return ;
+    // }
     targetBlock_position = $(targetBlockid).position();
     targetTop = targetBlock_position.top;
     targetLeft = targetBlock_position.left;
@@ -1138,7 +1163,7 @@ function game3(){
     current_character.animate({
       top: targetTop - 40 + 'px',
       left: targetLeft - 5 + 'px'
-    }, 2000, 'swing');
+    }, 2000, 'easeInOutQuart');
   }
 
   function character_fall(state){            
@@ -1151,13 +1176,23 @@ function game3(){
       decideLR = 'R';
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
-    $(targetBlockid).fadeOut(1000);
-    setTimeout(function(){
-      current_character.animate({
-        top: current_character.position().top + 50 + 'px'
-      }, 1000);
-      current_character.fadeOut(1000);
-    },1000)
+    if($(targetBlockid).css('visibility') != 'hidden'){
+      $(targetBlockid).fadeOut(1000);
+      setTimeout(function(){
+        current_character.animate({
+          top: current_character.position().top + 50 + 'px'
+        }, 1000);
+        current_character.fadeOut(1000);
+        setTimeout(function(){
+          $(targetBlockid).css({'display':'block','visibility':'hidden'});
+        },1500);
+      },1000)
+    } else {
+        current_character.animate({
+          top: current_character.position().top + 50 + 'px'
+        }, 1000);
+        current_character.fadeOut(1000);
+    }
   }
 
   function startGame() {
@@ -1311,7 +1346,7 @@ function game3(){
           var y = this.y + (this.brickHeight * r);
           ctx.beginPath();
           ctx.fillRect(x, y, this.brickWidth, this.brickHeight);
-          ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
+          // ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
           ctx.closePath();
         }
       }
@@ -1389,19 +1424,34 @@ function game3(){
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+
+        //성공화면 ->메인메뉴로
+        $("#game3").css("display","none");
+        $("#clear").fadeIn(1000);
+        setTimeout(() => $("#clear").fadeOut(1000), 2000);
+        setTimeout(() => $("#main-menu").css("display","block"), 3000);
+
       }
       else if(life == 0){       //목숨이 0인경우
         drawText("fail");
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+
+       
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
+        game.state = "stop";
         life--;
         currentstage = 1;
-        current_character.css('display','none');
-        change_Character();
-        startGame();
+        current_character.css('transition','1s');
+        current_character.css('transform','rotate(90deg)');
+        setTimeout(function(){
+          current_character.css('transition','');
+          current_character.fadeOut(1000);
+        },1500);
+        setTimeout(change_Character,3000);
+        setTimeout(startGame,4500);
       }
       else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
         game.state = 'stop';
@@ -1426,7 +1476,7 @@ function game3(){
           currentstage = 1;
         },2000)        
         setTimeout(change_Character,4500);
-        setTimeout(startGame, 5000);
+        setTimeout(startGame, 6000);
       }
       else if(game.state == "left"){           //징검다리 실패
         game.state = 'stop';
@@ -1437,7 +1487,7 @@ function game3(){
           currentstage = 1;
         },2000)
         setTimeout(change_Character,4500);
-        setTimeout(startGame, 5000);
+        setTimeout(startGame, 6000);
       }
     }
   }
