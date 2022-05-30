@@ -757,8 +757,8 @@ function stopWin() {
 /*=================================================== GAME 2 ==================================================*/
 
 
-
 function for_game2(){
+
   if(flag2=1){
     bgm1.pause();
   }
@@ -766,15 +766,12 @@ function for_game2(){
     bgm2.pause();
   }
 
- 
-
    var bgm3=new Audio("bgm3.mp3");
   bgm3.load();
   bgm3.oncanplaythrough=function(){
     bgm3.play();
   }
   bgm3.loop=true;
-  
  
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
@@ -1072,6 +1069,7 @@ function for_game2(){
   function startInterval(){
     interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,400);
+
   }
   function stopInterval(){
     clearInterval(interv);
@@ -1463,10 +1461,14 @@ function game3(){
 
       }
       else if(life == 0){       //목숨이 0인경우
-        drawText("fail");
+        $("#fail").fadeIn(1000);
+        setTimeout(() => $("#fail").fadeOut(1000), 2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+        initGameOption();                       //다시하기 버튼 클릭이벤트 핸들러
+        startGame();
+        
 
        
       }
