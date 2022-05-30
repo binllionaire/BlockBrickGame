@@ -1466,9 +1466,7 @@ function game3(){
         drawText("fail");
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
-        canvas.style.cursor = "Default";
-
-       
+        canvas.style.cursor = "Default"; 
       }
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
         game.state = "stop";
