@@ -1058,6 +1058,10 @@ function for_game2(){
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
         paddleColor = "#000000";
+        bgm3.load();
+        bgm3.oncanplaythrough=function(){
+          bgm3.play();
+        }
       },1200)
     }
   }
@@ -1072,11 +1076,11 @@ function for_game2(){
     bgm3.oncanplaythrough=function(){
       bgm3.play();
     }
-    bgm3.loop=true;
   }
   function stopInterval(){
     clearInterval(interv);
     clearInterval(textInterval);
+    bgm3.pause();
   }
 
   game2noticeButton = $("#game2_notice button");
@@ -1086,7 +1090,6 @@ function for_game2(){
   })
   
 }
-
 
 /*=================================================== GAME 3 ==================================================*/
 /*=================================================== GAME 3 ==================================================*/
