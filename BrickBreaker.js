@@ -762,10 +762,10 @@ function stopWin() {
 
 
 function for_game2(){
-  if(flag2=1){
+  if(flag2==1){
     bgm1.pause();
   }
-  else if(flag2 =2){
+  else if(flag2==2){
     bgm2.pause();
   }
 
@@ -782,7 +782,7 @@ function for_game2(){
   var dx = 2;
   var dy = -2;
   var ballRadius = 10; //공의 반지름
-  var paddleHeight = 20; //패들높이
+  var paddleHeight = 15; //패들높이
   var paddleWidth = 150; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var paddleColor = "#000000";
@@ -792,14 +792,14 @@ function for_game2(){
 
  //클리어 보려고 임시로 해놓은거 !!!!
 
-  var brickRowCount = 1; //벽돌의 행 갯수
-  var brickColumnCount = 1; //벽돌의 열 갯수
+  var brickRowCount = 3; //벽돌의 행 갯수
+  var brickColumnCount = 5; //벽돌의 열 갯수
   
-  var brickWidth = 500; //벽돌의 폭
-  var brickHeight = 200; //벽돌의 높이
+  var brickWidth = 255; //벽돌의 폭
+  var brickHeight = 35; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
-  var brickOffsetTop = 10; //벽돌의 위쪽 여백
-  var brickOffsetLeft = 10; //벽돌의 왼쪽 여백
+  var brickOffsetTop = 15; //벽돌의 위쪽 여백
+  var brickOffsetLeft = 15; //벽돌의 왼쪽 여백
 
  
   var game2notice = $("#game2_notice");
@@ -819,8 +819,7 @@ function for_game2(){
 
   function reset(again){
     
-    $("#fail").fadeIn(1000);
-    setTimeout(() => $("#fail").fadeOut(1000), 2000);
+    
     x = canvas.width/2;
     y = canvas.height-40;
     dx = 2;
@@ -912,10 +911,10 @@ function for_game2(){
               $("#game2").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
-              if(flag2=1){
+              if(flag2==1){
                 bgm1.play()
               }
-              else if(flag2 =2){
+              else if(flag2==2){
                 bgm2.play();
               }
               setTimeout(() => game3(), 3000);
@@ -1011,12 +1010,14 @@ function for_game2(){
       }
       else {
         lives--;
-        if(!lives){
+        if(!lives){  //죽었을때
           
           stopInterval();
-          
           var again = true;
-          reset(again);
+          $("#fail").fadeIn(1000);
+          setTimeout(() => $("#fail").fadeOut(1000), 2000);
+          setTimeout(() => reset(again), 2000);
+          
         }
         else{
           x = canvas.width/2;
@@ -1051,6 +1052,12 @@ function for_game2(){
 
   function textOut(){
     $("#textArea").text(texts[countNum]);
+    if(countNum == 0){
+      bgm3.load();
+      bgm3.oncanplaythrough=function(){
+        bgm3.play();
+      }
+    }
     countNum++;
     if(countNum == 13){
       canMove = false;
@@ -1061,10 +1068,6 @@ function for_game2(){
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
         paddleColor = "#000000";
-        bgm3.load();
-        bgm3.oncanplaythrough=function(){
-          bgm3.play();
-        }
       },1200)
     }
   }
@@ -1075,10 +1078,6 @@ function for_game2(){
   function startInterval(){
     interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,400);
-    bgm3.load();
-    bgm3.oncanplaythrough=function(){
-      bgm3.play();
-    }
   }
   function stopInterval(){
     clearInterval(interv);
