@@ -1,29 +1,20 @@
 var flag = 1; //배경화면 바꾸기 플래그
 var flag2 = 1; //배경음악 바꾸기 플래그
-var imgUrl;
-var bgm1;
-var bgm2;
 
+var imgUrl;
+var totalScore =0;
 var bgm1=new Audio("bgm1.mp3");
 var bgm2=new Audio("bgm2.mp3");
-
 bgm1.load();
+
 bgm1.oncanplaythrough=function(){
   bgm1.play();
 }
 bgm1.loop=true;
 bgm2.loop=true;
 
-function bgm1(){   
-    flag2=1;   
-    bgm2.pause();
-    bgm1.play();
-  }
-  function bgm2(){  
-    flag2=2;    
-    bgm1.pause();
-    bgm2.play();
-  }
+
+
 $(document).ready(function(){
 
   $("#startButton").on("click", intro);
@@ -79,8 +70,8 @@ $(document).ready(function(){
 
   //배경음악 설정
 
-  $("#select").on("click",bgm1);
-  $("#select2").on("click",bgm2);
+  $("#select").on("click",bgm1Play);
+  $("#select2").on("click",bgm2Play);
   
 
 
@@ -102,6 +93,17 @@ $(document).ready(function(){
   $("#settingIcon").on("click",showSetting);
 
 });
+
+function bgm1Play(){   
+  flag2=1;   
+  bgm2.pause();
+  bgm1.play();
+}
+function bgm2Play(){  
+  flag2=2;    
+  bgm1.pause();
+  bgm2.play();
+}
 
 //환경설정
 function showSetting(){
@@ -158,7 +160,7 @@ function game_start() {
 }
 
 
-var timelef = 11;
+var timelef = 2000;
 function reduce() {
   var timetext = "제한 시간: "+timelef; // 시간
   document.getElementById("right").innerHTML = timetext;
@@ -168,9 +170,13 @@ function reduce() {
     alert("Time over!");
     stop_interval();
     stopWin();
-      window.location.reload();
+    timelef =2;
+    reduceInterval();
+    //for_game1();
+      //window.location.reload();
   }        
 }
+var reduce_Interval;
 function reduceInterval() {
 reduce_Interval = setInterval(reduce,1000); 
 }
@@ -180,9 +186,9 @@ function stop_interval() {
 }
 
 
-function for_game1(){
+function for_game1() {
 
-  var width =window.innerWidth*0.7;
+  var width = window.innerWidth*0.7;
   var height = window.innerHeight;
   var x = width/2;
   var y = height-40;
@@ -200,7 +206,7 @@ function for_game1(){
   var leftPressed = false;
   var brickRowCount = 5;
   var brickColumnCount = 3;
-  var brickWidth = 35;
+  var brickWidth = 70;
   var brickHeight = 20;
   var brickPadding = 10;
   var brickOffsetTop = 30;
@@ -568,7 +574,6 @@ for(var r=0; r<=0; r++) {
   }
 } 
 
-
    
 
 //노란 사각형을 그리는 함수(별) 
@@ -581,10 +586,11 @@ if(bricks_s[c][r].status==2) {
 bricks_s[c][r].status = 0;
 count2-=1;
 
+
+      }
+    }
   }
 }
-}
-
 /*function eraseBrick1_2star() {
 for(c=1; c<brickColumnCount-1; c++){
 for(r=1; r<brickRowCount-1; r++){
@@ -674,15 +680,15 @@ function stopWin() {
     clearInterval(interv);
     clearInterval(textInterval);
   }
-*/
+
   startInterval();
-  function drawStar() {
-    drawBricks_star();  
-    drawBricks2_star2();
-  }
+*/  
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+   
+    drawBricks_star();  
+    drawBricks2_star2();
+ 
     drawBall();
     drawPaddle();
     drawScore();
@@ -714,7 +720,9 @@ function stopWin() {
         lives--;
         if(!lives) {
           alert("GAME OVER");
-          document.location.reload();
+          stopWin();
+          stop_interval();
+          //for_game1();  
         }
         else {
           x = canvas.width/2;
@@ -737,10 +745,8 @@ function stopWin() {
     y += dy;
     requestAnimationFrame(draw);
   }
-
-  drawStar();
-  setInterval(draw,1);
-  //draw();
+  
+  draw();
   isWin_interval = setInterval(isWin, 1);
   
   //eraseBrick1_2();
@@ -749,16 +755,16 @@ function stopWin() {
 }
 // =====================정재우==============================
 
-}
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
 
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
 
 
 function for_game2(){
+
   if(flag2==1){
     bgm1.pause();
   }
@@ -766,11 +772,12 @@ function for_game2(){
     bgm2.pause();
   }
 
- 
-
    var bgm3=new Audio("bgm3.mp3");
-  
-  
+  bgm3.load();
+  bgm3.oncanplaythrough=function(){
+    bgm3.play();
+  }
+  bgm3.loop=true;
  
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
@@ -899,7 +906,7 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
-            score++;
+            TotalScore += 
             $("#scoreBox").animate({width:'+=90px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
@@ -1075,6 +1082,7 @@ function for_game2(){
   function startInterval(){
     interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,400);
+
   }
   function stopInterval(){
     clearInterval(interv);
@@ -1082,12 +1090,7 @@ function for_game2(){
     bgm3.pause();
   }
 
-  game2noticeButton = $("#game2_notice button");
-  game2noticeButton.click(function(){
-    game2notice.css("display","none");      //처음 알림창 확인버튼 클릭 핸들러
-    startInterval();
-  })
-  
+  startInterval();
 }
 
 /*=================================================== GAME 3 ==================================================*/
@@ -1471,10 +1474,14 @@ function game3(){
 
       }
       else if(life == 0){       //목숨이 0인경우
-        drawText("fail");
+        $("#fail").fadeIn(1000);
+        setTimeout(() => $("#fail").fadeOut(1000), 2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
+        initGameOption();                       //다시하기 버튼 클릭이벤트 핸들러
+        startGame();
+        
 
        
       }
