@@ -158,7 +158,7 @@ function game_start() {
 }
 
 
-var timelef = 11;
+var timelef = 2000;
 function reduce() {
   var timetext = "제한 시간: "+timelef; // 시간
   document.getElementById("right").innerHTML = timetext;
@@ -168,9 +168,13 @@ function reduce() {
     alert("Time over!");
     stop_interval();
     stopWin();
-      window.location.reload();
+    timelef =2;
+    reduceInterval();
+    //for_game1();
+      //window.location.reload();
   }        
 }
+var reduce_Interval;
 function reduceInterval() {
 reduce_Interval = setInterval(reduce,1000); 
 }
@@ -180,9 +184,9 @@ function stop_interval() {
 }
 
 
-function for_game1(){
+function for_game1() {
 
-  var width =window.innerWidth*0.7;
+  var width = window.innerWidth*0.7;
   var height = window.innerHeight;
   var x = width/2;
   var y = height-40;
@@ -200,7 +204,7 @@ function for_game1(){
   var leftPressed = false;
   var brickRowCount = 5;
   var brickColumnCount = 3;
-  var brickWidth = 35;
+  var brickWidth = 70;
   var brickHeight = 20;
   var brickPadding = 10;
   var brickOffsetTop = 30;
@@ -568,7 +572,6 @@ for(var r=0; r<=0; r++) {
   }
 } 
 
-
    
 
 //노란 사각형을 그리는 함수(별) 
@@ -581,10 +584,10 @@ if(bricks_s[c][r].status==2) {
 bricks_s[c][r].status = 0;
 count2-=1;
 
+      }
+    }
   }
 }
-}
-
 /*function eraseBrick1_2star() {
 for(c=1; c<brickColumnCount-1; c++){
 for(r=1; r<brickRowCount-1; r++){
@@ -674,15 +677,15 @@ function stopWin() {
     clearInterval(interv);
     clearInterval(textInterval);
   }
-*/
+
   startInterval();
-  function drawStar() {
-    drawBricks_star();  
-    drawBricks2_star2();
-  }
+*/  
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+   
+    drawBricks_star();  
+    drawBricks2_star2();
+ 
     drawBall();
     drawPaddle();
     drawScore();
@@ -714,7 +717,9 @@ function stopWin() {
         lives--;
         if(!lives) {
           alert("GAME OVER");
-          document.location.reload();
+          stopWin();
+          stop_interval();
+          //for_game1();  
         }
         else {
           x = canvas.width/2;
@@ -737,10 +742,8 @@ function stopWin() {
     y += dy;
     requestAnimationFrame(draw);
   }
-
-  drawStar();
-  setInterval(draw,1);
-  //draw();
+  
+  draw();
   isWin_interval = setInterval(isWin, 1);
   
   //eraseBrick1_2();
@@ -749,7 +752,7 @@ function stopWin() {
 }
 // =====================정재우==============================
 
-}
+
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
