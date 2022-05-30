@@ -816,8 +816,7 @@ function for_game2(){
 
   function reset(again){
     
-    $("#fail").fadeIn(1000);
-    setTimeout(() => $("#fail").fadeOut(1000), 2000);
+    
     x = canvas.width/2;
     y = canvas.height-40;
     dx = 2;
@@ -1008,12 +1007,14 @@ function for_game2(){
       }
       else {
         lives--;
-        if(!lives){
+        if(!lives){  //죽었을때
           
           stopInterval();
-          
           var again = true;
-          reset(again);
+          $("#fail").fadeIn(1000);
+          setTimeout(() => $("#fail").fadeOut(1000), 2000);
+          setTimeout(() => reset(again), 2000);
+          
         }
         else{
           x = canvas.width/2;
@@ -1048,6 +1049,12 @@ function for_game2(){
 
   function textOut(){
     $("#textArea").text(texts[countNum]);
+    if(countNum == 0){
+      bgm3.load();
+      bgm3.oncanplaythrough=function(){
+        bgm3.play();
+      }
+    }
     countNum++;
     if(countNum == 13){
       canMove = false;
@@ -1058,10 +1065,6 @@ function for_game2(){
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
         paddleColor = "#000000";
-        bgm3.load();
-        bgm3.oncanplaythrough=function(){
-          bgm3.play();
-        }
       },1200)
     }
   }
@@ -1072,10 +1075,6 @@ function for_game2(){
   function startInterval(){
     interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,400);
-    bgm3.load();
-    bgm3.oncanplaythrough=function(){
-      bgm3.play();
-    }
   }
   function stopInterval(){
     clearInterval(interv);
