@@ -162,7 +162,10 @@ function reduce() {
   }        
 }
 function reduceInterval() {
-setInterval(reduce,1000); 
+reduce_Interval = setInterval(reduce,1000); 
+}
+function stop_interval() {
+  clearInterval(reduce_Interval);
 }
 
 
@@ -252,7 +255,7 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
       paddleX = relativeX - paddleWidth/2;
     }
   }
-  function collisionDetection() {
+  /*function collisionDetection() {
     for(var c=0; c<brickColumnCount; c++) {
       for(var r=0; r<brickRowCount; r++) {
         var b = bricks[c][r];
@@ -270,7 +273,7 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
       }
     }
   }
-
+*/
   function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -602,7 +605,6 @@ function collisionDetection_star() {
   }
         }        
     }      
-    isWin();
   }
   
 
@@ -616,9 +618,16 @@ function isWin() {
   $("#game1").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
-              setTimeout(() => game2(), 3000);
+              stop_interval();
+              stopWin();
+              game2();
+            return 0;
+              //setTimeout(() => game2(), 3000);
             }
-}  
+} 
+function stopWin() {
+  clearInterval(isWin_interval);
+}
   function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#e11880";
@@ -634,15 +643,13 @@ function isWin() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
      //drawBricks();
     //drawBricks2();
-   drawBricks_star();  
-  drawBricks2_star2();
+    drawBricks_star();  
+    drawBricks2_star2();
     drawBall();
     drawPaddle();
     drawScore();
     drawLives();
     collisionDetection_star();
-    
-
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
       dx = -dx;
@@ -690,8 +697,8 @@ function isWin() {
     y += dy;
     requestAnimationFrame(draw);
   }
-
   draw();
+  isWin_interval = setInterval(isWin, 1);
   
   //eraseBrick1_2();
  eraseBrick1_2s();
