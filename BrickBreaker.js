@@ -769,11 +769,7 @@ function for_game2(){
  
 
    var bgm3=new Audio("bgm3.mp3");
-  bgm3.load();
-  bgm3.oncanplaythrough=function(){
-    bgm3.play();
-  }
-  bgm3.loop=true;
+  
   
  
   var canvas = document.getElementById("canvas_for_game2");
@@ -1072,13 +1068,23 @@ function for_game2(){
   function startInterval(){
     interv = setInterval(draw, 4);
     textInterval = setInterval(textOut,400);
+    bgm3.load();
+    bgm3.oncanplaythrough=function(){
+      bgm3.play();
+    }
+    bgm3.loop=true;
   }
   function stopInterval(){
     clearInterval(interv);
     clearInterval(textInterval);
   }
 
-  startInterval();
+  game2noticeButton = $("#game2_notice button");
+  game2noticeButton.click(function(){
+    game2notice.css("display","none");      //처음 알림창 확인버튼 클릭 핸들러
+    startInterval();
+  })
+  
 }
 
 
