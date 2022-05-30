@@ -1091,10 +1091,10 @@ function game3(){
     current_character.animate({top: '10%', right: '41%'}, 1000, 'swing');
   }
 
-  function assignTrueBlock(){
+  function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      // trueBlock[i] = Math.floor(Math.random()*2); //0은 왼쪽 1은 오른쪽
-      trueBlock[i] = 0;
+      trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      // trueBlock[i] = 0;
     }
   }
   function initGameOption(){
@@ -1294,11 +1294,13 @@ function game3(){
       // }
       if(bricktype=='left'){
         this.data = [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0]];
-        this.count = 1;
+        // this.count = 1;
+        this.count = 8;
       } 
       else if(bricktype=='right'){
         this.data = [[1,1,1,0,0], [1,0,0,1,0], [1,1,1,0,0], [1,0,0,1,0], [1,0,0,1,0]];
-        this.count = 1;
+        // this.count = 1;
+        this.count = 12;
       }
     }
   
@@ -1325,7 +1327,7 @@ function game3(){
           var y = this.y + (this.brickHeight * r);
           ctx.beginPath();
           ctx.fillRect(x, y, this.brickWidth, this.brickHeight);
-          // ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
+          ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
           ctx.closePath();
         }
       }
@@ -1334,10 +1336,10 @@ function game3(){
 
   class Game {
     constructor() {
-      var ballSpeeds = 12;
+      var ballSpeeds = 10;
       var brickSettings = [
-        [5, 5, 200, 50, 350, 350, 'red', 'left'], //rows, cols, x, y, width, height, color
-        [5, 5, WIDTH-450, 50, 350, 350, 'blue', 'right']
+        [5, 5, 200, 50, 300, 350, '#FA3F3F', 'left'], //rows, cols, x, y, width, height, color
+        [5, 5, WIDTH-450, 50, 300, 350, '#3F3FFA', 'right']
       ];
   
       this.state = "play";
