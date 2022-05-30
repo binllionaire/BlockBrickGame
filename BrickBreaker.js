@@ -158,6 +158,8 @@ function reduce() {
  //3 2
   if(timelef == -2) {
     alert("Time over!");
+    stop_interval();
+    stopWin();
       window.location.reload();
   }        
 }
@@ -166,6 +168,7 @@ reduce_Interval = setInterval(reduce,1000);
 }
 function stop_interval() {
   clearInterval(reduce_Interval);
+  audio = '';
 }
 
 
@@ -587,18 +590,29 @@ count--;
 }*/
 
 // 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(별)
+var audio = new Audio('공깨질때.wav');
 function collisionDetection_star() {
   for(var c=0; c<9; c++) {
   for(var r=0; r<8; r++) {
   var e = bricks_s[c][r];
   var f = bricks2_s[c][r];
-  if(e.status==1) {
-    if(x >=e.x && x <= e.x+brickWidth&& y >= e.y && y <= e.y+brickHeight) {
-  dy = -dy;
+if(e.status==1) {
+    if(x >=e.x && x <= e.x+brickWidth/2&& y >= e.y && y <= e.y+brickHeight/2) {
+      audio.play();
+      dy = -dy;
   e.status = 0;
   score++;}
     }
-  if(f.status == 1){
+    if(x >=e.x+brickWidth/2 && x <= e.x+brickWidth&& y >= e.y && y <= e.y+brickHeight/2) {
+      audio.play();
+      dx +=1;
+      dy = -dy;
+  e.status = 0;
+  score++;}
+    
+  
+  
+if(f.status == 1){
     if(x >=f.x && x <= f.x+brickWidth&& y >= f.y && y <= f.y+brickHeight) {
     dy = -dy;
     dx = -dx;
@@ -606,18 +620,20 @@ function collisionDetection_star() {
         }        
     }      
   }
+}
   
 
   //document.location.reload();
-  }
+  
 
 // 승리 체크, 다음 게임으로 넘어가기
 function isWin() {
-  if(score ==2) {    //count2) {
+  if(score ==count2) {    //count2) {
   alert("YOU WIN, CONGRATS!");
   $("#game1").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
+              audio = "";
               stop_interval();
               stopWin();
               game2();
@@ -639,12 +655,23 @@ function stopWin() {
     ctx.fillText("Lives: "+lives, canvas.width-65, 20);
   }
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-     //drawBricks();
-    //drawBricks2();
+/*
+  function startInterval(){
+    interv = setInterval(draw, 4);
+    textInterval = setInterval(textOut,500);
+  }
+  function stopInterval(){
+    clearInterval(interv);
+    clearInterval(textInterval);
+  }
+*/
+  startInterval();
+  function drawStar() {
     drawBricks_star();  
     drawBricks2_star2();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
     drawPaddle();
     drawScore();
@@ -697,7 +724,9 @@ function stopWin() {
     y += dy;
     requestAnimationFrame(draw);
   }
-  draw();
+  drawStar();
+  setInterval(draw,1);
+  //draw();
   isWin_interval = setInterval(isWin, 1);
   
   //eraseBrick1_2();
