@@ -772,12 +772,7 @@ function for_game2(){
     bgm2.pause();
   }
 
-   var bgm3=new Audio("bgm3.mp3");
-  bgm3.load();
-  bgm3.oncanplaythrough=function(){
-    bgm3.play();
-  }
-  bgm3.loop=true;
+  var bgm3=new Audio("bgm3.mp3");
  
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
@@ -812,6 +807,7 @@ function for_game2(){
   var game2noticeButton = $("#game2_notice button");
   game2noticeButton.click(function(){
     game2notice.css("display","none");
+    startInterval();
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
   })
 
@@ -906,8 +902,11 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
-            TotalScore += 
-            $("#scoreBox").animate({width:'+=90px'});
+            //TotalScore +=
+            score++;
+            $("#scoreBox").animate({width:'+=88px'});
+            var scoreText = "누적금액 : " + (score*10) + "억";
+            $("#scoreBox").text(scoreText);
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
@@ -922,7 +921,6 @@ function for_game2(){
                 bgm2.play();
               }
               setTimeout(() => game3(), 3000);
-              
             }
           }
         }
@@ -931,15 +929,16 @@ function for_game2(){
   }
 
   function drawLives(){
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("Lives : "+lives, canvas.width-65, 20);
+    // ctx.font = "16px Arial";
+    // ctx.fillStyle = "black";
+    // ctx.fillText("Lives : "+lives, canvas.width-65, 20);
+    var lifeText = "Lives : "+lives;
 
+    $("#restLifesText").text(lifeText);
 
-    var rightArea_lifes = document.getElementById('rightside');
+    var rightArea_lifes = document.getElementById('lifesCharacters');
 
     while(rightArea_lifes.firstChild){
-      
       rightArea_lifes.removeChild(rightArea_lifes.firstChild);
     }
 
@@ -1090,7 +1089,6 @@ function for_game2(){
     bgm3.pause();
   }
 
-  startInterval();
 }
 
 /*=================================================== GAME 3 ==================================================*/
