@@ -906,7 +906,7 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
-            TotalScore += 
+            // TotalScore += 
             $("#scoreBox").animate({width:'+=90px'});
             if(score == brickRowCount*brickColumnCount){
               stopInterval();
