@@ -175,6 +175,7 @@ function for_game1(){
   
   function startGame() {
     
+
     timeout = 150;
     timeoutInterval = 
       setInterval(function(){
@@ -187,6 +188,7 @@ function for_game1(){
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
+
 
   var timeout;
   var timeoutInterval;
@@ -299,17 +301,17 @@ function for_game1(){
 
       if(bricktype=='star'){
         this.data = [
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,2,2,2,2,2,0,0,0],
+          [0,0,2,2,2,1,2,2,2,0,0],
+          [0,2,2,2,1,1,1,2,2,2,0],
+          [0,2,2,1,1,1,1,1,2,2,0],
+          [0,2,2,2,2,1,2,2,2,2,0],
+          [0,2,2,2,2,1,2,2,2,2,0],
+          [0,2,2,2,1,1,2,2,2,2,0],
           [0,0,2,2,2,2,2,2,2,0,0],
-          [0,2,2,2,2,2,2,2,2,2,0],
-          [2,2,2,2,2,1,2,2,2,2,2],
-          [2,2,2,2,1,1,1,2,2,2,2],
-          [2,2,1,1,1,1,1,1,1,2,2],
-          [2,2,2,1,1,1,1,1,2,2,2],
-          [2,2,2,2,1,1,1,2,2,2,2],
-          [2,2,2,1,1,2,1,1,2,2,2],
-          [2,2,1,1,2,2,2,1,1,2,2],
-          [0,2,2,2,2,2,2,2,2,2,0],
-          [0,0,2,2,2,2,2,2,2,0,0]
+          [0,0,0,2,2,2,2,2,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0]
         ];
         this.count = 0;
         for(var i=0; i<11; i++){
@@ -364,7 +366,7 @@ function for_game1(){
     constructor() {
       var ballSpeeds = 10;
       var brickSettings = [
-        [11, 11, canvas_Width/2-330, 50, 660, 660, 'yellow', 'blue', 'star'] //rows, cols, x, y, width, height, color
+        [11, 11, canvas_Width/2-330, 5, 660, 660, '#69491A', '#F2AB39', 'star'] //rows, cols, x, y, width, height, color
       ];
   
       this.state = "play";
@@ -404,6 +406,7 @@ function for_game1(){
       this.ball.draw(ctx);
     }
   }
+
 
   var game = null;
 
@@ -463,11 +466,20 @@ function for_game2(){
   var y = window.innerHeight*0.6-40;
   var dx = 2;
   var dy = -2;
-  var ballRadius = 10; //공의 반지름
+  var ballRadius = 15; //공의 반지름
   var paddleHeight = 15; //패들높이
   var paddleWidth = 150; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var paddleColor = "#FFFFFF";
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+    
+    canvas.width = window.innerWidth*0.7;
+    canvas.height = window.innerHeight*0.9;
+  }
+  resizeCanvas();
 
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
@@ -478,7 +490,7 @@ function for_game2(){
   var brickColumnCount = 5; //벽돌의 열 갯수
   
   var brickWidth = 255; //벽돌의 폭
-  var brickHeight = 35; //벽돌의 높이
+  var brickHeight = 50; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 15; //벽돌의 위쪽 여백
   var brickOffsetLeft = 15; //벽돌의 왼쪽 여백
@@ -533,6 +545,7 @@ function for_game2(){
   window.addEventListener('resize', resizeCanvas, false);
 
   function resizeCanvas() {
+    
     canvas.width = window.innerWidth*0.7;
     canvas.height = window.innerHeight*0.9;
   }
@@ -619,7 +632,7 @@ function for_game2(){
     var lifeText = "Lives : "+lives;
 
     $("#restLifesText").text(lifeText);
-
+ $("#lifesCharacters").css("background-color","#E0B88A")
     var rightArea_lifes = document.getElementById('lifesCharacters');
 
     while(rightArea_lifes.firstChild){
