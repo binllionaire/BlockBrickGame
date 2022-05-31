@@ -145,33 +145,6 @@ function game2(){
 /*=================================================== GAME 1 ==================================================*/
 
 function for_game1(){
-<<<<<<< HEAD
-
-
-  var canvas = document.getElementById("canvas_for_game1");
-  var ctx = canvas.getContext("2d");
-  var x = window.innerWidth*0.7/2;
-  var y = window.innerHeight-40;
-  var dx = 2;
-  var dy = -2;
-  var ballRadius = 10; //공의 반지름
-  var paddleHeight = 15; //패들높이
-  var paddleWidth = 200; //패들 폭
-  var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
-  var paddleColor = "#69491A";
-
-  var rightPressed = false; // -> 버튼 눌림
-  var leftPressed = false; // <- 버튼 눌림
-  var brickRowCount = 8; //벽돌의 행 갯수
-  var brickColumnCount = 9; //벽돌의 열 갯수
-  
-  var brickWidth = 100; //벽돌의 폭
-  var brickHeight = 50; //벽돌의 높이
-  var brickPadding = 10; //벽돌의 padding
-  var brickOffsetTop = 10; //벽돌의 위쪽 여백
-  var brickOffsetLeft = 100; //벽돌의 왼쪽 여백
-
-
   var game1notice = $("#game1_notice");
   game1notice.fadeIn(2000);
 
@@ -203,15 +176,6 @@ function for_game1(){
   function startGame() {
     
 
-  function setBackground(){
-    var image = new Image();
-    image.onload = function() {context.drawImage(image, 0, 0, canvas.width, canvas.height);}
-  image.src = "game1_wallpaer.jpeg";
-  }
-  function setTime() {
-    
-  }
-  function reset(again){
     timeout = 150;
     timeoutInterval = 
       setInterval(function(){
@@ -229,15 +193,6 @@ function for_game1(){
   var timeout;
   var timeoutInterval;
 
-    canMove = true;
-    
-    $("#scoreBox").css({"width":"0px"});
-
-    for(var c = 0; c < brickColumnCount; c++){ //행
-      for(var r = 0; r < brickRowCount; r++){// 열
-        var b = bricks[c][r];
-        b.status = 1;
-      }
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
   var BALL_RADIUS = 10;
@@ -256,7 +211,8 @@ function for_game1(){
       this.radius = radius;
       this.speed = speed;
       this.setAngle(angle);
-      this.color = color; }
+      this.color = color;
+    }
   
     setAngle(angle) {
       var radian = angle / 180 * Math.PI;
@@ -327,48 +283,6 @@ function for_game1(){
     }
   }
 
-  function collisionDetection(){
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
-        var b = bricks[c][r];
-        //깨지는 블럭에 맞았을때
-        if(b.status == 1 && map[r][c]== 0){
-          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-            dy = -dy;
-            b.status = 0;
-            //TotalScore +=
-            score++;
-            $("#scoreBox").animate({width:'+=88px'});
-            var scoreText = "누적금액 : " + (score*10) + "억";
-            $("#scoreBox").text(scoreText);
-            if(score ==45) //brickRowCount*brickColumnCount)
-            {
-              stopInterval();
-
-              // <<<<<<<================= 레벌 2 으로 넘어가는 시점
-             
-              $("#game1").css("display","none");
-              $("#clear").fadeIn(1000);
-              setTimeout(() => $("#clear").fadeOut(1000), 2000);
-            
-              setTimeout(() => game2(), 3000);
-            }
-          }
-        }else if(b.status == 1 && map[r][c]== 1){ //깨지지 않는 블럭에 맞았을 때
-          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-           dy=-dy;
-            //여기를 고쳐야함 dx=-dx를 넣으면 버그는 안생기지만 루프가 생김
-            /*if(dx>0 && map[c][r-1]==0){
-            dx=-dx;
-            }
-            else if(dx<0 && map[c][r+1]==0){
-              dx=-dx;
-              }
-            else {;}
-         /* if(x==b.x  && y==b.y){
-           
-           dy=-dy;
-=======
   class Bricks {
     constructor(rows, cols, x, y, width, height, color, color_rest, bricktype) {
       this.rows = rows;
@@ -404,55 +318,12 @@ function for_game1(){
           for(var j=0; j<11; j++){
             if(this.data[i][j]==2)
               this.count++;
->>>>>>> 33fcbb75a2ed72cbb59d26610efcbcec00ef798d
           }
-          if(x==b.x && y==b.y + brickHeight) {
-           dx=-dx;
-           dy=-dy;
-          }*/
         }
       }
       
     }
- }
-}
-
-  function drawLives(){
-    var lifeText = "Lives : "+lives;
-    $("#restLifesText1").text(lifeText);
-  }
-
-  function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-    ctx.closePath();
-
-  }
-  function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-
-    ctx.fillStyle = paddleColor;
-    ctx.fill();
-    ctx.closePath();
-  }
-
-  function drawBricks(){
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
-        if(bricks[c][r].status == 1 && map[r][c] == 0){
-          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[c][r].x = brickX;
-          bricks[c][r].y = brickY;
-          ctx.beginPath();
-          ctx.rect(brickX, brickY, brickWidth, brickHeight);
-
-          ctx.fillStyle = "#f2AB39";
-          ctx.fill();
-          ctx.closePath();
+  
     collide(x, y) {
       var row = Math.floor((y - this.y) / this.brickHeight);
       var col = Math.floor((x - this.x) / this.brickWidth);
@@ -515,6 +386,7 @@ function for_game1(){
         this.ball.collideWall(0, 0, WIDTH);
         this.paddle.collide(this.ball);
         if (this.brick.collide(this.ball.collideX, this.ball.y)){
+          
           this.ball.mx *= -1;
         } 
         if (this.brick.collide(this.ball.x, this.ball.collideY)){
@@ -539,10 +411,6 @@ function for_game1(){
 
   var game = null;
 
-  function startInterval(){
-    setBackground();
-    interv = setInterval(draw, 4);
-    
   function mainLoop() {
     requestAnimationFrame(mainLoop);
 
