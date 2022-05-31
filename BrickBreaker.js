@@ -129,7 +129,7 @@ function gameMenu(){
 function game1(){
   $("#game-menu").css("display","none"); 
   $("#game1").css("display","block"); 
-  game_start();
+  for_game1();
 }
 function game2(){
   $("#game-menu").css("display","none"); 
@@ -145,52 +145,60 @@ function game2(){
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 // 확인을 누르면 게임을 시작하는 함수 추가 (정재우)
-function game_start() {
-  var game1notice = $("#game1_notice");
-  game1notice.fadeIn(2000);
-  var game1noticeButton = $("#game1_notice button");
-  game1noticeButton.click(function(){
-    game1notice.css("display","none");
-     for_game1();
-     reduceInterval();
-    // 게임 함수 실행
-    //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
-  })
-   
-}
-
-
-var timelef = 20;
-function reduce() {
-  var timetext = "제한 시간: "+timelef; // 시간
-  document.getElementById("right").innerHTML = timetext;
-  timelef-=1;
- //3 2
-  if(timelef == -2) {
-  $("#game1").css("display","none");
-    alert("Time over!");
-    //stop_interval();
-    //stopWin();
-    //timelef =2;
-    //reduceInterval();
-    //for_game1();
-    $("#fail").fadeIn(1000);
-    setTimeout(() => $("#fail").fadeOut(1000), 2000);
-    setTimeout(() => game2(), 3000);
-    //  window.location.reload();
-  }        
-}
-var reduce_Interval;
-function reduceInterval() {
-reduce_Interval = setInterval(reduce,1000); 
-}
-function stop_interval() {
-  clearInterval(reduce_Interval);
-  audio = '';
-}
 
 
 function for_game1() {
+ 
+  function game_start() {
+    var game1notice = $("#game1_notice");
+    game1notice.fadeIn(2000);
+    var game1noticeButton = $("#game1_notice button");
+    game1noticeButton.click(function(){
+      game1notice.css("display","none");
+       for_game1();
+       reduceInterval();
+      // 게임 함수 실행
+      //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
+    })
+     
+  }
+  
+  
+  var timelef = 3;
+  function reduce() {
+    var timetext = "제한 시간: "+timelef; // 시간
+    document.getElementById("right").innerHTML = timetext;
+    timelef-=1;
+   //3 2
+    if(timelef == -2) {
+    $("#game1").css("display","none");
+      alert("Time over!");
+      //timelef =2;
+      //reduceInterval();
+      //for_game1();
+      $("#fail").fadeIn(1000);
+      setTimeout(() => $("#fail").fadeOut(1000), 2000);
+      //setTimeout(() => game2(), 3000);
+       //stop_interval();
+      //stopWin();
+      cancelAnimationFrame(draw);
+      reset(again);
+  
+     
+      //  window.location.reload();
+    }        
+  }
+  var reduce_Interval;
+  function reduceInterval() {
+  reduce_Interval = setInterval(reduce,1000); 
+  }
+  function stop_interval() {
+    clearInterval(reduce_Interval);
+    audio = '';
+    timelef = 20; // 시간 초기화
+    lives = 10; // 목숨 초기화
+  }
+  
 
   var width = window.innerWidth*0.7;
   var height = window.innerHeight;
@@ -204,7 +212,7 @@ function for_game1() {
   var dx = 6;
   var dy = -6;
   var paddleHeight = 10;
-  var paddleWidth = 75;
+  var paddleWidth = 200;
   var paddleX = (width-paddleWidth)/2;
   var rightPressed = false;
   var leftPressed = false;
@@ -218,7 +226,7 @@ function for_game1() {
   var score = 0;
 var count = brickColumnCount*brickRowCount;
 var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
-  var lives = 10; //목숨
+  var lives = 2; //목숨
  
   window.addEventListener('resize', resizeCanvas, false);
 
@@ -236,18 +244,6 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   game1noticeButton.click(function(){
     game1notice.css("display","none");
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!*/
-    
-   
-
-
-  var bricks = [];
-  for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-      bricks[c][r] = { x: 0, y: 0, status: 1 };
-    }
-  }
-
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -276,25 +272,6 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
       paddleX = relativeX - paddleWidth/2;
     }
   }
-  /*function collisionDetection() {
-    for(var c=0; c<brickColumnCount; c++) {
-      for(var r=0; r<brickRowCount; r++) {
-        var b = bricks[c][r];
-        if(b.status == 1) {
-          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-            dy = -(Math.random()*2.5)*dy;
-            b.status = 0;
-            score++;
-            if(score == brickRowCount*brickColumnCount) {
-              alert("YOU WIN, CONGRATS!");
-              //document.location.reload();
-            }
-          }
-        }
-      }
-    }
-  }
-*/
   function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -305,89 +282,61 @@ var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+   // img.onload = function () {
+   //   ctx.drawImage(img, paddleX, paddleY, paddleWidth, paddleHeight);
+   // }
     ctx.fillStyle = "#e11880";
     ctx.fill();
-    ctx.closePath();
+  ctx.closePath();
   }
-  function drawBricks() {
-    for(var c=0; c<brickColumnCount; c++) {
-      for(var r=0; r<brickRowCount; r++) {
-        if(bricks[c][r].status == 1) {
-var brickX = c*(brickWidth+brickPadding)+brickOffsetLeft;
-var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-bricks[c][r].x = brickX;
-bricks[c][r].y = brickY;
-ctx.beginPath();
-ctx.rect(brickX, brickY, brickWidth, brickHeight);
-ctx.fillStyle = "#0095DD";
-ctx.fill();
-ctx.closePath();
+  
+
+imgsrc = "C:\Users\CHUNG\Desktop\재우\BrickOutGame\명함.png";
+var img = new Image();
+img.src = imgsrc;
+
+//리셋 함수 -> 게임에서 죽으면 초기화
+function reset(again) {
+  var again = true;
+  x = canvas.width/2;
+    y = canvas.height-40;
+    dx = 2;
+    dy = -2;
+    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+    paddleColor = "#000000";
+    score = 0;
+    lives = 10; //목숨갯수
+    //빨간 벽돌 초기화
+    var brickX1;
+var brickY1;
+var bricks_s = [];
+for(var c=0; c<9; c++) {
+bricks_s[c] = [];
+for(var r=0; r<8; r++) {
+ // 파랑 벽돌
+bricks_s[c][r] = { x: 0, y: 0, status:1};
+}
+}
+//노랑 벽돌 초기화
+var brickX_s;
+var brickY_s;
+var bricks2_s = []; // 노랑 벽돌 선언
+for(var c=0; c<9; c++) { 
+bricks2_s[c] = [];
+for(var r=0; r<8; r++) {
+var e = bricks2_s[c][r];
+bricks2_s[c][r] = { x: 0, y: 0, status:1};
+} 
 
 }
-}
-}
-}
-// 두번째 벽돌 배치 패턴-> 노랑 벽돌
-var bricks2 = [];
-for(var c=1; c<brickColumnCount-1; c++) {
-bricks2[c] = [];
-for(var r=1; r<brickRowCount-1; r++) {
-var d = bricks2[c][r];
-bricks2[c][r] = { x: 0, y: 0, status:1};
-}
-}
-//두번째 벽돌을 그리는 함수(사각형)
-function drawBricks2() {
-for(var c=1; c<brickColumnCount-1; c++) {
-for(var r=1; r<brickRowCount-1; r++) {
-if(bricks2[c][r].status == 1) {
-var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-bricks2[c][r].x = brickX;
-bricks2[c][r].y = brickY;
-ctx.beginPath();
-ctx.rect(brickX, brickY, brickWidth, brickHeight);
-ctx.fillStyle = "yellow";
-ctx.fill();
-ctx.closePath();
-}
-}
-}
-}
-// 파란 벽돌을 지워주는 함수(사각형)
-function eraseBrick1_2() {
-for(c=1; c<brickColumnCount-1; c++){
-for(r=1; r<brickRowCount-1; r++){
-if(bricks[c][r].x == bricks2[c][r].x) {
-bricks[c][r].status = 0;
-count--;
-}
-}
-}
+
+if(again) {
+  requestAnimationFrame(draw);
+  draw();
+  eraseBrick1_2s();
+  
 }
 
-// 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(사각형)
-function collisionDetection() {
-
-for(var c=0; c<brickColumnCount; c++) {
-for(var r=0; r<brickRowCount; r++) {
-var b = bricks[c][r];
-if(b.status == 1) {
-if(x >= bricks[c][r].x && x <= bricks[c][r].x+brickWidth && y >= bricks[c][r].y &&
-   y <= bricks[c][r].y+brickHeight) {
-dy = -dy;
-b.status = 0;
-score++;
-if(score == count) {
-alert("YOU WIN, CONGRATS!");
-document.location.reload();
-  }
-  }
-/*if(x > bricks2[c][r].x && x < bricks2[c][r].x+brickWidth && y > bricks2[c][r].y && y < bricks2[c][r].y+brickHeight) {
-dy = -dy;*/ 
-  }
-  }
-  }
 }
 
 // 첫번째 블럭 배치(별)
@@ -412,6 +361,11 @@ bricks_s[c][r].x = brickX1;
 bricks_s[c][r].y = brickY1;
 ctx.beginPath();
 ctx.rect(brickX1, brickY1, brickWidth, brickHeight);
+/*img.onload = function(){
+var drawImage = ctx.drawImage(img, brickX1, brickY1, 30, 30);
+setInterval(drawImage, 1000);
+*/
+//}
 ctx.fillStyle = "red";
 ctx.fill();
 ctx.closePath();
@@ -419,6 +373,7 @@ ctx.closePath();
     }
   }
 }
+
 
 // 두번째 벽돌 배치 패턴-> 노랑 벽돌(별)
 var brickX_s;
@@ -607,7 +562,9 @@ count--;
 }*/
 
 // 공이 벽돌에 충돌할 때 벽돌이 사라지게 하는 함수(별)
-
+function dy() {
+  var dyv = 1.1*dy;
+}
 var audio = new Audio('공깨질때.wav');
 function collisionDetection_star() {
   for(var c=0; c<9; c++) {
@@ -623,36 +580,63 @@ if(e.status==1) {
   score++;}
     }
 if(f.status == 1){
-    if(x >=f.x && x <= f.x+brickWidth && y >= f.y && y <= f.y+brickHeight) {
+  if(x>=f.x && x< f.x + brickWidth/2 && y>=f.y && y< f.y + brickHeight/2) // 3사분면
+  dx = -dx;
+  dy = -dy;
+  if(x>=f.x + brickWidth/2 && x<f.x+ brickWidth && y>=f.y && y< f.y + brickHeight/2) // 4사분면
+  dx = dx;
+  dy = -dy;
+  if(x>=f.x && x< f.x + brickWidth/2 && y>=f.y && y<= f.y + brickHeight/2)
+  dx = -dx;
+  dy = -dy;
+  if(x>=f.x + brickWidth/2 && x<f.x+ brickWidth && y>f.y + brickWidth/2 && y<=f.y+ brickWidth)
+  dx = dx;
+  dy = -dy;
+  /* if(x >=f.x-brickPadding/2 && x <= f.x+brickWidth+brickPadding/2 && y >= f.y-brickPadding/2 && y <= f.y+brickHeight+brickPadding/2) {
     dy = -dy;
-  }
+    dx = -dx;
+  }*/
         }        
 
     }      
   }
 }
-  
+  /*if(x >= paddleX && x <= paddleX + paddleWidth) {
+        if(x >= paddleX && x < paddleX + paddleWidth/4){
+
+          dy = -4*(dy/Math.abs(dy));
+          dx = -4;
+        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
+          dy = -(dy/Math.abs(dy))*6;
+          dx = (dx/Math.abs(dx))*6;
+        }else{
+          dy = -4*(dy/Math.abs(dy));
+          dx = 4;
+        }
+      }
+*/
 
   //document.location.reload();
   
 
 // 승리 체크, 다음 게임으로 넘어가기
 function isWin() {
-  if(score ==count2) {    //count2) {
+  if(score == count2) {    //count2) {
   alert("YOU WIN, CONGRATS!");
   $("#game1").css("display","none");
               $("#clear").fadeIn(1000);
               setTimeout(() => $("#clear").fadeOut(1000), 2000);
               audio = "";
-              stop_interval();
+              stop_interval(); 
               stopWin();
+              cancelAnimationFrame(draw);
               //game2();
               setTimeout(() => game2(), 3000);
             
               return 0;
             }
 } 
-function stopWin() {
+function stopWin() { 
   clearInterval(isWin_interval);
 }
   function drawScore() {
@@ -714,12 +698,14 @@ function stopWin() {
       else {
         lives--;
         if(!lives) {
+          cancelAnimationFrame(draw);
           alert("GAME OVER");
-          //stopWin();
-          //stop_interval();
           $("#fail").fadeIn(1000);
           setTimeout(() => $("#fail").fadeOut(1000), 2000);
-          window.location.onload;//for_game1();  
+          stopWin(); 
+          stop_interval();
+          reset(again);
+          //window.location.onload;//for_game1();  
         }
         else {
           x = canvas.width/2;
@@ -741,13 +727,11 @@ function stopWin() {
     x += dx;
     y += dy;
     requestAnimationFrame(draw);
+
   }
-  
   draw();
   isWin_interval = setInterval(isWin, 1);
-  
-  //eraseBrick1_2();
- eraseBrick1_2s();
+  eraseBrick1_2s();
   // 승리 체크
 }
 // =====================정재우==============================
