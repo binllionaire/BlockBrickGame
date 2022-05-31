@@ -439,6 +439,9 @@ video {
   height: 100%;
   position: relative;
 }
+#canvas_for_game1{
+  background-size: 0;
+}
 
 #game1_notice {
   display: none;

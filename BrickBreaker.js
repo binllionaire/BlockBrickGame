@@ -170,7 +170,6 @@ function for_game1(){
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 100; //벽돌의 왼쪽 여백
 
- 
   var game1notice = $("#game1_notice");
   game1notice.fadeIn(2000);
 
@@ -187,6 +186,14 @@ function for_game1(){
 
   var canMove = true;
 
+  function setBackground(){
+    var image = new Image();
+    image.onload = function() {context.drawImage(image, 0, 0, canvas.width, canvas.height);}
+  image.src = "game1_wallpaer.jpeg";
+  }
+  function setTime() {
+    
+  }
   function reset(again){
 
     x = canvas.width/2;
@@ -201,11 +208,11 @@ function for_game1(){
     lives = 10; //목숨갯수
 
     canMove = true;
-
+    
     $("#scoreBox").css({"width":"0px"});
 
-    for(var c = 0; c < brickColumnCount; c++){
-      for(var r = 0; r < brickRowCount; r++){
+    for(var c = 0; c < brickColumnCount; c++){ //행
+      for(var r = 0; r < brickRowCount; r++){// 열
         var b = bricks[c][r];
         b.status = 1;
       }
@@ -288,7 +295,8 @@ function for_game1(){
             $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (score*10) + "억";
             $("#scoreBox").text(scoreText);
-            if(score == brickRowCount*brickColumnCount){
+            if(score ==45) //brickRowCount*brickColumnCount)
+            {
               stopInterval();
 
               // <<<<<<<================= 레벌 2 으로 넘어가는 시점
@@ -302,20 +310,32 @@ function for_game1(){
           }
         }else if(b.status == 1 && map[r][c]== 1){ //깨지지 않는 블럭에 맞았을 때
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+           dy=-dy;
             //여기를 고쳐야함 dx=-dx를 넣으면 버그는 안생기지만 루프가 생김
-            
-            dy = -dy;
+            /*if(dx>0 && map[c][r-1]==0){
+            dx=-dx;
+            }
+            else if(dx<0 && map[c][r+1]==0){
+              dx=-dx;
+              }
+            else {;}
+         /* if(x==b.x  && y==b.y){
+           
+           dy=-dy;
           }
+          if(x==b.x && y==b.y + brickHeight) {
+           dx=-dx;
+           dy=-dy;
+          }*/
         }
-        
       }
     }
   }
+}
 
   function drawLives(){
     var lifeText = "Lives : "+lives;
     $("#restLifesText1").text(lifeText);
-
   }
 
   function drawBall() {
@@ -429,6 +449,7 @@ function for_game1(){
   }
 
   function startInterval(){
+    setBackground();
     interv = setInterval(draw, 4);
     
 
