@@ -128,7 +128,10 @@ function gameMenu(){
 }
 function game1(){
   $("#game-menu").css("display","none"); 
+
   $("#game1").css("display","block"); 
+
+  $("#game1").css("display","block");
   for_game1();
 }
 function game2(){
@@ -138,13 +141,56 @@ function game2(){
 }
 
 
-
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 /*=================================================== GAME 1 ==================================================*/
 // 확인을 누르면 게임을 시작하는 함수 추가 (정재우)
+
+
+function for_game1(){
+
+
+  var canvas = document.getElementById("canvas_for_game1");
+  var ctx = canvas.getContext("2d");
+  var x = window.innerWidth*0.7/2;
+  var y = window.innerHeight-40;
+  var dx = 2;
+  var dy = -2;
+  var ballRadius = 10; //공의 반지름
+  var paddleHeight = 15; //패들높이
+  var paddleWidth = 200; //패들 폭
+  var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
+  var paddleColor = "#69491A";
+
+  var rightPressed = false; // -> 버튼 눌림
+  var leftPressed = false; // <- 버튼 눌림
+  var brickRowCount = 8; //벽돌의 행 갯수
+  var brickColumnCount = 9; //벽돌의 열 갯수
+  
+  var brickWidth = 100; //벽돌의 폭
+  var brickHeight = 50; //벽돌의 높이
+  var brickPadding = 10; //벽돌의 padding
+  var brickOffsetTop = 10; //벽돌의 위쪽 여백
+  var brickOffsetLeft = 100; //벽돌의 왼쪽 여백
+
+ 
+  var game1notice = $("#game1_notice");
+  game1notice.fadeIn(2000);
+
+  var game1noticeButton = $("#game1_notice button");
+  game1noticeButton.click(function(){
+    game1notice.css("display","none");
+    startInterval();
+  })
+
+ 
+  var score = 0;
+
+  var lives = 10; //목숨갯수
+
+  var canMove = true;
 
 
 function for_game1() {
@@ -228,60 +274,153 @@ var count = brickColumnCount*brickRowCount;
 var count2 = 72; // 별을 제외한 벽돌의 개수를 표현할 예정
   var lives = 2; //목숨
  
+ function reset(again){
+
+    x = canvas.width/2;
+    y = canvas.height-40;
+    dx = 2;
+    dy = -2;
+    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
+    paddleColor = "#000000";
+
+    score = 0;
+
+    lives = 10; //목숨갯수
+
+    canMove = true;
+
+    $("#scoreBox").css({"width":"0px"});
+
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        var b = bricks[c][r];
+        b.status = 1;
+      }
+    }
+    if(again){
+      startInterval();
+    }
+  }
+
   window.addEventListener('resize', resizeCanvas, false);
 
   function resizeCanvas() {
-          canvas.width = window.innerWidth*0.7;
-          canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth*0.7;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
-
-  /*var game1notice = $("#game1_notice");
-  game1notice.fadeIn(2000);
-
-  var game1noticeButton = $("#game1_notice button");
   
   game1noticeButton.click(function(){
     game1notice.css("display","none");
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!*/
   document.addEventListener("keydown", keyDownHandler, false);
+
+  var map = [brickColumnCount][brickRowCount]=
+  
+    [[0,0,0,0,1,0,0,0,0],
+     [0,0,0,1,1,1,0,0,0],
+     [0,1,1,1,1,1,1,1,0],
+     [0,0,1,1,1,1,1,0,0],
+     [0,0,0,1,1,1,0,0,0],
+     [0,0,1,1,0,1,1,0,0],
+     [0,1,1,0,0,0,1,1,0],
+     [0,0,0,0,0,0,0,0,0],
+    ]
+
+
+  //벽돌 배치를 이차원 배열을 이용해서 함
+  var bricks = [];
+  for(var c=0; c<brickColumnCount; c++) {
+    bricks[c] = [];
+    for(var r=0; r<brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1};
+    }
+  }
+
+  document.addEventListener("keydown",keyDownHandler, false);
+
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
 
   function keyDownHandler(e) {
-      if(e.key == "Right" || e.key == "ArrowRight") {
-          rightPressed = true;
-      }
-      else if(e.key == "Left" || e.key == "ArrowLeft") {
-          leftPressed = true;
-      }
+    if(e.keyCode == 39) {
+      rightPressed = true;
+    }
+    else if(e.keyCode == 37) {
+      leftPressed = true;
+    }
   }
 
   function keyUpHandler(e) {
-      if(e.key == "Right" || e.key == "ArrowRight") {
-          rightPressed = false;
-      }
-      else if(e.key == "Left" || e.key == "ArrowLeft") {
-          leftPressed = false;
-      }
+    if(e.keyCode == 39) {
+      rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+      leftPressed = false;
+    }
   }
 
   function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
+    if(canMove && relativeX > 0 && relativeX < canvas.width) {
       paddleX = relativeX - paddleWidth/2;
     }
   }
-  function drawBall() {
+  function collisionDetection(){
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        var b = bricks[c][r];
+        //깨지는 블럭에 맞았을때
+        if(b.status == 1 && map[r][c]== 0){
+          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+            dy = -dy;
+            b.status = 0;
+            //TotalScore +=
+            score++;
+            $("#scoreBox").animate({width:'+=88px'});
+            var scoreText = "누적금액 : " + (score*10) + "억";
+            $("#scoreBox").text(scoreText);
+            if(score == brickRowCount*brickColumnCount){
+              stopInterval();
+
+              // <<<<<<<================= 레벌 2 으로 넘어가는 시점
+             
+              $("#game1").css("display","none");
+              $("#clear").fadeIn(1000);
+              setTimeout(() => $("#clear").fadeOut(1000), 2000);
+            
+              setTimeout(() => game2(), 3000);
+            }
+          }
+        }else if(b.status == 1 && map[r][c]== 1){ //깨지지 않는 블럭에 맞았을 때
+          if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+            //여기를 고쳐야함 dx=-dx를 넣으면 버그는 안생기지만 루프가 생김
+            
+            dy = -dy;
+          }
+        }
+        
+      }
+    }
+  }
+
+  function drawLives(){
+    var lifeText = "Lives : "+lives;
+    $("#restLifesText1").text(lifeText);
+
+  }
+ function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#e11880";
+    ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.closePath();
+
   }
   function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+
    // img.onload = function () {
    //   ctx.drawImage(img, paddleX, paddleY, paddleWidth, paddleHeight);
    // }
@@ -386,166 +525,39 @@ var e = bricks2_s[c][r];
 bricks2_s[c][r] = { x: 0, y: 0, status:1};
 } 
 
-}
-//두번째 벽돌을 그리는 함수(별)
-function drawBricks2_star2() {
-for(var r=0; r<=0; r++) {
-  for(var c=4; c<=4; c++) {
-  if(bricks2_s[c][r].status == 1) {
-    bricks_s[c][r].status = 2;
-    brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-    brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-    bricks2_s[c][r].x = brickX_s;
-    bricks2_s[c][r].y = brickY_s;
-    ctx.beginPath();
-    ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = paddleColor;
     ctx.fill();
-    ctx.closePath(); 
-    }  
+    ctx.closePath();
   }
-}
-  for(var r=1; r<=1; r++) {
-    for(var c=3; c<=5; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-      } 
-    }  
-  }
-  for(var r=2; r<=2; r++) {
-    for(var c=1; c<=7; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-            } 
-          }  
-  }
-  for(var r=3; r<=3; r++) {
-    for(var c=2; c<=6; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-            } 
-          }  
-  }
-   
-  for(var r=4; r<=4; r++) {
-    for(var c=3; c<=5; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-            } 
-          }  
-  }   
-  
-  for(var r=5; r<=5; r++) {
-    for(var c=2; c<=3; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-       brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-            } 
-          }
-    for(var c=5; c<=6; c++) {
-      if(bricks2_s[c][r].status == 1) {
-        bricks_s[c][r].status = 2;
-              var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-              var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-              bricks2_s[c][r].x = brickX_s;
-              bricks2_s[c][r].y = brickY_s;
-              ctx.beginPath();
-              ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-              ctx.fillStyle = "yellow";
-              ctx.fill();
-              ctx.closePath();
-                    } 
-                  }        
-  }
-  for(var r=6; r<=6; r++) {
-    for(var c=1; c<=2; c++) {
-    if(bricks2_s[c][r].status == 1) {
-      bricks_s[c][r].status = 2;
-      var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-      var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks2_s[c][r].x = brickX_s;
-      bricks2_s[c][r].y = brickY_s;
-      ctx.beginPath();
-      ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-      ctx.fillStyle = "yellow";
-      ctx.fill();
-      ctx.closePath();
-            } 
-          }
-    for(var c=6; c<=7; c++) {
-            if(bricks2_s[c][r].status == 1) {
-              bricks_s[c][r].status = 2;
-              var brickX_s = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-              var brickY_s = (r*(brickHeight+brickPadding))+brickOffsetTop;
-              bricks2_s[c][r].x = brickX_s;
-              bricks2_s[c][r].y = brickY_s;
-              ctx.beginPath();
-              ctx.rect(brickX_s, brickY_s, brickWidth, brickHeight);
-              ctx.fillStyle = "yellow";
-              ctx.fill();
-              ctx.closePath();
-                    } 
-                  }
-  }
-} 
 
-   
+  function drawBricks(){
+    for(var c = 0; c < brickColumnCount; c++){
+      for(var r = 0; r < brickRowCount; r++){
+        if(bricks[c][r].status == 1 && map[r][c] == 0){
+          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+          bricks[c][r].x = brickX;
+          bricks[c][r].y = brickY;
+          ctx.beginPath();
+          ctx.rect(brickX, brickY, brickWidth, brickHeight);
 
-//노란 사각형을 그리는 함수(별) 
-   
-// 파란 벽돌을 지워주는 함수(별)
-function eraseBrick1_2s() {
-for(c=0; c<9; c++){
-for(r=0; r<8; r++){
-if(bricks_s[c][r].status==2) {
-bricks_s[c][r].status = 0;
-count2-=1;
+          ctx.fillStyle = "#f2AB39";
+          ctx.fill();
+          ctx.closePath();
+        }
+        else if(bricks[c][r].status == 1 && map[r][c] == 1){
+          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+          bricks[c][r].x = brickX;
+          bricks[c][r].y = brickY;
+          ctx.beginPath();
+          ctx.rect(brickX, brickY, brickWidth, brickHeight);
 
-
+          ctx.fillStyle = "#69491A";
+          ctx.fill();
+          ctx.closePath();
+        }
+       
       }
     }
   }
@@ -565,7 +577,8 @@ count--;
 function dy() {
   var dyv = 1.1*dy;
 }
-var audio = new Audio('공깨질때.wav');
+
+//var audio = new Audio('공깨질때.wav');
 function collisionDetection_star() {
   for(var c=0; c<9; c++) {
   for(var r=0; r<8; r++) {
@@ -664,16 +677,6 @@ function stopWin() {
 */  
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-   
-    drawBricks_star();  
-    drawBricks2_star2();
- 
-    drawBall();
-    drawPaddle();
-    drawScore();
-    drawLives();
-    collisionDetection_star();
-
 
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
       dx = -dx;
@@ -684,15 +687,14 @@ function stopWin() {
     else if(y + dy > canvas.height-ballRadius) {
       if(x >= paddleX && x <= paddleX + paddleWidth) {
         if(x >= paddleX && x < paddleX + paddleWidth/4){
-
-          dy = -4*(dy/Math.abs(dy));
-          dx = -4;
+          dy = -(dy/Math.abs(dy));
+          dx = -3;
         }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-          dy = -(dy/Math.abs(dy))*6;
-          dx = (dx/Math.abs(dx))*6;
+          dy = -(dy/Math.abs(dy))*2;
+          dx = (dx/Math.abs(dx))*2;
         }else{
-          dy = -4*(dy/Math.abs(dy));
-          dx = 4;
+          dy = -(dy/Math.abs(dy));
+          dx = 3;
         }
       }
       else {
@@ -706,22 +708,31 @@ function stopWin() {
           stop_interval();
           reset(again);
           //window.location.onload;//for_game1();  
+        if(!lives){  //죽었을때
+          
+          stopInterval();
+          var again = true;
+          $("#fail").fadeIn(1000);
+          setTimeout(() => $("#fail").fadeOut(1000), 2000);
+          setTimeout(() => reset(again), 2000);
+          
         }
-        else {
+        else{
           x = canvas.width/2;
           y = canvas.height-30;
-          dx = 6;
-          dy = -6;
-          paddleX = (canvas.width-paddleWidth)/2;
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width - paddleWidth)/2;
         }
       }
     }
-
-    if(rightPressed && paddleX < canvas.width-paddleWidth) {
-      paddleX += 7;
-    }
-    else if(leftPressed && paddleX > 0) {
-      paddleX -= 7;
+    if(canMove){
+      if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 4;
+      }
+      else if(leftPressed && paddleX > 0) {
+        paddleX -= 4;
+      }
     }
 
     x += dx;
@@ -733,8 +744,28 @@ function stopWin() {
   isWin_interval = setInterval(isWin, 1);
   eraseBrick1_2s();
   // 승리 체크
+
+
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    collisionDetection();
+    drawLives();
+  }
+
+  function startInterval(){
+    interv = setInterval(draw, 4);
+    
+
+  }
+  function stopInterval(){
+    clearInterval(interv);
+    
+    
+  }
+
 }
-// =====================정재우==============================
+
 
 
 /*=================================================== GAME 2 ==================================================*/
@@ -884,6 +915,7 @@ function for_game2(){
             dy = -dy;
             b.status = 0;
             //TotalScore +=
+
             score++;
             $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (score*10) + "억";
@@ -1422,14 +1454,6 @@ function game3(){
     }
   }
   
-  function drawText(text) {
-    ctx.font = "bold 70px arial";
-    ctx.fillStyle = "dodgerblue";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, WIDTH / 2, HEIGHT / 2);
-  }
-
   var game = null;
 
   function mainLoop() {
@@ -1439,7 +1463,6 @@ function game3(){
       game.update();
       game.draw();
       if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
-        drawText("clear");
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
@@ -1460,10 +1483,8 @@ function game3(){
         canvas.style.cursor = "Default";
         initGameOption();                       //다시하기 버튼 클릭이벤트 핸들러
         startGame();
-        
-
-       
       }
+      
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
         game.state = "stop";
         life--;
@@ -1517,4 +1538,5 @@ function game3(){
   }
 
   mainLoop();
+}
 }
