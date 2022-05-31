@@ -1,4 +1,4 @@
-* { margin: 0px; padding: 0px; background-color: black; }
+* { margin: 0px; padding: 0px; background-color: black;}
 body { width: 100%; height: 100%; margin: 0px auto; }
 canvas{ margin: 0px 0px 0px 0px;}
 html{ width: 100%; height: 100%; }
@@ -111,6 +111,7 @@ input[type=radio]:checked+label{
 
 
 #main-menu{
+  background-color: black;
   padding-top: 10px;
   background-position: center;
   background-repeat : no-repeat;
@@ -231,11 +232,14 @@ input[type=radio]:checked+label{
 
 
 #intro{
+  width: 100%;
+  height: 100%;
+  background-color: black;
   display: none;
   text-align: center;
 }
 #intro p:nth-child(1){
-  margin-top: 100px;
+  padding-top: 100px;
   font-size: 50px;
   font-family: 'Gowun Batang', serif;
   color: white;
@@ -267,6 +271,8 @@ input[type=radio]:checked+label{
 
 
 #game-menu{
+  width: 100%;
+  background-color: black;
   padding-top: 15px;
   display: none;
   text-align: center;
@@ -274,6 +280,7 @@ input[type=radio]:checked+label{
 }
 
 #menu1{
+  background-color: black;
   -webkit-filter: grayscale(100%);
    -moz-filter: grayscale(100%);
    filter: grayscale(100%);
@@ -299,6 +306,7 @@ input[type=radio]:checked+label{
 }
 
 #menu2{
+  background-color: black;
   cursor: pointer;
   -webkit-filter: grayscale(100%);
    -moz-filter: grayscale(100%);
@@ -324,6 +332,7 @@ input[type=radio]:checked+label{
 }
 
 #menu3{
+  background-color: black;
   cursor: pointer;
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
@@ -418,26 +427,29 @@ video {
 
 #game1 {
   width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 #left{
-  background-color: #B8DFF8;
-  border-right: 3px solid #fff;
-  display: block;
-  float: left;
   width: 70%;
   height: 100%;
-}
-
-#right{
-  border-left: 3px solid white ;
-  background-color: #e11880;
-  color:white;
-  display: block;
   float: left;
+}
+#right{
   width: 30%;
   height: 100%;
-  position: relative;
+  float: left;
+  background-color: white;
+}
+#right h1 {
+  background-color: white;
+}
+#game1_canvas {
+  width: 100%;
+  height: 100%;
+}
+#game1_timeout {
+  background-color: white;
 }
 #canvas_for_game1{
   background-size: 0;
@@ -490,50 +502,41 @@ video {
   border: 0px;
 }
 
-#restLifesText1{
-  color:white;
+
+
+
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+/*=================================================== GAME 2 ==================================================*/
+
+#game2{
+  width: 100%;
+  height: 100%;
+  
 }
 
-
-
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-/*=================================================== GAME 2 ==================================================*/
-
-
-
 #leftside{
-  background-color: #B8DFF8;
-  display: block;
   float: left;
   width: 70%;
   height: 100%;
 }
 
 #rightside{
-  display: block;
-  float: left;
   width: 30%;
   height: 100%;
+  float: left;
+  background-color: #B4D8E7;
 }
 
- #canvas_for_game2{
-   height: 100%;
-}
 
-#doll_img_for_game2{
-  display: block;
-  margin: 10px auto 10px auto;
-  width: 200px;
-}
 #score_for_game2{
   width: 100%;
   height: 20%;
-  background-color: white;
+  
   padding: 5px 0 5px 0;
-  background-color: #F2E4C5;
+  
 }
 /*진행상황바*/
 #scoreBox{
@@ -541,18 +544,22 @@ video {
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
-  background-color: #31938D;
+  background-color: #ffd400;
   text-align: center;
+  font-family: 'Gowun Batang', serif;
 }
 
 #textArea{
   font-family: 'Gowun Batang', serif;
-  width: 100%;
-  height: 20%;
+  width: 90%;
+  height: 40px;
   text-align: center;
   font-size: 30px;
-  background-color: #FFD400;
-  padding: 10px 0 10px 0;
+  color:black;
+  background-color: white;
+  border-radius: 20px;
+  padding: 5px 0 5px 0;
+  margin: 50px auto 10px auto;
 }
 
 #game2_notice {
@@ -608,15 +615,106 @@ video {
 #restLifesText{
   display: block;
   width: 100%;
-  height: 180px;
-  background-color: white;
+  height: 50px;
+  color: black;
+  font-size: 30px;
   text-align: center;
-
+  background-color: #B4D8E7;
+  font-family: 'Gowun Batang', serif;
+}
+.score{
+  font-family: 'Gowun Batang', serif;
+  background-color: #B4D8E7;
+  color: black;
+  text-align: center;
+  font-size: 30px;
+}
+#dollArea{
+  width: 100%;
+  background-color: #B4D8E7;
+}
+#doll_img_for_game2{
+  background-color: #B4D8E7;
+  display: block;
+  margin: 0px auto 0px auto;
+  width: 30%;
+}
+#lifesCharacters{
+  
+    margin : 10px auto 0px auto;
+    width: 180px;
+    height: 0;
+    border-left: 180px solid #B4D8E7;
+    border-right: 180px solid #B4D8E7;
+    border-bottom: 300px solid #E0B88A;
+    
 }
 
-#lifesCharacters{
+#lifesCharacters img:nth-child(1){
+  top: 50%;
+  left: auto;
   display: block;
-  background-color: #B8DFF8;
+  width: 10%;
+  float: left;
+}
+#lifesCharacters img:nth-child(2){
+  
+  display: block;
+  width: 10%;
+  float: left;
+}
+#lifesCharacters img:nth-child(3){
+  
+  display: block;
+  width: 10%;
+  
+}     
+#lifesCharacters img:nth-child(4){
+  left: auto;
+  display: block;
+  width: 20%;
+  float: left;
+}   
+#lifesCharacters img:nth-child(5){
+  
+  display: block;
+  width: 20%;
+  float: left;
+}
+#lifesCharacters img:nth-child(6){
+  
+  display: block;
+  width: 20%;
+}
+#lifesCharacters img:nth-child(7){
+  left: auto;
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img:nth-child(8){
+  
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img:nth-child(9){
+  
+  display: block;
+  width: 30%;
+ 
+}
+#lifesCharacters img:nth-child(10){
+  
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img{
+  
+  display: block;
+  width: 30%;
+  float: left;
 }
 
 

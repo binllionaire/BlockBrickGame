@@ -100,13 +100,18 @@
   </div>
 
 <div id="left">
-  <canvas id="canvas_for_game1"></canvas>
+  <canvas id="game1_canvas"></canvas>
 </div>
 
 <div id="right">
+<<<<<<< HEAD
   <div id="restLifesText1"></div>
   
   <h1 class="score" style="color:white">적립된 상금 : 0원</h1>
+=======
+  <h1 class="score">적립된 상금 : 0원</h1>
+  <div id="game1_timeout"></div>
+>>>>>>> 33fcbb75a2ed72cbb59d26610efcbcec00ef798d
 </div>
 
 </div>
@@ -129,18 +134,25 @@
   </div>
 
   <div id="leftside">
-    <img src="doll_back.png" alt="" id="doll_img_for_game2">
-    <div id="textArea"></div>
-    <canvas id="canvas_for_game2" style="background: url('game2_wallpaper.png')"></canvas>
+    
+    <canvas id="canvas_for_game2"></canvas>
+    <div id="scoreBox"></div>
     <div id="score_for_game2">
-      <div id="scoreBox"></div>
+      
     </div>
   </div>
-  <div id="rightside">
 
+  <div id="rightside">
+    <p class="score" >적립된 상금 : 0원</p>
     <div id="restLifesText"></div>
-    <div id="lifesCharacters"></div>
-    <h1 class="score" >적립된 상금 : 0원</h1>
+    <div id="textArea"></div>
+    <div id="dollArea">
+    <img src="doll_back.png" alt="" id="doll_img_for_game2">
+  </div>
+    <div id="lifesCharacters" style="background-color: #E0B88A;">
+
+    </div>
+    
   </div>
   
 </div>
@@ -168,7 +180,7 @@
   </div>
 
   <div id="right_screen">
-    <h1 class="score" >적립된 상금 : 0원</h1>
+    <h1 class="score">적립된 상금 : 0원</h1>
 
     <img id="game3_character1" class="game3_character" src="game3_character1.png">
     <img id="game3_character2" class="game3_character" src="game3_character2.png">

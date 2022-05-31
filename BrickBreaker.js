@@ -145,6 +145,7 @@ function game2(){
 /*=================================================== GAME 1 ==================================================*/
 
 function for_game1(){
+<<<<<<< HEAD
 
 
   var canvas = document.getElementById("canvas_for_game1");
@@ -170,21 +171,37 @@ function for_game1(){
   var brickOffsetTop = 10; //벽돌의 위쪽 여백
   var brickOffsetLeft = 100; //벽돌의 왼쪽 여백
 
+
   var game1notice = $("#game1_notice");
   game1notice.fadeIn(2000);
 
   var game1noticeButton = $("#game1_notice button");
   game1noticeButton.click(function(){
-    game1notice.css("display","none");
-    startInterval();
+    game1notice.css("display","none"); 
+    startGame();                      //알림창 확인 버튼 -> 시작하게                             
   })
 
- 
-  var score = 0;
+  var canvas_Width = screen.availWidth*7/10;
+  var canvas_Height = screen.availHeight;
+  var canvas;
+  var ctx;
+  var mouseEvent = function(ev){
+    game.paddle.x = ev.offsetX - game.paddle.halfWidth;
+    if(game.paddle.x < 0){
+      game.paddle.x = 0;
+    } else if(game.paddle.x + game.paddle.width > WIDTH){
+      game.paddle.x = WIDTH - game.paddle.width;
+    }
+  };
+  
+  canvas = document.getElementById("game1_canvas");
+  ctx = canvas.getContext('2d');
 
-  var lives = 10; //목숨갯수
-
-  var canMove = true;
+  canvas.setAttribute('width', canvas_Width);
+  canvas.setAttribute('height', canvas_Height);
+  
+  function startGame() {
+    
 
   function setBackground(){
     var image = new Image();
@@ -195,17 +212,22 @@ function for_game1(){
     
   }
   function reset(again){
+    timeout = 150;
+    timeoutInterval = 
+      setInterval(function(){
+        timeout--;
+        $("#game1_timeout").text('남은시간: '+ timeout +'초');
+      },1000);
+    game = new Game();
+    canvas.focus();
+    canvas.style.cursor = "none"; 
 
-    x = canvas.width/2;
-    y = canvas.height-40;
-    dx = 2;
-    dy = -2;
-    paddleX = (canvas.width-paddleWidth)/2; //패들 위치
-    paddleColor = "#000000";
+    canvas.addEventListener("mousemove", mouseEvent);
+  }
 
-    score = 0;
 
-    lives = 10; //목숨갯수
+  var timeout;
+  var timeoutInterval;
 
     canMove = true;
     
@@ -216,68 +238,92 @@ function for_game1(){
         var b = bricks[c][r];
         b.status = 1;
       }
-    }
-    if(again){
-      startInterval();
-    }
-  }
+  var WIDTH = canvas.width;
+  var HEIGHT = canvas.height;
+  var BALL_RADIUS = 10;
+  var PADDLE_WIDTH = 200;
+  var PADDLE_HEIGHT = 15;
+  var PADDLE_X = (WIDTH - PADDLE_WIDTH) / 2;
+  var PADDLE_Y = HEIGHT - PADDLE_HEIGHT - 10;
+  var PADDLE_SPEED = 7;
+  var COLOR = "white";
 
-  window.addEventListener('resize', resizeCanvas, false);
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
+  class Ball { 
+    constructor(x, y, radius, speed, angle, color) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.speed = speed;
+      this.setAngle(angle);
+      this.color = color; }
   
-  var map = [brickColumnCount][brickRowCount]=
+    setAngle(angle) {
+      var radian = angle / 180 * Math.PI;
+      this.mx = this.speed * Math.cos(radian);
+      this.my = this.speed * -Math.sin(radian);
+    }
   
-    [[0,0,0,0,1,0,0,0,0],
-     [0,0,0,1,1,1,0,0,0],
-     [0,1,1,1,1,1,1,1,0],
-     [0,0,1,1,1,1,1,0,0],
-     [0,0,0,1,1,1,0,0,0],
-     [0,0,1,1,0,1,1,0,0],
-     [0,1,1,0,0,0,1,1,0],
-     [0,0,0,0,0,0,0,0,0],
-    ]
-
-
-  //벽돌 배치를 이차원 배열을 이용해서 함
-  var bricks = [];
-  for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-      bricks[c][r] = { x: 0, y: 0, status: 1};
+    move(k) {
+      this.x += this.mx * k;
+      this.y += this.my * k;
+    }
+  
+    get collideX() {
+      if (this.mx > 0) return this.x + this.radius;
+      else return this.x - this.radius;
+    }
+  
+    get collideY() {
+      if (this.my > 0) return this.y + this.radius;
+      else return this.y - this.radius;
+    }
+  
+    collideWall(left, top, right) {
+      if (this.mx < 0 && this.collideX < left) this.mx *= -1;
+      if (this.mx > 0 && this.collideX > right) this.mx *= -1;
+      if (this.my < 0 && this.collideY < top) this.my *= -1;
+    }
+  
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.closePath();
     }
   }
 
-  document.addEventListener("keydown",keyDownHandler, false);
-  document.addEventListener("keyup", keyUpHandler, false);
-  document.addEventListener("mousemove", mouseMoveHandler, false);
-
-  function keyDownHandler(e) {
-    if(e.keyCode == 39) {
-      rightPressed = true;
+  class Paddle {
+    constructor(x, y, width, height, speed, color) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.halfWidth = width / 2;
+      this.height = height;
+      this.speed = speed;
+      this.color = color;
     }
-    else if(e.keyCode == 37) {
-      leftPressed = true;
+  
+    get center() { return this.x + this.halfWidth; }
+  
+    collide(ball) {
+      var yCheck = () => this.y - ball.radius < ball.y && 
+        ball.y < this.y + ball.radius;
+      var xCheck = () => this.x < ball.x && ball.x < this.x + this.width;
+      if (ball.my > 0 && yCheck() && xCheck()) {
+        const hitPos = ball.x - this.center;
+        var angle = 80 - (hitPos / this.halfWidth * 60); // 20 ~ 80
+        if (hitPos < 0) angle += 20; // 100 ~ 160
+        ball.setAngle(angle);
+      }
     }
-  }
-
-  function keyUpHandler(e) {
-    if(e.keyCode == 39) {
-      rightPressed = false;
-    }
-    else if(e.keyCode == 37) {
-      leftPressed = false;
-    }
-  }
-
-  function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if(canMove && relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth/2;
+  
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.closePath();
     }
   }
 
@@ -322,6 +368,43 @@ function for_game1(){
          /* if(x==b.x  && y==b.y){
            
            dy=-dy;
+=======
+  class Bricks {
+    constructor(rows, cols, x, y, width, height, color, color_rest, bricktype) {
+      this.rows = rows;
+      this.cols = cols;
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.brickWidth = width / cols;
+      this.brickHeight = height / rows;
+      this.count;
+      this.color = color;
+      this.data = [];
+      this.bricktype = bricktype;
+      this.color_rest = color_rest;
+
+      if(bricktype=='star'){
+        this.data = [
+          [0,0,2,2,2,2,2,2,2,0,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [2,2,2,2,2,1,2,2,2,2,2],
+          [2,2,2,2,1,1,1,2,2,2,2],
+          [2,2,1,1,1,1,1,1,1,2,2],
+          [2,2,2,1,1,1,1,1,2,2,2],
+          [2,2,2,2,1,1,1,2,2,2,2],
+          [2,2,2,1,1,2,1,1,2,2,2],
+          [2,2,1,1,2,2,2,1,1,2,2],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,0,2,2,2,2,2,2,2,0,0]
+        ];
+        this.count = 0;
+        for(var i=0; i<11; i++){
+          for(var j=0; j<11; j++){
+            if(this.data[i][j]==2)
+              this.count++;
+>>>>>>> 33fcbb75a2ed72cbb59d26610efcbcec00ef798d
           }
           if(x==b.x && y==b.y + brickHeight) {
            dx=-dx;
@@ -329,8 +412,9 @@ function for_game1(){
           }*/
         }
       }
+      
     }
-  }
+ }
 }
 
   function drawLives(){
@@ -369,97 +453,125 @@ function for_game1(){
           ctx.fillStyle = "#f2AB39";
           ctx.fill();
           ctx.closePath();
+    collide(x, y) {
+      var row = Math.floor((y - this.y) / this.brickHeight);
+      var col = Math.floor((x - this.x) / this.brickWidth);
+      if (row < 0 || row >= this.rows) return false;
+      if (col < 0 || col >= this.cols) return false;
+      if (this.data[row][col] > 0) {
+        if(this.data[row][col] == 1){
+          return true;
         }
-        else if(bricks[c][r].status == 1 && map[r][c] == 1){
-          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-          var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
-          bricks[c][r].x = brickX;
-          bricks[c][r].y = brickY;
+        this.data[row][col] = 0;
+        this.count--;
+        return true;
+      }
+      else return false;
+    }
+  
+    draw(ctx) {
+      ctx.strokeStyle = "lightgray";
+      for (var r = 0; r < this.rows; r++) {
+        for (var c = 0; c < this.cols; c++) {
+          if (!this.data[r][c]) continue;
+          if(this.data[r][c]==2){
+            ctx.fillStyle = this.color_rest;
+          }
+          if(this.data[r][c]==1){
+            ctx.fillStyle = this.color;
+          }
+          var x = this.x + (this.brickWidth * c);
+          var y = this.y + (this.brickHeight * r);
           ctx.beginPath();
-          ctx.rect(brickX, brickY, brickWidth, brickHeight);
-
-          ctx.fillStyle = "#69491A";
-          ctx.fill();
+          ctx.fillRect(x, y, this.brickWidth, this.brickHeight);
+          ctx.strokeRect(x, y, this.brickWidth, this.brickHeight);
           ctx.closePath();
         }
-       
       }
     }
   }
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  class Game {
+    constructor() {
+      var ballSpeeds = 10;
+      var brickSettings = [
+        [11, 11, canvas_Width/2-330, 50, 660, 660, 'yellow', 'blue', 'star'] //rows, cols, x, y, width, height, color
+      ];
+  
+      this.state = "play";
+      this.paddle = new Paddle(PADDLE_X, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT,
+        PADDLE_SPEED, COLOR);
+      this.ball = new Ball(this.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS,
+        ballSpeeds, 90, COLOR);
+      this.brick = new Bricks(...brickSettings[0]);
+    }
+  
+    update() {
+      if (this.state != "play") return;
 
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-      dx = -dx;
-    }
-    if(y + dy < ballRadius) {
-      dy = -dy;
-    }
-    else if(y + dy > canvas.height-ballRadius) {
-      if(x >= paddleX && x <= paddleX + paddleWidth) {
-        if(x >= paddleX && x < paddleX + paddleWidth/4){
-          dy = -(dy/Math.abs(dy));
-          dx = -3;
-        }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-          dy = -(dy/Math.abs(dy))*2;
-          dx = (dx/Math.abs(dx))*2;
-        }else{
-          dy = -(dy/Math.abs(dy));
-          dx = 3;
+      const DIV = 10;
+      for (var i = 0; i < DIV; i++) {
+        this.ball.move(1/DIV);
+        this.ball.collideWall(0, 0, WIDTH);
+        this.paddle.collide(this.ball);
+        if (this.brick.collide(this.ball.collideX, this.ball.y)){
+          this.ball.mx *= -1;
+        } 
+        if (this.brick.collide(this.ball.x, this.ball.collideY)){
+          this.ball.my *= -1;
         }
       }
-      else {
-        lives--;
-        if(!lives){  //죽었을때
-          
-          stopInterval();
-          var again = true;
-          $("#fail").fadeIn(1000);
-          setTimeout(() => $("#fail").fadeOut(1000), 2000);
-          setTimeout(() => reset(again), 2000);
-          
-        }
-        else{
-          x = canvas.width/2;
-          y = canvas.height-30;
-          dx = 2;
-          dy = -2;
-          paddleX = (canvas.width - paddleWidth)/2;
-        }
-      }
+  
+      if (this.ball.y > HEIGHT + 50) this.state = "fall";
+      if (this.brick.count == 0){
+        this.state = "clear";
+      } 
     }
-    if(canMove){
-      if(rightPressed && paddleX < canvas.width-paddleWidth) {
-        paddleX += 4;
-      }
-      else if(leftPressed && paddleX > 0) {
-        paddleX -= 4;
-      }
+  
+    draw() {
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      this.brick.draw(ctx);
+      this.paddle.draw(ctx);
+      this.ball.draw(ctx);
     }
-
-    x += dx;
-    y += dy;
-
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    collisionDetection();
-    drawLives();
   }
+
+
+  var game = null;
 
   function startInterval(){
     setBackground();
     interv = setInterval(draw, 4);
     
+  function mainLoop() {
+    requestAnimationFrame(mainLoop);
 
-  }
-  function stopInterval(){
-    clearInterval(interv);
-    
-    
+    if (game) {
+      game.update();
+      game.draw();
+      if(game.state == "clear"){        //달고나 성공
+        game = null;
+        clearInterval(timeoutInterval);
+
+        startGame(); //재시작
+      }
+      else if(timeout == 0){       //시간 초과
+        game.state = "stop";
+        game = null;
+        clearInterval(timeoutInterval);
+
+        startGame(); //재시작
+      }
+      else if(game.state == "fall"){    //공 놓쳤을때
+        game = null;
+        clearInterval(timeoutInterval);
+
+        startGame(); //재시작
+      }
+    }
   }
 
+  mainLoop();
 }
 
 
@@ -488,11 +600,20 @@ function for_game2(){
   var y = window.innerHeight*0.6-40;
   var dx = 2;
   var dy = -2;
-  var ballRadius = 10; //공의 반지름
+  var ballRadius = 15; //공의 반지름
   var paddleHeight = 15; //패들높이
   var paddleWidth = 150; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
-  var paddleColor = "#000000";
+  var paddleColor = "#FFFFFF";
+
+  window.addEventListener('resize', resizeCanvas, false);
+
+  function resizeCanvas() {
+    
+    canvas.width = window.innerWidth*0.7;
+    canvas.height = window.innerHeight*0.9;
+  }
+  resizeCanvas();
 
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
@@ -503,7 +624,7 @@ function for_game2(){
   var brickColumnCount = 5; //벽돌의 열 갯수
   
   var brickWidth = 255; //벽돌의 폭
-  var brickHeight = 35; //벽돌의 높이
+  var brickHeight = 50; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 15; //벽돌의 위쪽 여백
   var brickOffsetLeft = 15; //벽돌의 왼쪽 여백
@@ -533,7 +654,7 @@ function for_game2(){
     dx = 2;
     dy = -2;
     paddleX = (canvas.width-paddleWidth)/2; //패들 위치
-    paddleColor = "#000000";
+    paddleColor = "#FFFFFF";
 
     score = 0;
 
@@ -558,8 +679,9 @@ function for_game2(){
   window.addEventListener('resize', resizeCanvas, false);
 
   function resizeCanvas() {
+    
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.65;
+    canvas.height = window.innerHeight*0.9;
   }
   resizeCanvas();
 
@@ -644,7 +766,7 @@ function for_game2(){
     var lifeText = "Lives : "+lives;
 
     $("#restLifesText").text(lifeText);
-
+ $("#lifesCharacters").css("background-color","#E0B88A")
     var rightArea_lifes = document.getElementById('lifesCharacters');
 
     while(rightArea_lifes.firstChild){
@@ -779,7 +901,7 @@ function for_game2(){
         countNum = 0;
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
-        paddleColor = "#000000";
+        paddleColor = "#FFFFFF";
       },1200)
     }
   }
@@ -799,7 +921,6 @@ function for_game2(){
   }
 
 }
-
 /*=================================================== GAME 3 ==================================================*/
 /*=================================================== GAME 3 ==================================================*/
 /*=================================================== GAME 3 ==================================================*/
@@ -1061,13 +1182,13 @@ function game3(){
       // }
       if(bricktype=='left'){
         this.data = [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0]];
-        // this.count = 1;
-        this.count = 8;
+        this.count = 1;
+        // this.count = 8;
       } 
       else if(bricktype=='right'){
         this.data = [[1,1,1,0,0], [1,0,0,1,0], [1,1,1,0,0], [1,0,0,1,0], [1,0,0,1,0]];
-        // this.count = 1;
-        this.count = 12;
+        this.count = 1;
+        // this.count = 12;
       }
     }
   
@@ -1165,20 +1286,24 @@ function game3(){
         canvas.style.cursor = "Default";
 
         //성공화면 ->메인메뉴로
-        $("#game3").css("display","none");
-        $("#clear").fadeIn(1000);
-        setTimeout(() => $("#clear").fadeOut(1000), 2000);
-        setTimeout(() => $("#main-menu").css("display","block"), 3000);
-
+        setTimeout(function(){
+          $("#game3").css("display","none");
+          $("#clear").fadeIn(1000);
+          setTimeout(() => $("#clear").fadeOut(1000), 2000);
+          setTimeout(() => $("#main-menu").css("display","block"), 3000);
+        },4500);
       }
       else if(life == 0){       //목숨이 0인경우
-        $("#fail").fadeIn(1000);
-        setTimeout(() => $("#fail").fadeOut(1000), 2000);
+        game.state = "stop";
+        setTimeout(() => $("#fail").fadeIn(1000), 4500);
+        setTimeout(() => $("#fail").fadeOut(1000), 6500);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
-        initGameOption();                       //다시하기 버튼 클릭이벤트 핸들러
-        startGame();
+        setTimeout(function(){
+          initGameOption();                       
+          startGame();
+        },8000);   
       }
       
       else if(game.state == "fall"){    //공이 아래로 빠졌을경우
@@ -1191,8 +1316,10 @@ function game3(){
           current_character.css('transition','');
           current_character.fadeOut(1000);
         },1500);
-        setTimeout(change_Character,3000);
-        setTimeout(startGame,4500);
+        if(life != 0){
+          setTimeout(change_Character,3000);
+          setTimeout(startGame,4500);
+        }
       }
       else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
         game.state = 'stop';
@@ -1216,8 +1343,10 @@ function game3(){
           character_fall('right');
           currentstage = 1;
         },2000)        
-        setTimeout(change_Character,4500);
-        setTimeout(startGame, 6000);
+        if(life != 0){
+          setTimeout(change_Character,4500);
+          setTimeout(startGame, 6000);
+        }      
       }
       else if(game.state == "left"){           //징검다리 실패
         game.state = 'stop';
@@ -1227,8 +1356,10 @@ function game3(){
           character_fall('left');
           currentstage = 1;
         },2000)
-        setTimeout(change_Character,4500);
-        setTimeout(startGame, 6000);
+        if(life != 0){
+          setTimeout(change_Character,4500);
+          setTimeout(startGame, 6000);
+        }
       }
     }
   }
