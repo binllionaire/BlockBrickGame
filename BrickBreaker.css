@@ -502,7 +502,7 @@ video {
 
 
 #leftside{
-  background-color: #B8DFF8;
+  
   display: block;
   float: left;
   width: 70%;
@@ -520,17 +520,13 @@ video {
    height: 100%;
 }
 
-#doll_img_for_game2{
-  display: block;
-  margin: 10px auto 10px auto;
-  width: 200px;
-}
+
 #score_for_game2{
   width: 100%;
   height: 20%;
-  background-color: white;
+  
   padding: 5px 0 5px 0;
-  background-color: #F2E4C5;
+  
 }
 /*진행상황바*/
 #scoreBox{
@@ -538,18 +534,20 @@ video {
   width: 0px;
   border-radius: 20px;
   margin-bottom: 1px;
-  background-color: #31938D;
+  background-color: #ffd400;
   text-align: center;
 }
 
 #textArea{
   font-family: 'Gowun Batang', serif;
   width: 100%;
-  height: 20%;
+  height: 40px;
   text-align: center;
   font-size: 30px;
-  background-color: #FFD400;
-  padding: 10px 0 10px 0;
+  color:black;
+  background-color: white;
+  border-radius: 20px;
+  padding: 5px 0 5px 0;
 }
 
 #game2_notice {
@@ -605,15 +603,92 @@ video {
 #restLifesText{
   display: block;
   width: 100%;
-  height: 180px;
-  background-color: white;
+  height: 50px;
+  color: white;
+  font-size: 30px;
   text-align: center;
 
 }
 
-#lifesCharacters{
+#doll_img_for_game2{
+  background-color: #B4D8E7;
   display: block;
-  background-color: #B8DFF8;
+  margin: 10px auto 0px auto;
+  width: 200px;
+}
+#lifesCharacters{
+  margin : 0px auto 0px auto;
+    width: 200px;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 500px solid #E0B88A;
+}
+
+#lifesCharacters img:nth-child(1){
+  left: auto;
+  display: block;
+  width: 10%;
+  float: left;
+}
+#lifesCharacters img:nth-child(2){
+  
+  display: block;
+  width: 10%;
+  float: left;
+}
+#lifesCharacters img:nth-child(3){
+  
+  display: block;
+  width: 10%;
+  
+}     
+#lifesCharacters img:nth-child(4){
+  left: auto;
+  display: block;
+  width: 20%;
+  float: left;
+}   
+#lifesCharacters img:nth-child(5){
+  
+  display: block;
+  width: 20%;
+  float: left;
+}
+#lifesCharacters img:nth-child(6){
+  
+  display: block;
+  width: 20%;
+}
+#lifesCharacters img:nth-child(7){
+  left: auto;
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img:nth-child(8){
+  
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img:nth-child(9){
+  
+  display: block;
+  width: 30%;
+ 
+}
+#lifesCharacters img:nth-child(10){
+  
+  display: block;
+  width: 30%;
+  float: left;
+}
+#lifesCharacters img{
+  
+  display: block;
+  width: 30%;
+  float: left;
 }
 
 

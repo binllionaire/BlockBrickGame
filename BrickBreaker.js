@@ -200,6 +200,7 @@ function for_game1(){
   var PADDLE_SPEED = 7;
   var COLOR = "white";
 
+
   class Ball { 
     constructor(x, y, radius, speed, angle, color) {
       this.x = x;
@@ -456,7 +457,7 @@ function for_game2(){
   var paddleHeight = 15; //패들높이
   var paddleWidth = 150; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
-  var paddleColor = "#000000";
+  var paddleColor = "#FFFFFF";
 
   var rightPressed = false; // -> 버튼 눌림
   var leftPressed = false; // <- 버튼 눌림
@@ -497,7 +498,7 @@ function for_game2(){
     dx = 2;
     dy = -2;
     paddleX = (canvas.width-paddleWidth)/2; //패들 위치
-    paddleColor = "#000000";
+    paddleColor = "#FFFFFF";
 
     score = 0;
 
@@ -523,7 +524,7 @@ function for_game2(){
 
   function resizeCanvas() {
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.65;
+    canvas.height = window.innerHeight*0.9;
   }
   resizeCanvas();
 
@@ -743,7 +744,7 @@ function for_game2(){
         countNum = 0;
         $("#doll_img_for_game2").attr("src","doll_back.png");
         canMove = true;
-        paddleColor = "#000000";
+        paddleColor = "#FFFFFF";
       },1200)
     }
   }
@@ -763,7 +764,6 @@ function for_game2(){
   }
 
 }
-
 /*=================================================== GAME 3 ==================================================*/
 /*=================================================== GAME 3 ==================================================*/
 /*=================================================== GAME 3 ==================================================*/
