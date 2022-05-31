@@ -175,7 +175,12 @@ function for_game1(){
   
   function startGame() {
     
-    timeout = 0;
+    timeout = 150;
+    timeoutInterval = 
+      setInterval(function(){
+        timeout--;
+        $("#game1_timeout").text('남은시간: '+ timeout +'초');
+      },1000);
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
@@ -183,12 +188,8 @@ function for_game1(){
     canvas.addEventListener("mousemove", mouseEvent);
   }
 
-  var timeout = 10;
-  var timeoutInterval = 
-    setInterval(function(){
-      timeout--;
-      $("#game1_timeout").text('남은시간: '+ timeout +'초');
-    },1000);
+  var timeout;
+  var timeoutInterval;
 
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
@@ -415,11 +416,21 @@ function for_game1(){
       if(game.state == "clear"){        //달고나 성공
         game = null;
         clearInterval(timeoutInterval);
+
+        startGame(); //재시작
       }
-      else if(game.timeout == 0){       //시간 초과
+      else if(timeout == 0){       //시간 초과
         game.state = "stop";
         game = null;
         clearInterval(timeoutInterval);
+
+        startGame(); //재시작
+      }
+      else if(game.state == "fall"){    //공 놓쳤을때
+        game = null;
+        clearInterval(timeoutInterval);
+
+        startGame(); //재시작
       }
     }
   }
