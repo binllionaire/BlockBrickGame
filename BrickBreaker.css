@@ -422,6 +422,7 @@ video {
 }
 #left{
   background-color: #B8DFF8;
+  border-right: 3px solid #fff;
   display: block;
   float: left;
   width: 70%;
@@ -429,6 +430,7 @@ video {
 }
 
 #right{
+  border-left: 3px solid white ;
   background-color: #e11880;
   color:white;
   display: block;
@@ -485,6 +487,9 @@ video {
   border: 0px;
 }
 
+#restLifesText1{
+  color:white;
+}
 
 
 
