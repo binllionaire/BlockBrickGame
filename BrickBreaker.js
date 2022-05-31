@@ -417,7 +417,6 @@ function for_game1(){
         game = null;
         clearInterval(timeoutInterval);
 
-        startGame(); //재시작
       }
       else if(timeout == 0){       //시간 초과
         game.state = "stop";
@@ -788,6 +787,8 @@ function game3(){
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
+  var game3_score;
+  var game3_score_stage;
   var canvas_Width = screen.availWidth*7/10;
   var canvas_Height = screen.availHeight;
   var canvas;
@@ -840,6 +841,8 @@ function game3(){
     }
   }
   function initGameOption(){
+    game3_score = 0;
+    game3_score_stage = 1;
     currentstage = 1;                   //게임 변수 초기화
     life = 5;
     assignTrueBlock();
@@ -917,7 +920,6 @@ function game3(){
   }
 
   function startGame() {
-    
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
@@ -1177,6 +1179,10 @@ function game3(){
       }
       else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
         game.state = 'stop';
+        if(currentstage == game3_score_stage){
+          game3_score += 55;
+          game3_score_stage++;
+        }
         character_Jumping('left');
         currentstage++;
         if(currentstage != 5)
@@ -1184,6 +1190,10 @@ function game3(){
       }
       else if(game.state == "right" && trueBlock[currentstage-1] == 1){   //징검다리 성공
         game.state = 'stop';
+        if(currentstage == game3_score_stage){
+          game3_score += 55;
+          game3_score_stage++;
+        }
         character_Jumping('right');
         currentstage++;
         if(currentstage != 5)
