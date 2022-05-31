@@ -1129,14 +1129,6 @@ function game3(){
     }
   }
   
-  function drawText(text) {
-    ctx.font = "bold 70px arial";
-    ctx.fillStyle = "dodgerblue";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, WIDTH / 2, HEIGHT / 2);
-  }
-
   var game = null;
 
   function mainLoop() {
@@ -1146,7 +1138,6 @@ function game3(){
       game.update();
       game.draw();
       if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
-        drawText("clear");
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
