@@ -1215,20 +1215,29 @@ function game3(){
     document.removeEventListener("keydown",keyDownHandler3);
     game = null;
     canvas.style.cursor = "Default";
-
+    totalScore+=game3_score;
     //성공화면 ->메인메뉴로
     if(quit){
+      $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
       $("#game3").css("display","none");
       $("#clear").fadeIn(1000);
       setTimeout(() => $("#clear").fadeOut(1000), 2000);
-      setTimeout(() => $("#main-menu").css("display","block"), 3000);
+      setTimeout(() => $("#ending").fadeIn(1000), 4000);
+      setTimeout(() => $("#ending").fadeOut(1000), 8000);
+      setTimeout(() => location.reload(), 10000);
+      setTimeout(() => $("#main-menu").css("display","block"), 10000);
+      
     }
     else{
       setTimeout(function(){
+        $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
         $("#game3").css("display","none");
         $("#clear").fadeIn(1000);
         setTimeout(() => $("#clear").fadeOut(1000), 2000);
-        setTimeout(() => $("#main-menu").css("display","block"), 3000);
+        setTimeout(() => $("#ending").fadeIn(1000), 4000);
+        setTimeout(() => $("#ending").fadeOut(1000), 8000);
+        setTimeout(() => location.reload(), 10000);
+        setTimeout(() => $("#main-menu").css("display","block"), 10000);
       },4500);
     }
     
