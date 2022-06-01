@@ -175,7 +175,6 @@ function for_game1(){
   
   function startGame() {
     
-
     timeout = 150;
     timeoutInterval = 
       setInterval(function(){
@@ -188,7 +187,6 @@ function for_game1(){
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
-
 
   var timeout;
   var timeoutInterval;
@@ -406,7 +404,6 @@ function for_game1(){
       this.ball.draw(ctx);
     }
   }
-
 
   var game = null;
 
