@@ -179,6 +179,7 @@ function for_game1(){
   var game1Score =0;
   function startGame() {
     game1Score = 0;
+    //여기
     timeout = 150;
     
     timeoutInterval = 
@@ -428,13 +429,13 @@ function for_game1(){
         setTimeout(() => game2(), 2000);
         
       }
-      else if(timeout == 0 &&flag3==1){ //시간 초과
+      else if(timeout == 0){ //시간 초과
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);      
         game.state = "stop";
         game = null;
         setTimeout(() => clearInterval(timeoutInterval), 4000);  
-        setTimeout(() =>startGame(), 4000);   //재시작
+        setTimeout(() =>startGame(), 3800);   //재시작
         
       }
       else if(game.state == "fall"){    //공 놓쳤을때
@@ -442,7 +443,7 @@ function for_game1(){
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);
         setTimeout(() => clearInterval(timeoutInterval), 4000);  
-        setTimeout(() =>startGame(), 4000);   //재시작
+        setTimeout(() =>startGame(), 3800);   //재시작
         
       }
     }
