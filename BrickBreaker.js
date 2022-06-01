@@ -489,7 +489,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -540,8 +540,6 @@ function for_game2(){
 
     canMove = true;
 
-    $("#scoreBox").css({"width":"0px"});
-
     for(var c = 0; c < brickColumnCount; c++){
       for(var r = 0; r < brickRowCount; r++){
         var b = bricks[c][r];
@@ -559,7 +557,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -612,9 +610,9 @@ function for_game2(){
             b.status = 0;
             game2Score += 12;
             $(".score").text("적립된 상금 : "+game2Score+"억원");
-            $("#scoreBox").animate({width:'+=88px'});
+           //  $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (game2Score) + "억";
-            $("#scoreBox").text(scoreText);
+           //  $("#scoreBox").text(scoreText);
             if(game2Score == 180){
               totalScore +=game2Score;
               stopInterval();
