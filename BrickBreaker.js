@@ -874,8 +874,8 @@ function game3(){
 
   function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
-      // trueBlock[i] = 0;
+      // trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      trueBlock[i] = 0;
     }
   }
   function initGameOption(){
