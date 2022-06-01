@@ -158,6 +158,7 @@ function for_game1(){
   var canvas_Height = screen.availHeight;
   var canvas;
   var ctx;
+  
   var mouseEvent = function(ev){
     game.paddle.x = ev.offsetX - game.paddle.halfWidth;
     if(game.paddle.x < 0){
@@ -173,25 +174,29 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
-  function startGame() {
-    
+  var life;
+  var timeout = 150;
+  var timeoutInterval;
+  var game1Score = 0;
 
+  function startGame() {
+    game1Score = 0;
+    //여기
     timeout = 150;
+    
     timeoutInterval = 
       setInterval(function(){
         timeout--;
-        $("#game1_timeout").text('남은시간: '+ timeout +'초');
+        
+        $("#game1_timeout").text('남은 시간: '+ timeout +'초');
       },1000);
+
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
-
-
-  var timeout;
-  var timeoutInterval;
 
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
@@ -321,7 +326,6 @@ function for_game1(){
           }
         }
       }
-      
     }
   
     collide(x, y) {
@@ -335,6 +339,8 @@ function for_game1(){
         }
         this.data[row][col] = 0;
         this.count--;
+        game1Score += 1;
+        $(".score").text("적립된 상금 : "+game1Score+"억원")
         return true;
       }
       else return false;
@@ -423,7 +429,6 @@ function for_game1(){
     }
   }
 
-
   var game = null;
 
   function mainLoop() {
@@ -433,6 +438,7 @@ function for_game1(){
       game.update();
       game.draw();
       if(game.state == "clear"){        //달고나 성공
+        totalScore +=game1Score;
         game = null;
         clearInterval(timeoutInterval);
         totalScore = 0;
@@ -453,6 +459,29 @@ function for_game1(){
         clearInterval(timeoutInterval);
 
         startGame(); //재시작
+
+        $("#game1").css("display","none");
+        $("#clear").fadeIn(1000);
+        setTimeout(() => $("#clear").fadeOut(1000), 2000);
+        setTimeout(() => game2(), 2000);
+        
+      }
+      else if(timeout == 0){ //시간 초과
+        $("#fail").fadeIn(1000)
+        setTimeout(() => $("#fail").fadeOut(1000), 3000);      
+        game.state = "stop";
+        game = null;
+        setTimeout(() => clearInterval(timeoutInterval), 4000);  
+        setTimeout(() =>startGame(), 3800);   //재시작
+        
+      }
+      else if(game.state == "fall"){    //공 놓쳤을때
+        game = null;
+        $("#fail").fadeIn(1000)
+        setTimeout(() => $("#fail").fadeOut(1000), 3000);
+        setTimeout(() => clearInterval(timeoutInterval), 4000);  
+        setTimeout(() =>startGame(), 3800);   //재시작
+        
       }
     }
   }
@@ -526,7 +555,7 @@ function for_game2(){
     //확인 버튼 누르면 게임이 시작되도록 바꿔주세요!!!
   })
 
-  var score = 0;
+  var game2Score = 0;
 
   var lives = 10; //목숨갯수
 
@@ -542,7 +571,7 @@ function for_game2(){
     paddleX = (canvas.width-paddleWidth)/2; //패들 위치
     paddleColor = "#FFFFFF";
 
-    score = 0;
+    game2Score = 0;
 
     lives = 10; //목숨갯수
 
@@ -618,13 +647,13 @@ function for_game2(){
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
-            //TotalScore +=
-
-            score++;
+            game2Score += 12;
+            $(".score").text("적립된 상금 : "+game2Score+"억원");
             $("#scoreBox").animate({width:'+=88px'});
-            var scoreText = "누적금액 : " + (score*10) + "억";
+            var scoreText = "누적금액 : " + (game2Score) + "억";
             $("#scoreBox").text(scoreText);
-            if(score == brickRowCount*brickColumnCount){
+            if(game2Score == 180){
+              totalScore +=game2Score;
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
               bgm3.pause();
@@ -649,7 +678,7 @@ function for_game2(){
     // ctx.font = "16px Arial";
     // ctx.fillStyle = "black";
     // ctx.fillText("Lives : "+lives, canvas.width-65, 20);
-    var lifeText = "Lives : "+lives;
+    var lifeText = "남은 사람 : "+lives+"명";
 
     $("#restLifesText").text(lifeText);
  $("#lifesCharacters").css("background-color","#E0B88A")
@@ -698,7 +727,7 @@ function for_game2(){
           ctx.beginPath();
           ctx.rect(brickX, brickY, brickWidth, brickHeight);
 
-          ctx.fillStyle = "#f76707";
+          ctx.fillStyle = "#B4D8E7";
           ctx.fill();
           ctx.closePath();
         }
@@ -820,6 +849,8 @@ function game3(){
   $("#game-menu").css("display","none");
   $("#game3").css("display","block"); 
 
+  var game3_score;
+  var game3_score_stage;
   var canvas_Width = screen.availWidth*7/10;
   var canvas_Height = screen.availHeight;
   var canvas;
@@ -872,6 +903,8 @@ function game3(){
     }
   }
   function initGameOption(){
+    game3_score = 0;
+    game3_score_stage = 1;
     currentstage = 1;                   //게임 변수 초기화
     life = 5;
     assignTrueBlock();
@@ -949,7 +982,6 @@ function game3(){
   }
 
   function startGame() {
-    
     game = new Game();
     canvas.focus();
     canvas.style.cursor = "none"; 
@@ -1209,6 +1241,13 @@ function game3(){
       }
       else if(game.state == "left" && trueBlock[currentstage-1] == 0){  //징검다리 성공
         game.state = 'stop';
+        if(currentstage == game3_score_stage){
+          game3_score += 55;
+          game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
+        }
         character_Jumping('left');
         currentstage++;
         if(currentstage != 5)
@@ -1216,6 +1255,13 @@ function game3(){
       }
       else if(game.state == "right" && trueBlock[currentstage-1] == 1){   //징검다리 성공
         game.state = 'stop';
+        if(currentstage == game3_score_stage){
+          game3_score += 55;
+          game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
+        }
         character_Jumping('right');
         currentstage++;
         if(currentstage != 5)
