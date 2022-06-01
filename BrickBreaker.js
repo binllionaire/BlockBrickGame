@@ -1192,6 +1192,38 @@ function game3(){
   
   var game = null;
 
+  document.addEventListener("keydown",keyDownHandler3, false);
+
+  function keyDownHandler3(e) {
+    if(e.keyCode == 81){
+      game3_score = 220;
+      gameClear_for_game3(true);
+    }
+  }
+
+  function gameClear_for_game3(quit){
+    document.removeEventListener("keydown",keyDownHandler3);
+    game = null;
+    canvas.style.cursor = "Default";
+
+    //성공화면 ->메인메뉴로
+    if(quit){
+      $("#game3").css("display","none");
+      $("#clear").fadeIn(1000);
+      setTimeout(() => $("#clear").fadeOut(1000), 2000);
+      setTimeout(() => $("#main-menu").css("display","block"), 3000);
+    }
+    else{
+      setTimeout(function(){
+        $("#game3").css("display","none");
+        $("#clear").fadeIn(1000);
+        setTimeout(() => $("#clear").fadeOut(1000), 2000);
+        setTimeout(() => $("#main-menu").css("display","block"), 3000);
+      },4500);
+    }
+    
+  }
+
   function mainLoop() {
     requestAnimationFrame(mainLoop);
 
@@ -1202,6 +1234,7 @@ function game3(){
         
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
+        /*
         game = null;
         canvas.style.cursor = "Default";
 
@@ -1212,6 +1245,8 @@ function game3(){
           setTimeout(() => $("#clear").fadeOut(1000), 2000);
           setTimeout(() => $("#main-menu").css("display","block"), 3000);
         },4500);
+        */
+        gameClear_for_game3(false);
       }
       else if(life == 0){       //목숨이 0인경우
         game.state = "stop";
