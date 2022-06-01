@@ -174,9 +174,11 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
+  var life;
   var timeout = 150;
   var timeoutInterval;
-  var game1Score =0;
+  var game1Score = 0;
+
   function startGame() {
     game1Score = 0;
     //여기
@@ -1207,6 +1209,9 @@ function game3(){
         if(currentstage == game3_score_stage){
           game3_score += 55;
           game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
         }
         character_Jumping('left');
         currentstage++;
@@ -1218,6 +1223,9 @@ function game3(){
         if(currentstage == game3_score_stage){
           game3_score += 55;
           game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
         }
         character_Jumping('right');
         currentstage++;
