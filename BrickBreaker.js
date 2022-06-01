@@ -500,7 +500,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -551,8 +551,6 @@ function for_game2(){
 
     canMove = true;
 
-    $("#scoreBox").css({"width":"0px"});
-
     for(var c = 0; c < brickColumnCount; c++){
       for(var r = 0; r < brickRowCount; r++){
         var b = bricks[c][r];
@@ -570,7 +568,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -627,9 +625,9 @@ function for_game2(){
             b.status = 0;
             game2Score += 12;
             $(".score").text("적립된 상금 : "+game2Score+"억원");
-            $("#scoreBox").animate({width:'+=88px'});
+           //  $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (game2Score) + "억";
-            $("#scoreBox").text(scoreText);
+           //  $("#scoreBox").text(scoreText);
             if(game2Score == 180){
               /*
               totalScore +=game2Score;
@@ -899,8 +897,8 @@ function game3(){
 
   function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
-      // trueBlock[i] = 0;
+      //trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      trueBlock[i] = 0;
     }
   }
   function initGameOption(){
@@ -1204,13 +1202,16 @@ function game3(){
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
-
+        totalScore+=game3_score;
         //성공화면 ->메인메뉴로
         setTimeout(function(){
+          $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
           $("#game3").css("display","none");
           $("#clear").fadeIn(1000);
           setTimeout(() => $("#clear").fadeOut(1000), 2000);
-          setTimeout(() => $("#main-menu").css("display","block"), 3000);
+          setTimeout(() => $("#ending").fadeIn(1000), 4000);
+          setTimeout(() => $("#ending").fadeOut(1000), 8000);
+          setTimeout(() => $("#main-menu").css("display","block"), 10000);
         },4500);
       }
       else if(life == 0){       //목숨이 0인경우
