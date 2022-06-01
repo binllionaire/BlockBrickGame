@@ -195,7 +195,7 @@ function for_game1(){
 
     game = new Game();
     canvas.focus();
-    canvas.style.cursor = "none"; 
+    // canvas.style.cursor = "none"; 
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
@@ -908,8 +908,8 @@ function game3(){
 
   function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      //trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
-      trueBlock[i] = 0;
+      trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      // trueBlock[i] = 0;
     }
   }
   function initGameOption(){
@@ -995,7 +995,7 @@ function game3(){
   function startGame() {
     game = new Game();
     canvas.focus();
-    canvas.style.cursor = "none"; 
+    // canvas.style.cursor = "none"; 
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
@@ -1213,7 +1213,7 @@ function game3(){
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
-        canvas.style.cursor = "Default";
+        // canvas.style.cursor = "Default";
         totalScore+=game3_score;
         //성공화면 ->메인메뉴로
         setTimeout(function(){
@@ -1232,7 +1232,7 @@ function game3(){
         setTimeout(() => $("#fail").fadeOut(1000), 6500);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
-        canvas.style.cursor = "Default";
+        // canvas.style.cursor = "Default";
         setTimeout(function(){
           initGameOption();                       
           startGame();
