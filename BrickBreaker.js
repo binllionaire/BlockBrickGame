@@ -410,7 +410,6 @@ function for_game1(){
     }
   }
 
-
   var game = null;
 
   function mainLoop() {
@@ -427,6 +426,7 @@ function for_game1(){
         $("#clear").fadeIn(1000);
         setTimeout(() => $("#clear").fadeOut(1000), 2000);
         game2();
+
       }
       else if(timeout == 0 &&flag3==1){ //시간 초과
         $("#fail").fadeIn(1000)
