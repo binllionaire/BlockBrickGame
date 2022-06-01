@@ -497,11 +497,11 @@ function for_game2(){
   var ctx = canvas.getContext("2d");
   var x = window.innerWidth*0.7/2;
   var y = window.innerHeight*0.6-40;
-  var dx = 2;
-  var dy = -2;
+  var dx = 3;
+  var dy = -3;
   var ballRadius = 15; //공의 반지름
   var paddleHeight = 15; //패들높이
-  var paddleWidth = 150; //패들 폭
+  var paddleWidth = 200; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var paddleColor = "#FFFFFF";
 
@@ -550,8 +550,8 @@ function for_game2(){
     
     x = canvas.width/2;
     y = canvas.height-40;
-    dx = 2;
-    dy = -2;
+    dx = 3;
+    dy = -3;
     paddleX = (canvas.width-paddleWidth)/2; //패들 위치
     paddleColor = "#FFFFFF";
 
@@ -683,9 +683,6 @@ function for_game2(){
   }
 
   function drawLives(){
-    // ctx.font = "16px Arial";
-    // ctx.fillStyle = "black";
-    // ctx.fillText("Lives : "+lives, canvas.width-65, 20);
     var lifeText = "남은 사람 : "+lives+"명";
 
     $("#restLifesText").text(lifeText);
@@ -756,13 +753,13 @@ function for_game2(){
       if(x >= paddleX && x <= paddleX + paddleWidth) {
         if(x >= paddleX && x < paddleX + paddleWidth/4){
           dy = -(dy/Math.abs(dy));
-          dx = -3;
+          dx = -4;
         }else if(x >= paddleX + paddleWidth/4 && x < paddleX + (paddleWidth/4)*3){
-          dy = -(dy/Math.abs(dy))*2;
-          dx = (dx/Math.abs(dx))*2;
+          dy = -(dy/Math.abs(dy))*3;
+          dx = (dx/Math.abs(dx))*3;
         }else{
           dy = -(dy/Math.abs(dy));
-          dx = 3;
+          dx = 4;
         }
       }
       else {
@@ -779,8 +776,8 @@ function for_game2(){
         else{
           x = canvas.width/2;
           y = canvas.height-30;
-          dx = 2;
-          dy = -2;
+          dx = 3;
+          dy = -3;
           paddleX = (canvas.width - paddleWidth)/2;
         }
       }
