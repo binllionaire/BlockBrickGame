@@ -379,22 +379,25 @@ function for_game1(){
   
     update() {
       if (this.state != "play") return;
-
       const DIV = 10;
       for (var i = 0; i < DIV; i++) {
         this.ball.move(1/DIV);
         this.ball.collideWall(0, 0, WIDTH);
         this.paddle.collide(this.ball);
         if (this.brick.collide(this.ball.collideX, this.ball.y)){
-          
+          totalScore+=1;
           this.ball.mx *= -1;
+          alert(totalScore);
         } 
         if (this.brick.collide(this.ball.x, this.ball.collideY)){
+          totalScore+=1;
+          alert(totalScore);
+          textscore = "적립된 상금:억원";
           this.ball.my *= -1;
         }
       }
   
-      if (this.ball.y > HEIGHT + 50) this.state = "fall";
+      if (this.ball.y > HEIGHT + 50) this.state = "fall"; totalScore=0;
       if (this.brick.count == 0){
         this.state = "clear";
       } 
@@ -420,14 +423,15 @@ function for_game1(){
       if(game.state == "clear"){        //달고나 성공
         game = null;
         clearInterval(timeoutInterval);
-
+        totalScore = 0;
         startGame(); //재시작
       }
       else if(timeout == 0){       //시간 초과
         game.state = "stop";
         game = null;
+        
         clearInterval(timeoutInterval);
-
+        totalScore = 0;
         startGame(); //재시작
       }
       else if(game.state == "fall"){    //공 놓쳤을때
