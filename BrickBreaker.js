@@ -183,7 +183,6 @@ function for_game1(){
     game1Score = 0;
     game1_life = 5;
     $("#game1_life").text("남은 목숨 : " + game1_life);
-    //여기
     timeout = 150;
     
     timeoutInterval = 
@@ -194,8 +193,7 @@ function for_game1(){
       },1000);
 
     game = new Game();
-    canvas.focus();
-    // canvas.style.cursor = "none"; 
+    canvas.focus(); 
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
@@ -634,26 +632,10 @@ function for_game2(){
             b.status = 0;
             game2Score += 12;
             $(".score").text("적립된 상금 : "+game2Score+"억원");
-           //  $("#scoreBox").animate({width:'+=88px'});
+          
             var scoreText = "누적금액 : " + (game2Score) + "억";
-           //  $("#scoreBox").text(scoreText);
+           
             if(game2Score == 180){
-              /*
-              totalScore +=game2Score;
-              stopInterval();
-              // <<<<<<<================= 레벌 3 으로 넘어가는 시점
-              bgm3.pause();
-              $("#game2").css("display","none");
-              $("#clear").fadeIn(1000);
-              setTimeout(() => $("#clear").fadeOut(1000), 2000);
-              if(flag2==1){
-                bgm1.play()
-              }
-              else if(flag2==2){
-                bgm2.play();
-              }
-              setTimeout(() => game3(), 3000);
-              */
               gameClear_for_game2();
             }
           }
@@ -948,9 +930,6 @@ function game3(){
     }
     targetBlockid = ("#game3_block" + currentstage) + decideLR;
 
-    // if($(targetBlockid).css('visivility') == 'hidden'){
-    //   return ;
-    // }
     targetBlock_position = $(targetBlockid).position();
     targetTop = targetBlock_position.top;
     targetLeft = targetBlock_position.left;
@@ -993,7 +972,6 @@ function game3(){
   function startGame() {
     game = new Game();
     canvas.focus();
-    // canvas.style.cursor = "none"; 
 
     canvas.addEventListener("mousemove", mouseEvent);
   }
@@ -1099,14 +1077,8 @@ function game3(){
       this.brickWidth = width / cols;
       this.brickHeight = height / rows;
       this.count;
-      // this.count = rows * cols;
       this.color = color;
       this.data = [];
-      // for (var i = 0; i < rows; i++) {
-      //   var line = new Array(cols);
-      //   line.fill(1);
-      //   this.data.push(line);
-      // }
       if(bricktype=='left'){
         this.data = [[1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,0,0,0,0], [1,1,1,1,0]];
         this.count = 1;
@@ -1242,21 +1214,6 @@ function game3(){
         
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
-        /*
-        game = null;
-        // canvas.style.cursor = "Default";
-        totalScore+=game3_score;
-        //성공화면 ->메인메뉴로
-        setTimeout(function(){
-          $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
-          $("#game3").css("display","none");
-          $("#clear").fadeIn(1000);
-          setTimeout(() => $("#clear").fadeOut(1000), 2000);
-          setTimeout(() => $("#ending").fadeIn(1000), 4000);
-          setTimeout(() => $("#ending").fadeOut(1000), 8000);
-          setTimeout(() => $("#main-menu").css("display","block"), 10000);
-        },4500);
-        */
         gameClear_for_game3(false);
       }
       else if(life == 0){       //목숨이 0인경우
@@ -1265,7 +1222,6 @@ function game3(){
         setTimeout(() => $("#fail").fadeOut(1000), 6500);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
-        // canvas.style.cursor = "Default";
         setTimeout(function(){
           initGameOption();                       
           startGame();
