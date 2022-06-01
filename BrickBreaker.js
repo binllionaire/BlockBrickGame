@@ -412,6 +412,15 @@ function for_game1(){
 
   var game = null;
 
+  document.addEventListener("keydown",keyDownHandler1, false);
+
+  function keyDownHandler1(e) {
+    if(e.keyCode == 81){
+      game1Score = 56;
+      game.state = "clear";
+    }
+  }
+
   function mainLoop() {
     requestAnimationFrame(mainLoop);
 
@@ -419,6 +428,7 @@ function for_game1(){
       game.update();
       game.draw();
       if(game.state == "clear"){        //달고나 성공
+        document.removeEventListener("keydown",keyDownHandler1);
         totalScore +=game1Score;
         game = null;
         clearInterval(timeoutInterval);
@@ -426,7 +436,6 @@ function for_game1(){
         $("#clear").fadeIn(1000);
         setTimeout(() => $("#clear").fadeOut(1000), 2000);
         setTimeout(() => game2(), 2000);
-        
       }
       else if(timeout == 0 &&flag3==1){ //시간 초과
         $("#fail").fadeIn(1000)
@@ -572,16 +581,20 @@ function for_game2(){
     }
   }
 
-  document.addEventListener("keydown",keyDownHandler, false);
+  document.addEventListener("keydown",keyDownHandler2, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
 
-  function keyDownHandler(e) {
+  function keyDownHandler2(e) {
     if(e.keyCode == 39) {
       rightPressed = true;
     }
     else if(e.keyCode == 37) {
       leftPressed = true;
+    }
+    else if(e.keyCode == 81){
+      game2Score = 180;
+      gameClear_for_game2();
     }
   }
 
@@ -615,6 +628,7 @@ function for_game2(){
             var scoreText = "누적금액 : " + (game2Score) + "억";
             $("#scoreBox").text(scoreText);
             if(game2Score == 180){
+              /*
               totalScore +=game2Score;
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
@@ -629,11 +643,33 @@ function for_game2(){
                 bgm2.play();
               }
               setTimeout(() => game3(), 3000);
+              */
+             gameClear();
             }
           }
         }
       }
     }
+  }
+
+  function gameClear_for_game2(){
+    document.removeEventListener("keydown",keyDownHandler2);
+    document.removeEventListener("keyup", keyUpHandler);
+    document.removeEventListener("mousemove", mouseMoveHandler);
+    totalScore +=game2Score;
+    stopInterval();
+    // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+    bgm3.pause();
+    $("#game2").css("display","none");
+    $("#clear").fadeIn(1000);
+    setTimeout(() => $("#clear").fadeOut(1000), 2000);
+    if(flag2==1){
+      bgm1.play()
+    }
+    else if(flag2==2){
+      bgm2.play();
+    }
+    setTimeout(() => game3(), 3000);
   }
 
   function drawLives(){
@@ -643,7 +679,7 @@ function for_game2(){
     var lifeText = "남은 사람 : "+lives+"명";
 
     $("#restLifesText").text(lifeText);
- $("#lifesCharacters").css("background-color","#E0B88A")
+    $("#lifesCharacters").css("background-color","#E0B88A")
     var rightArea_lifes = document.getElementById('lifesCharacters');
 
     while(rightArea_lifes.firstChild){
@@ -1160,6 +1196,7 @@ function game3(){
       game.update();
       game.draw();
       if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
+        
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
