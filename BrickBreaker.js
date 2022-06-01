@@ -174,9 +174,11 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
+  var life;
   var timeout = 150;
   var timeoutInterval;
-  var game1Score =0;
+  var game1Score = 0;
+
   function startGame() {
     game1Score = 0;
     //여기
