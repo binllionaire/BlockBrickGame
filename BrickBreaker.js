@@ -174,13 +174,15 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
-  var life;
+  var game1_life;
   var timeout = 150;
   var timeoutInterval;
   var game1Score = 0;
 
   function startGame() {
     game1Score = 0;
+    game1_life = 5;
+    $("#game1_life").text("남은 목숨 : " + game1_life);
     //여기
     timeout = 150;
     
@@ -403,6 +405,9 @@ function for_game1(){
       if (this.brick.count == 0){
         this.state = "clear";
       } 
+      if (game1_life == 0) {
+        this.state = "fail";
+      }
     }
   
     draw() {
@@ -449,7 +454,13 @@ function for_game1(){
         setTimeout(() =>startGame(), 3800);   //재시작
         
       }
-      else if(game.state == "fall"){    //공 놓쳤을때
+      else if(game.state == "fall") {       //공이 떨어졌을때
+        game1_life--;
+        game.ball = new Ball(game.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS, 10, 90, COLOR);
+        game.state = "play";
+        $("#game1_life").text("남은 목숨 : " + game1_life);
+      }
+      else if(game.state == "fail") {    //라이프가 0일때
         game = null;
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);
@@ -902,6 +913,7 @@ function game3(){
     }
   }
   function initGameOption(){
+    $("#game3_score").text("적립된 상금 : "+ 0 + "억원");
     game3_score = 0;
     game3_score_stage = 1;
     currentstage = 1;                   //게임 변수 초기화
@@ -1171,10 +1183,10 @@ function game3(){
       }
   
       if (this.ball.y > HEIGHT + 50) this.state = "fall";
-      if (this.brickleft.count == 0){
+      if (this.brickleft.count <= 0){
         this.state = "left";
       } 
-      if (this.brickright.count == 0){
+      if (this.brickright.count <= 0){
         this.state = "right";
       } 
     }
