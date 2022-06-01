@@ -6,6 +6,12 @@ li { list-style: none; }
 a { text-decoration: none;}
 img { border: 0px; background-color: transparent;}
 
+@font-face {
+  font-family: 'LAB디지털';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 
 /*=================================================== 환경설정 ==================================================*/
@@ -264,6 +270,22 @@ input[type=radio]:checked+label{
   width:40%
 }
 
+
+#ending{
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: none;
+  text-align: center;
+}
+#pig{
+  width:35%
+}
+#ending p{
+  font-family: 'LAB디지털';
+  color: white;
+  font-size: 100px;
+}
 /*=================================================== 게임메뉴 ==================================================*/
 /*=================================================== 게임메뉴 ==================================================*/
 /*=================================================== 게임메뉴 ==================================================*/
@@ -513,6 +535,13 @@ video {
   width: 90%;
 }
 
+#game1_life {
+  background: none;
+  font-family: 'LAB디지털';
+  text-align: center;
+  font-size: 50px;
+}
+
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
@@ -526,12 +555,14 @@ video {
 }
 
 #leftside{
-  float: left;
+  
   width: 70%;
   height: 100%;
+  float: left;
 }
 
 #rightside{
+  position: relative;
   width: 30%;
   height: 100%;
   float: left;
@@ -542,21 +573,10 @@ video {
 #score_for_game2{
   width: 100%;
   height: 20%;
-  
+
   padding: 5px 0 5px 0;
   
 }
-/*진행상황바*/
-#scoreBox{
-  height: 40px;
-  width: 0px;
-  border-radius: 20px;
-  margin-bottom: 1px;
-  background-color: #ffd400;
-  text-align: center;
-  font-family: 'Gowun Batang', serif;
-}
-
 #textArea{
   font-family: 'Gowun Batang', serif;
   width: 90%;
@@ -631,12 +651,7 @@ video {
   background-color: #B4D8E7;
   font-family: 'LAB디지털';
 }
-@font-face {
-  font-family: 'LAB디지털';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 .score{
   margin-top: 20px;
@@ -937,6 +952,7 @@ video {
   width: 100%;
   height: 92%;
   position: relative;
+  background-image: url("check.jpg");
 }
 #game3_score{
   padding-top: 20px;

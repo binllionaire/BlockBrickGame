@@ -174,13 +174,15 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
-  var life;
+  var game1_life;
   var timeout = 150;
   var timeoutInterval;
   var game1Score = 0;
 
   function startGame() {
     game1Score = 0;
+    game1_life = 5;
+    $("#game1_life").text("남은 목숨 : " + game1_life);
     //여기
     timeout = 150;
     
@@ -403,6 +405,9 @@ function for_game1(){
       if (this.brick.count == 0){
         this.state = "clear";
       } 
+      if (game1_life == 0) {
+        this.state = "fail";
+      }
     }
   
     draw() {
@@ -449,7 +454,13 @@ function for_game1(){
         setTimeout(() =>startGame(), 3800);   //재시작
         
       }
-      else if(game.state == "fall"){    //공 놓쳤을때
+      else if(game.state == "fall") {       //공이 떨어졌을때
+        game1_life--;
+        game.ball = new Ball(game.paddle.center, PADDLE_Y - BALL_RADIUS, BALL_RADIUS, 10, 90, COLOR);
+        game.state = "play";
+        $("#game1_life").text("남은 목숨 : " + game1_life);
+      }
+      else if(game.state == "fail") {    //라이프가 0일때
         game = null;
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);
@@ -500,7 +511,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -551,8 +562,6 @@ function for_game2(){
 
     canMove = true;
 
-    $("#scoreBox").css({"width":"0px"});
-
     for(var c = 0; c < brickColumnCount; c++){
       for(var r = 0; r < brickRowCount; r++){
         var b = bricks[c][r];
@@ -570,7 +579,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -627,9 +636,9 @@ function for_game2(){
             b.status = 0;
             game2Score += 12;
             $(".score").text("적립된 상금 : "+game2Score+"억원");
-            $("#scoreBox").animate({width:'+=88px'});
+           //  $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (game2Score) + "억";
-            $("#scoreBox").text(scoreText);
+           //  $("#scoreBox").text(scoreText);
             if(game2Score == 180){
               /*
               totalScore +=game2Score;
@@ -899,11 +908,12 @@ function game3(){
 
   function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
-      // trueBlock[i] = 0;
+      //trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      trueBlock[i] = 0;
     }
   }
   function initGameOption(){
+    $("#game3_score").text("적립된 상금 : "+ 0 + "억원");
     game3_score = 0;
     game3_score_stage = 1;
     currentstage = 1;                   //게임 변수 초기화
@@ -1173,10 +1183,10 @@ function game3(){
       }
   
       if (this.ball.y > HEIGHT + 50) this.state = "fall";
-      if (this.brickleft.count == 0){
+      if (this.brickleft.count <= 0){
         this.state = "left";
       } 
-      if (this.brickright.count == 0){
+      if (this.brickright.count <= 0){
         this.state = "right";
       } 
     }
@@ -1237,13 +1247,16 @@ function game3(){
         /*
         game = null;
         canvas.style.cursor = "Default";
-
+        totalScore+=game3_score;
         //성공화면 ->메인메뉴로
         setTimeout(function(){
+          $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
           $("#game3").css("display","none");
           $("#clear").fadeIn(1000);
           setTimeout(() => $("#clear").fadeOut(1000), 2000);
-          setTimeout(() => $("#main-menu").css("display","block"), 3000);
+          setTimeout(() => $("#ending").fadeIn(1000), 4000);
+          setTimeout(() => $("#ending").fadeOut(1000), 8000);
+          setTimeout(() => $("#main-menu").css("display","block"), 10000);
         },4500);
         */
         gameClear_for_game3(false);
