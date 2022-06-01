@@ -441,7 +441,7 @@ video {
   width: 30%;
   height: 100%;
   float: left;
-  background-color: white;
+  background-color: #F2AB39;
 }
 #right h1 {
   background-color: white;
@@ -500,9 +500,18 @@ video {
   margin: 80px 200px 200px;
   border: 0px;
 }
-
-
-
+#game1_timeout{
+  margin-top: 20px;
+  background: none;
+  font-family: 'LAB디지털';
+  text-align: center;
+  font-size: 50px;
+}
+#dalgona{
+  background: none;
+  
+  width: 90%;
+}
 
 /*=================================================== GAME 2 ==================================================*/
 /*=================================================== GAME 2 ==================================================*/
@@ -612,6 +621,7 @@ video {
 }
 
 #restLifesText{
+  margin-top: 20px;
   display: block;
   width: 100%;
   height: 50px;
@@ -619,14 +629,22 @@ video {
   font-size: 30px;
   text-align: center;
   background-color: #B4D8E7;
-  font-family: 'Gowun Batang', serif;
+  font-family: 'LAB디지털';
 }
+@font-face {
+  font-family: 'LAB디지털';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .score{
-  font-family: 'Gowun Batang', serif;
-  background-color: #B4D8E7;
+  margin-top: 20px;
+  font-family: 'LAB디지털';
+  background: none;
   color: black;
   text-align: center;
-  font-size: 30px;
+  font-size: 50px;
 }
 #dollArea{
   width: 100%;
