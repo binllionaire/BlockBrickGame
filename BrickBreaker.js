@@ -174,11 +174,14 @@ function for_game1(){
   canvas.setAttribute('width', canvas_Width);
   canvas.setAttribute('height', canvas_Height);
   
+  var life;
   var timeout = 150;
   var timeoutInterval;
-  var game1Score =0;
+  var game1Score = 0;
+
   function startGame() {
     game1Score = 0;
+    //여기
     timeout = 150;
     
     timeoutInterval = 
@@ -437,13 +440,13 @@ function for_game1(){
         setTimeout(() => $("#clear").fadeOut(1000), 2000);
         setTimeout(() => game2(), 2000);
       }
-      else if(timeout == 0 &&flag3==1){ //시간 초과
+      else if(timeout == 0){ //시간 초과
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);      
         game.state = "stop";
         game = null;
         setTimeout(() => clearInterval(timeoutInterval), 4000);  
-        setTimeout(() =>startGame(), 4000);   //재시작
+        setTimeout(() =>startGame(), 3800);   //재시작
         
       }
       else if(game.state == "fall"){    //공 놓쳤을때
@@ -451,7 +454,7 @@ function for_game1(){
         $("#fail").fadeIn(1000)
         setTimeout(() => $("#fail").fadeOut(1000), 3000);
         setTimeout(() => clearInterval(timeoutInterval), 4000);  
-        setTimeout(() =>startGame(), 4000);   //재시작
+        setTimeout(() =>startGame(), 3800);   //재시작
         
       }
     }
@@ -1243,6 +1246,9 @@ function game3(){
         if(currentstage == game3_score_stage){
           game3_score += 55;
           game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
         }
         character_Jumping('left');
         currentstage++;
@@ -1254,6 +1260,9 @@ function game3(){
         if(currentstage == game3_score_stage){
           game3_score += 55;
           game3_score_stage++;
+          setTimeout(function(){
+            $("#game3_score").text("적립된 상금 : "+ game3_score + "억원");
+          },2100)
         }
         character_Jumping('right');
         currentstage++;
