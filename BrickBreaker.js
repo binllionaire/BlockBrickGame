@@ -656,7 +656,7 @@ function for_game2(){
               }
               setTimeout(() => game3(), 3000);
               */
-             gameClear();
+              gameClear_for_game2();
             }
           }
         }
