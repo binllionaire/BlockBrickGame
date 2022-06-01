@@ -499,7 +499,7 @@ function for_game2(){
   var dy = -2;
   var ballRadius = 15; //공의 반지름
   var paddleHeight = 15; //패들높이
-  var paddleWidth = 150; //패들 폭
+  var paddleWidth = 200; //패들 폭
   var paddleX = (window.innerWidth*0.7-paddleWidth)/2; //패들 위치
   var paddleColor = "#FFFFFF";
 
@@ -521,7 +521,7 @@ function for_game2(){
   var brickColumnCount = 5; //벽돌의 열 갯수
   
   var brickWidth = 255; //벽돌의 폭
-  var brickHeight = 50; //벽돌의 높이
+  var brickHeight = 100; //벽돌의 높이
   var brickPadding = 10; //벽돌의 padding
   var brickOffsetTop = 15; //벽돌의 위쪽 여백
   var brickOffsetLeft = 15; //벽돌의 왼쪽 여백
