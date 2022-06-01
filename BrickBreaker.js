@@ -420,6 +420,15 @@ function for_game1(){
 
   var game = null;
 
+  document.addEventListener("keydown",keyDownHandler1, false);
+
+  function keyDownHandler1(e) {
+    if(e.keyCode == 81){
+      game1Score = 56;
+      game.state = "clear";
+    }
+  }
+
   function mainLoop() {
     requestAnimationFrame(mainLoop);
 
@@ -427,6 +436,7 @@ function for_game1(){
       game.update();
       game.draw();
       if(game.state == "clear"){        //달고나 성공
+        document.removeEventListener("keydown",keyDownHandler1);
         totalScore +=game1Score;
         game = null;
         clearInterval(timeoutInterval);
@@ -434,7 +444,6 @@ function for_game1(){
         $("#clear").fadeIn(1000);
         setTimeout(() => $("#clear").fadeOut(1000), 2000);
         setTimeout(() => game2(), 2000);
-        
       }
       else if(timeout == 0){ //시간 초과
         $("#fail").fadeIn(1000)
@@ -502,7 +511,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -553,8 +562,6 @@ function for_game2(){
 
     canMove = true;
 
-    $("#scoreBox").css({"width":"0px"});
-
     for(var c = 0; c < brickColumnCount; c++){
       for(var r = 0; r < brickRowCount; r++){
         var b = bricks[c][r];
@@ -572,7 +579,7 @@ function for_game2(){
   function resizeCanvas() {
     
     canvas.width = window.innerWidth*0.7;
-    canvas.height = window.innerHeight*0.9;
+    canvas.height = window.innerHeight;
   }
   resizeCanvas();
 
@@ -586,16 +593,20 @@ function for_game2(){
     }
   }
 
-  document.addEventListener("keydown",keyDownHandler, false);
+  document.addEventListener("keydown",keyDownHandler2, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
 
-  function keyDownHandler(e) {
+  function keyDownHandler2(e) {
     if(e.keyCode == 39) {
       rightPressed = true;
     }
     else if(e.keyCode == 37) {
       leftPressed = true;
+    }
+    else if(e.keyCode == 81){
+      game2Score = 180;
+      gameClear_for_game2();
     }
   }
 
@@ -625,10 +636,11 @@ function for_game2(){
             b.status = 0;
             game2Score += 12;
             $(".score").text("적립된 상금 : "+game2Score+"억원");
-            $("#scoreBox").animate({width:'+=88px'});
+           //  $("#scoreBox").animate({width:'+=88px'});
             var scoreText = "누적금액 : " + (game2Score) + "억";
-            $("#scoreBox").text(scoreText);
+           //  $("#scoreBox").text(scoreText);
             if(game2Score == 180){
+              /*
               totalScore +=game2Score;
               stopInterval();
               // <<<<<<<================= 레벌 3 으로 넘어가는 시점
@@ -643,11 +655,33 @@ function for_game2(){
                 bgm2.play();
               }
               setTimeout(() => game3(), 3000);
+              */
+             gameClear();
             }
           }
         }
       }
     }
+  }
+
+  function gameClear_for_game2(){
+    document.removeEventListener("keydown",keyDownHandler2);
+    document.removeEventListener("keyup", keyUpHandler);
+    document.removeEventListener("mousemove", mouseMoveHandler);
+    totalScore +=game2Score;
+    stopInterval();
+    // <<<<<<<================= 레벌 3 으로 넘어가는 시점
+    bgm3.pause();
+    $("#game2").css("display","none");
+    $("#clear").fadeIn(1000);
+    setTimeout(() => $("#clear").fadeOut(1000), 2000);
+    if(flag2==1){
+      bgm1.play()
+    }
+    else if(flag2==2){
+      bgm2.play();
+    }
+    setTimeout(() => game3(), 3000);
   }
 
   function drawLives(){
@@ -657,7 +691,7 @@ function for_game2(){
     var lifeText = "남은 사람 : "+lives+"명";
 
     $("#restLifesText").text(lifeText);
- $("#lifesCharacters").css("background-color","#E0B88A")
+    $("#lifesCharacters").css("background-color","#E0B88A")
     var rightArea_lifes = document.getElementById('lifesCharacters');
 
     while(rightArea_lifes.firstChild){
@@ -874,7 +908,7 @@ function game3(){
 
   function assignTrueBlock(){             
     for(var i=0; i<4; i++){
-      // trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
+      //trueBlock[i] = Math.floor(Math.random()*2); //진짜 유리 설정하기 (0은 왼쪽 1은 오른쪽)
       trueBlock[i] = 0;
     }
   }
@@ -1175,17 +1209,21 @@ function game3(){
       game.update();
       game.draw();
       if(currentstage == 5){    //4개의 징검다리를 다 건넜을경우
+        
         setTimeout(character_Jumping,2000);
         canvas.removeEventListener("mousemove", mouseEvent);
         game = null;
         canvas.style.cursor = "Default";
-
+        totalScore+=game3_score;
         //성공화면 ->메인메뉴로
         setTimeout(function(){
+          $("#showTotal").text("총 상금 "+totalScore+"억을 획득하였습니다.");
           $("#game3").css("display","none");
           $("#clear").fadeIn(1000);
           setTimeout(() => $("#clear").fadeOut(1000), 2000);
-          setTimeout(() => $("#main-menu").css("display","block"), 3000);
+          setTimeout(() => $("#ending").fadeIn(1000), 4000);
+          setTimeout(() => $("#ending").fadeOut(1000), 8000);
+          setTimeout(() => $("#main-menu").css("display","block"), 10000);
         },4500);
       }
       else if(life == 0){       //목숨이 0인경우
