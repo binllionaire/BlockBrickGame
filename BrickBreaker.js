@@ -424,6 +424,7 @@ function for_game1(){
 
   function keyDownHandler1(e) {
     if(e.keyCode == 81){
+      game1Score = 56;
       game.state = "clear";
     }
   }
@@ -604,6 +605,7 @@ function for_game2(){
       leftPressed = true;
     }
     else if(e.keyCode == 81){
+      game2Score = 180;
       gameClear_for_game2();
     }
   }
@@ -1204,7 +1206,7 @@ function game3(){
 
   function keyDownHandler3(e) {
     if(e.keyCode == 81){
-      // game3_score = 220;
+      game3_score = 220;
       gameClear_for_game3(true);
     }
   }
