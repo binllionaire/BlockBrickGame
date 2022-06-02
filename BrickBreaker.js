@@ -487,7 +487,7 @@ function for_game2() {
     bgm2.pause();
   }
 
-  var bgm3 = new Audio("bgm3.mp3");
+  var bgm3 = new Audio("bgm/bgm3.mp3");
 
   var canvas = document.getElementById("canvas_for_game2");
   var ctx = canvas.getContext("2d");
