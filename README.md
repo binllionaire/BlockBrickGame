@@ -10,7 +10,7 @@
 
 201811294 정재우 qufekf989@naver.com
 
-202111391 황수빈 bug204@gmail.com
+202111391 황수빈 bug20474@gmail.com
 
 ### 메인메뉴
 <img width="500" alt="스크린샷 2022-06-01 오후 7 19 15" src="https://user-images.githubusercontent.com/46593078/171406651-e4e44375-0285-407f-818b-f371f22ca068.png">
